@@ -15,6 +15,7 @@
     "strictNullChecks": true,
     "jsx": "preserve",
     "resolveJsonModule": true,
+    "lib": ["ESNext", "DOM"],
     "esModuleInterop": true,
     "skipLibCheck": true
   },
