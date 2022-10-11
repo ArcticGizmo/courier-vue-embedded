@@ -1,3 +1,7 @@
+[![Courier: Your Complete Communication Stack](https://marketing-assets-public.s3.us-west-1.amazonaws.com/github_nodejs.png)](https://courier.com)
+
+<a href="https://www.npmjs.com/package/vue"><img src="https://img.shields.io/npm/v/courier-vue-embedded.svg?sanitize=true" alt="Version"></a>
+
 This is the unofficial vue Toast/Inbox wrapper for [@trycourier/courier](https://github.com/trycourier/courier-node)
 
 # Installation (via [npm](https://www.npmjs.com/package/ArcticGizmo/courier-vue-embedded))
@@ -14,7 +18,9 @@ You will need to get a Courier API key to get started. You can sign up and creat
 ## Getting Started
 
 ### Configuration
+
 At run time, configure Courier and listen to messages for a user
+
 ```ts
 import { Courier } from 'courier-vue-embedded';
 
@@ -25,6 +31,7 @@ Courier.init({
 ```
 
 ### Import Components
+
 Import the Inbox/Toast components and you are ready to go. Here we are importing it in `src/App.vue`
 
 ```html
