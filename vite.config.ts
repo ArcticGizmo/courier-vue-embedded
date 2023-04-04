@@ -8,7 +8,7 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: tag => ['courier-inbox', 'courier-toast'].includes(tag)
+          isCustomElement: tag => ['courier-inbox', 'courier-toast', 'courier-preferences'].includes(tag)
         }
       }
     })
@@ -35,7 +35,7 @@ export default defineConfig({
         },
         // Use `index.css` for css
         assetFileNames: assetInfo => {
-          if (assetInfo.name == 'style.css') return 'index.css';
+          if (assetInfo.name === 'style.css') return 'index.css';
           return assetInfo.name;
         }
       }

@@ -3,24 +3,22 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue';
-import type { InboxPlacement, InboxTheme, Brand } from '../types/inbox';
+import type { InboxPlacement, InboxTheme, Brand, Labels } from '../types/inbox';
 
 type Trigger = 'click' | 'hover';
 
-const props = defineProps({
-  brand: { type: Object as PropType<Brand> },
-  className: String,
-  defaultIcon: { type: [Boolean, String] },
-  placement: { type: String as PropType<InboxPlacement> },
-  theme: { type: Object as PropType<InboxTheme> },
-  title: String,
-  trigger: { type: String as PropType<Trigger> }
-});
+const props = defineProps<{
+  brand?: Brand,
+  className?: string,
+  openLinksInNewTab?: boolean,
+  showUnreadMessageCount?: boolean,
+  from?: number,
+  formatDate?: (isoDate: string) => string;
+  labels: Labels,
+  defaultIcon?: [false, string],
+  placement?: InboxPlacement,
+  theme?: InboxTheme,
+  title?: string,
+  trigger?: Trigger
+}>();
 </script>
-
-<style>
-courier-inbox div[class^='styled__MessageList'] {
-  overflow-x: hidden;
-}
-</style>
