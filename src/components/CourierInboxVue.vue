@@ -14,7 +14,7 @@ const props = defineProps<{
   showUnreadMessageCount?: boolean,
   from?: number,
   formatDate?: (isoDate: string) => string;
-  labels: Labels,
+  labels?: Labels,
   defaultIcon?: [false, string],
   placement?: InboxPlacement,
   theme?: InboxTheme,

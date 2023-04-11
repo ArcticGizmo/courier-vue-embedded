@@ -7,7 +7,7 @@
     "prebuild": "rimraf ./dist",
     "build": "yarn build:code && yarn build:tsc",
     "build:code": "vite build",
-    "build:tsc": "cross-env NODE_ENV=production tsc --emitDeclarationOnly --project tsconfig.build.json",
+    "build:tsc": "cross-env NODE_ENV=production vue-tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",
     "lint": "eslint ./src/ --ext .vue,.js,.ts",
     "lint:fix": "yarn lint --fix",
     "lint:tsc": "cross-env NODE_ENV=production vue-tsc --noEmit",
@@ -23,11 +23,9 @@
       "require": "./dist/index.umd.js"
     }
   },
-  "typings": "dist/types/index.d.ts",
   "types": "dist/types/index.d.ts",
   "style": "dist/index.css",
   "files": [
-    "src",
     "dist"
   ],
   "repository": {
