@@ -7,7 +7,7 @@ npm run build
 
 ## Pack
 ```
-npm run pack
+npm pack
 ```
 
 ## Install
