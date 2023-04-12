@@ -13,6 +13,9 @@ export default defineConfig({
       }
     })
   ],
+  optimizeDeps: {
+    exclude: ['vue-demi']
+  },
   define: {
     __VUE_OPTIONS_API__: false
   },

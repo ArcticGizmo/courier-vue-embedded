@@ -1,6 +1,6 @@
 {
   "name": "courier-vue-embedded",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vue 3 wrapper for courier",
   "scripts": {
     "dev": "npm run vite",
@@ -61,6 +61,15 @@
     "vue-tsc": "^1.2.0"
   },
   "peerDependencies": {
-    "vue": "^3"
+    "@vue/composition-api": "^1.0.0-rc.1",
+    "vue": "^2.0.0 || >=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "vue-demi": "^0.13.11"
   }
 }
