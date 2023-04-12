@@ -53,7 +53,7 @@ export interface InboxTheme {
   root?: React.CSSProperties;
 }
 
-export interface Labels {   
+export interface Labels {
   archiveMessage?: string;
   backToInbox?: string;
   closeInbox?: string;
@@ -62,3 +62,5 @@ export interface Labels {
   markAsRead?: string;
   markAsUnread?: string;
 }
+
+export type InboxTrigger = 'click' | 'hover';

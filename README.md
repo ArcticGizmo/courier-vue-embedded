@@ -25,7 +25,7 @@ At run time, configure Courier and listen to messages for a user
 import { Courier } from 'courier-vue-embedded';
 
 Courier.init({
-  clientKey: {{your_client_key}},
+  clientKey: '{{your_client_key}}',
   userId: '{{user_id}}'
 });
 ```
@@ -50,7 +50,7 @@ import { CourierToastVue, CourierInboxVue } from 'courier-vue-embedded';
 /* If you would like to have a right-floating inbox */
 courier-inbox {
   position: fixed;
-  z-index: 1000000;
+  z-index: 1000;
   right: 2rem;
   top: 1rem;
 }

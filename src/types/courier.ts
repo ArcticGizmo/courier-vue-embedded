@@ -22,7 +22,6 @@ export interface CourierConfig {
   preferencePageDraftMode?: boolean;
 }
 
-
 export interface CourierSDK {
   init: (config: CourierConfig) => void;
   on: (action: string, event: any) => void;
