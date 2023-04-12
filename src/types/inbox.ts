@@ -50,9 +50,17 @@ export interface InboxTheme {
       unreadIndicator?: React.CSSProperties;
     };
   };
-  tabList?: {
-    container?: React.CSSProperties;
-    tab?: React.CSSProperties;
-  };
   root?: React.CSSProperties;
 }
+
+export interface Labels {
+  archiveMessage?: string;
+  backToInbox?: string;
+  closeInbox?: string;
+  emptyState?: string;
+  markAllAsRead?: string;
+  markAsRead?: string;
+  markAsUnread?: string;
+}
+
+export type InboxTrigger = 'click' | 'hover';

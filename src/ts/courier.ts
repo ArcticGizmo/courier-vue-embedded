@@ -1,7 +1,7 @@
 import type { CourierConfig, CourierSDK } from '../types/courier';
 
 const ID = 'courier-script';
-const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/latest.js';
+const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/v3.2.0.js';
 
 type Resolve = (value?: any) => void;
 type Reject = (reason?: any) => void;
@@ -15,6 +15,7 @@ const importCourier = async () => {
 
   const script = document.createElement('script');
   script.id = ID;
+  script.async = true;
   script.setAttribute('src', VERSION);
   document.body.appendChild(script);
 };

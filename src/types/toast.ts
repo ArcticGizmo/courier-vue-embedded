@@ -13,3 +13,7 @@ export interface ToastTheme {
   };
   progressBar?: React.CSSProperties;
 }
+
+export type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
+export type ToastRole = 'alert' | 'status';
+export type ToastTransition = 'bounce' | 'slide' | 'zoom';
