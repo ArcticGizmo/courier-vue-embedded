@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "description": "Vue 3 wrapper for courier",
   "scripts": {
-    "dev": "yarn vite",
+    "dev": "npm run vite",
     "prebuild": "rimraf ./dist",
-    "build": "yarn build:code && yarn build:tsc",
+    "build": "npm run build:code && npm run build:tsc",
     "build:code": "vite build",
     "build:tsc": "cross-env NODE_ENV=production vue-tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",
     "lint": "eslint ./src/ --ext .vue,.js,.ts",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "npm run lint --fix",
     "lint:tsc": "cross-env NODE_ENV=production vue-tsc --noEmit",
-    "lint:staged": "yarn lint:tsc && yarn lint --fix",
+    "lint:staged": "npm run lint:tsc && npm run lint --fix",
     "preview": "cross-env NODE_ENV=production vite preview --port 3000",
-    "prepublishOnly": "yarn lint && yarn build"
+    "prepublishOnly": "npm run lint && npm run build"
   },
   "main": "./dist/index.umd.js",
   "module": "./dist/index.es.js",
