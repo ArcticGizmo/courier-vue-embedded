@@ -1,4 +1,5 @@
-// This is a fix to prevent Vue2 unknown component errors
+// This is a fix to prevent Vue 2.7 unknown component errors from
+// an external script definition
 class CourierInboxPlaceholder extends HTMLElement {}
 class CourierToastPlaceholder extends HTMLElement {}
 class CourierPreferencesPlaceholder extends HTMLElement {}

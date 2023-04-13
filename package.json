@@ -1,7 +1,7 @@
 {
   "name": "courier-vue-embedded",
   "version": "1.1.0",
-  "description": "Vue wrapper for courier",
+  "description": "Vue 3/2.7 wrapper for courier",
   "scripts": {
     "dev": "npm run vite",
     "prebuild": "rimraf ./dist",
@@ -35,7 +35,8 @@
   "keywords": [
     "courier",
     "notifications",
-    "vue 3"
+    "vue 3",
+    "vue 2.7"
   ],
   "author": "Jonathan Howell (ArcticGizmo)",
   "license": "MIT",
@@ -61,13 +62,7 @@
     "vue-tsc": "^1.2.0"
   },
   "peerDependencies": {
-    "@vue/composition-api": "^1.0.0-rc.1",
-    "vue": "^2.0.0 || >=3.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@vue/composition-api": {
-      "optional": true
-    }
+    "vue": "^2.7.0 || >=3.0.0"
   },
   "dependencies": {
     "vue-demi": "^0.13.11"
