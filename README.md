@@ -30,6 +30,25 @@ Courier.init({
 });
 ```
 
+#### Ignore Custom Components (Vue 2.7)
+
+When using this component with Vue 2.7 you might get warnings similar to
+
+```
+[vue warn]: Unknown custom element: <courier-toast> - did you register the component correctly? For recursive components, make sure to provide the "name" option.
+```
+
+To resolve this in your main file add
+
+```
+import Vue from 'vue'
+Vue.config.ignoredElements.push(
+  "courier-inbox",
+  "courier-preferences",
+  "courier-toast"
+);
+```
+
 ### Import Components
 
 Import the Inbox/Toast components and you are ready to go. Here we are importing it in `src/App.vue`

@@ -1,6 +1,6 @@
 {
   "name": "courier-vue-embedded",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Vue 3/2.7 wrapper for courier",
   "scripts": {
     "dev": "npm run vite",
