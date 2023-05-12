@@ -1,17 +1,19 @@
+import { CSSObject } from "styled-components";
+
 export interface ToastTheme {
-  body?: React.CSSProperties;
-  root?: React.CSSProperties;
-  toast?: React.CSSProperties;
-  dismiss?: React.CSSProperties;
+  body?: CSSObject;
+  root?: CSSObject;
+  toast?: CSSObject;
+  dismiss?: CSSObject;
   message?: {
-    actionBlock?: React.CSSProperties;
-    textBlock?: React.CSSProperties;
-    body?: React.CSSProperties;
-    contents?: React.CSSProperties;
-    icon?: React.CSSProperties;
-    title?: React.CSSProperties;
+    clickableContainer?: CSSObject;
+    container?: CSSObject;
+    contents?: CSSObject;
+    icon?: CSSObject;
+    textElement?: CSSObject;
+    title?: CSSObject;
   };
-  progressBar?: React.CSSProperties;
+  progressBar?: CSSObject;
 }
 
 export type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';

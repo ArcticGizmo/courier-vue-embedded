@@ -1,3 +1,4 @@
+import { CSSObject } from "styled-components";
 export type InboxPlacement = 'top' | 'left' | 'right' | 'bottom';
 
 export interface Brand {
@@ -31,26 +32,33 @@ export interface Brand {
 }
 
 export interface InboxTheme {
-  container?: React.CSSProperties;
-  footer?: React.CSSProperties;
-  header?: React.CSSProperties;
-  icon?: React.CSSProperties;
-  messageList?: {
-    container?: React.CSSProperties;
-    message?: {
-      actions?: {
-        container?: React.CSSProperties;
-        details?: React.CSSProperties;
-        dismiss?: React.CSSProperties;
-      };
-      body?: React.CSSProperties;
-      container?: React.CSSProperties;
-      icon?: React.CSSProperties;
-      title?: React.CSSProperties;
-      unreadIndicator?: React.CSSProperties;
-    };
+  brand?: Brand;
+  container?: CSSObject;
+  emptyState?: CSSObject;
+  footer?: CSSObject;
+  header?: CSSObject;
+  menu?: CSSObject;
+  tooltip?: CSSObject;
+  icon?: CSSObject & {
+    open?: string;
+    closed?: string;
   };
-  root?: React.CSSProperties;
+  messageList?: {
+    container?: CSSObject;
+  };
+  message?: {
+    actionElement?: CSSObject;
+    clickableContainer?: CSSObject;
+    container?: CSSObject;
+    content?: CSSObject;
+    icon?: CSSObject;
+    textElement?: CSSObject;
+    timeAgo?: CSSObject;
+    title?: CSSObject;
+    unreadIndicator?: CSSObject;
+  };
+  root?: CSSObject;
+  unreadIndicator?: CSSObject;
 }
 
 export interface Labels {
