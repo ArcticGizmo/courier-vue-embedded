@@ -1,3 +1,6 @@
+# 1.2.0
+- updated to version 3.6.2
+
 # 1.1.1
 - fixed false component registering on vue 2.7
 - added workaround note to remove unregistered custom components in vue 2.7
