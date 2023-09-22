@@ -4,20 +4,20 @@
 
 This is the unofficial vue Toast/Inbox wrapper for [@trycourier/courier](https://github.com/trycourier/courier-node)
 
-# Installation (via [npm](https://www.npmjs.com/package/ArcticGizmo/courier-vue-embedded))
+## Installation (via [npm](https://www.npmjs.com/package/ArcticGizmo/courier-vue-embedded))
 
 ```bash
 npm install courier-vue-embedded
 ```
 
-## Requirements
+### Requirements
 
 You will need to get a Courier API key to get started. You can sign up and create one for free at
 [courier.com](https://courier.com).
 
-## Getting Started
+### Getting Started
 
-### Configuration
+#### Configuration
 
 At run time, configure Courier and listen to messages for a user
 
@@ -49,7 +49,7 @@ Vue.config.ignoredElements.push(
 );
 ```
 
-### Import Components
+#### Import Components
 
 Import the Inbox/Toast components and you are ready to go. Here we are importing it in `src/App.vue`
 
@@ -62,18 +62,27 @@ Import the Inbox/Toast components and you are ready to go. Here we are importing
 </template>
 
 <script setup lang="ts">
-import { CourierToastVue, CourierInboxVue } from 'courier-vue-embedded';
+  import { CourierToastVue, CourierInboxVue } from 'courier-vue-embedded';
 </script>
 
 <style scoped>
-/* If you would like to have a right-floating inbox */
-courier-inbox {
-  position: fixed;
-  z-index: 1000;
-  right: 2rem;
-  top: 1rem;
-}
+  /* If you would like to have a right-floating inbox */
+  courier-inbox {
+    position: fixed;
+    z-index: 1000;
+    right: 2rem;
+    top: 1rem;
+  }
 </style>
 ```
 
 NB: the toast component can be imported anywhere
+
+## Versions
+
+To maintain some semblance of reason, here is how courier-vue-embedded versions map to courier component versions
+
+| courier-vue-embedded | courier components |
+| -------------------- | ---------------- |
+| 1.X                  | 3.Y              |
+| 2.X                  | 4.Y              |
