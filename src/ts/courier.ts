@@ -1,7 +1,7 @@
 import type { CourierConfig, CourierSDK } from '../types/courier';
 
 const ID = 'courier-script';
-const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/v3.6.2.js';
+const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/v4.2.5.js';
 
 type Resolve = (value?: any) => void;
 type Reject = (reason?: any) => void;

@@ -1,9 +1,10 @@
 export interface CourierConfig {
+  tenantId?: string;
   apiUrl?: string;
-  inboxApiUrl?: string;
   authorization?: string;
   brandId?: string;
   clientKey: string;
+  inboxApiUrl?: string;
   onRouteChange?: (route: string) => void;
   components?: {
     inbox?: any;
