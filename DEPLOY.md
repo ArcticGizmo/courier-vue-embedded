@@ -1,5 +1,10 @@
 # Testing Locally
 
+## Install (for package-lock)
+```
+npm install
+```
+
 ## Build
 ```
 npm run build
