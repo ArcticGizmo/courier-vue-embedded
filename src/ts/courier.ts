@@ -1,6 +1,7 @@
 import type { CourierConfig, CourierSDK } from '../types/courier';
 
 const ID = 'courier-script';
+// This follows the versioning of https://github.com/trycourier/courier-react
 const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/v4.2.5.js';
 
 type Resolve = (value?: any) => void;
