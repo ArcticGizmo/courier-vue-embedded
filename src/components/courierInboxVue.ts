@@ -10,6 +10,7 @@ export default defineComponent({
     brand: Object as PropType<Brand>,
     className: String,
     openLinksInNewTab: Boolean,
+    renderActionsAsButtons: Boolean,
     showUnreadMessageCount: Boolean,
     from: Number,
     views: Array as PropType<{id: string, label: string, params: any}[]>,

@@ -6,6 +6,7 @@ export interface Brand {
     disableCourierFooter?: boolean;
     borderRadius?: string;
     disableMessageIcon?: boolean;
+    renderActionsAsButtons?: boolean;
     placement?: InboxPlacement;
     emptyState?: {
       textColor?: string;
