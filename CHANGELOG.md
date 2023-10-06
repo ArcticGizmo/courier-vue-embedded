@@ -1,3 +1,13 @@
+# 2.1.0
+- upgraded to courier v4.3.0
+- added support for brand "renderActionsAsButtons"
+- added support for inbox "renderActionsAsButtons"
+
+# 2.0.0
+- upgraded to courier v4.2.5
+- added `tenantId` to config, inbox and preferences
+- [Chore] Dependency upgrades
+
 # 1.2.0
 - updated to version 3.6.2
 
