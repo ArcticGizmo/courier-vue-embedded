@@ -1,4 +1,5 @@
-# 2.1.0
+# 4.3.0
+- 🎉 moved version in line with courier react package (makes more sense now)
 - upgraded to courier v4.3.0
 - added support for brand "renderActionsAsButtons"
 - added support for inbox "renderActionsAsButtons"

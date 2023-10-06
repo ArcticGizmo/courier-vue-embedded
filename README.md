@@ -83,6 +83,8 @@ NB: the toast component can be imported anywhere
 To maintain some semblance of reason, here is how courier-vue-embedded versions map to courier component versions
 
 | courier-vue-embedded | courier components |
-| -------------------- | ---------------- |
-| 1.X                  | 3.Y              |
-| 2.X                  | 4.Y              |
+| -------------------- | ------------------ |
+| 1.X                  | 3.Y                |
+| 4.Y.Z\*              | 4.Y.Z              |
+
+(\*patch version may differ if there are any bugs found within this wrapper package)
