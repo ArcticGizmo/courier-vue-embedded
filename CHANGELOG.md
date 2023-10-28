@@ -1,3 +1,7 @@
+# 4.3.2
+- upgrade to courier v4.3.2
+- fixed reconnect losing tenantId
+
 # 4.3.0
 - 🎉 moved version in line with courier react package (makes more sense now)
 - upgraded to courier v4.3.0
