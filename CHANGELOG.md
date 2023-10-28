@@ -1,3 +1,8 @@
+# 4.4.0
+- upgrade to courier v4.4.0
+- Added support for `scrollTop` labels
+- various dependency upgrades
+
 # 4.3.2
 - upgrade to courier v4.3.2
 - fixed reconnect losing tenantId

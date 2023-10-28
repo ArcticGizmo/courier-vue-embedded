@@ -1,4 +1,4 @@
-import { CSSObject } from "styled-components";
+import { CSSObject } from 'styled-components';
 export type InboxPlacement = 'top' | 'left' | 'right' | 'bottom';
 
 export interface Brand {
@@ -70,6 +70,7 @@ export interface Labels {
   markAllAsRead?: string;
   markAsRead?: string;
   markAsUnread?: string;
+  scrollTop?: string | ((count: string) => string);
 }
 
 export type InboxTrigger = 'click' | 'hover';
