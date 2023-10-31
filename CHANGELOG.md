@@ -1,3 +1,6 @@
+# 4.4.1
+- added support for bundler imports
+
 # 4.4.0
 - upgrade to courier v4.4.0
 - Added support for `scrollTop` labels
