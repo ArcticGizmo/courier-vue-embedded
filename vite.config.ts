@@ -3,6 +3,14 @@ import path from 'path';
 import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 
+
+const fileName = {
+  es: 'index.es.mjs',
+  cjs: 'index.umd.cjs',
+}
+
+const formats = Object.keys(fileName) as Array<keyof typeof fileName>;
+
 export default defineConfig({
   plugins: [
     vue({
@@ -24,7 +32,8 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'CourierVueEmbedded',
-      fileName: format => `index.${format}.js`
+      formats,
+      fileName: format => fileName[format]
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled

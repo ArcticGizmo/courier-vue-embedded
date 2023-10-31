@@ -15,12 +15,16 @@
     "preview": "cross-env NODE_ENV=production vite preview --port 3000",
     "prepublishOnly": "npm run lint && npm run build"
   },
-  "main": "./dist/index.umd.js",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.es.mjs",
   "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js"
+    "import": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/index.es.mjs"
+    },
+    "require": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/index.umd.cjs"
     }
   },
   "types": "dist/types/index.d.ts",
