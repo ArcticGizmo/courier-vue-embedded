@@ -1,5 +1,9 @@
 import { CSSObject } from 'styled-components';
+import { IInboxMessagePreview } from './transports';
+
 export type InboxPlacement = 'top' | 'left' | 'right' | 'bottom';
+export type InboxTrigger = 'click' | 'hover';
+export type EventType = 'mark-all-read' | 'read' | 'unread' | 'archive' | 'opened' | 'click' | 'unpin';
 
 export interface Brand {
   inapp?: {
@@ -73,4 +77,4 @@ export interface Labels {
   scrollTop?: string | ((count: string) => string);
 }
 
-export type InboxTrigger = 'click' | 'hover';
+export type OnEvent = (eventParams: { messageId?: string; message?: IInboxMessagePreview; event: EventType }) => void;
