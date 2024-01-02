@@ -3,11 +3,10 @@ import path from 'path';
 import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 
-
 const fileName = {
   es: 'index.es.mjs',
-  cjs: 'index.umd.cjs',
-}
+  cjs: 'index.umd.cjs'
+};
 
 const formats = Object.keys(fileName) as Array<keyof typeof fileName>;
 

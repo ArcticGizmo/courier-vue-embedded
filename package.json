@@ -3,7 +3,7 @@
   "version": "4.5.0",
   "description": "Vue 3/2.7 wrapper for courier",
   "scripts": {
-    "dev": "npm run vite",
+    "dev": "vite",
     "prebuild": "rimraf ./dist",
     "build": "npm run build:code && npm run build:tsc",
     "build:code": "vite build",
@@ -55,6 +55,7 @@
     "@typescript-eslint/parser": "^6.7.2",
     "@vitejs/plugin-vue": "^4.3.4",
     "cross-env": "^7.0.3",
+    "cypress": "^13.6.2",
     "eslint": "^8.49.0",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-vue": "^9.17.0",
