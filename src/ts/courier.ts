@@ -1,11 +1,22 @@
 import type { CourierConfig, CourierSDK } from '../types/courier';
+import { InboxProps } from '../types/inbox';
 
 const ID = 'courier-script';
 // This follows the versioning of https://github.com/trycourier/courier-react
-const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/v4.5.0.js';
+const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/v4.6.0.js';
 
 type Resolve = (value?: any) => void;
 type Reject = (reason?: any) => void;
+
+const withoutUndefinedValues = (obj: object) => {
+  const cleanObj = {};
+  Object.entries(obj).forEach(([key, value]) => {
+    if (value !== undefined) {
+      cleanObj[key] = value;
+    }
+  });
+  return cleanObj;
+};
 
 const importCourier = async () => {
   const existing = document.body.querySelector(`#${ID}`);
@@ -47,23 +58,31 @@ const Deferred = <T>(callback?: (resolve: Resolve, reject: Reject) => T): Deferr
 
 class CourierClient {
   private _resolveCourier = Deferred<CourierSDK>();
-  private _courier!: CourierSDK;
+
+  private _inboxReady = Deferred<void>();
   private _isLoaded = Deferred<void>();
   private _isReady = Deferred<void>();
 
+  private get sdk(): CourierSDK {
+    return window.courier;
+  }
+
   constructor() {
     window.courierAsyncInit = () => {
-      this._resolveCourier.resolve(window.courier);
+      this._resolveCourier.resolve();
     };
     importCourier();
   }
 
   async init(config: CourierConfig) {
-    this._courier = await this._resolveCourier;
+    await this._resolveCourier;
     this._isLoaded.resolve();
 
-    await this._courier.init(config);
+    this.sdk.on('inbox/init', () => {
+      this._inboxReady.resolve();
+    });
 
+    await this.sdk.init(config);
     this._isReady.resolve();
   }
 
@@ -73,6 +92,11 @@ class CourierClient {
 
   async isReady() {
     await this._isReady;
+  }
+
+  async updateConfig(config: InboxProps) {
+    await this._inboxReady;
+    this.sdk.inbox?.mergeConfig(withoutUndefinedValues(config));
   }
 }
 

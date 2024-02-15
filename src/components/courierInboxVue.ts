@@ -1,6 +1,7 @@
-import { h, type PropType, defineComponent } from 'vue-demi';
+import { h, type PropType, defineComponent, watch } from 'vue-demi';
 
 import type { InboxPlacement, InboxTheme, Brand, Labels, InboxTrigger, OnEvent } from '../types/inbox';
+import { Courier } from '../ts/courier';
 
 type IsoFormatter = (isoDate: string) => string;
 
@@ -33,6 +34,7 @@ export default defineComponent({
     // renderNoMessages
   },
   setup(props) {
-    return () => h('courier-inbox', { ...props });
+    watch(props, p => Courier.updateConfig(p), { immediate: true, flush: 'post' });
+    return () => h('courier-inbox');
   }
 });
