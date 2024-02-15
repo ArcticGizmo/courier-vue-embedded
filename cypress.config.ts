@@ -1,16 +1,15 @@
-import { defineConfig } from "cypress";
+import { defineConfig } from 'cypress';
+import { config } from 'dotenv';
+
+config({path: '.env.local'});
+config();
 
 export default defineConfig({
-  e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
-  },
-
+  env: { CLIENT_KEY: process.env.CLIENT_KEY },
   component: {
     devServer: {
-      framework: "vue",
-      bundler: "vite",
-    },
-  },
+      framework: 'vue',
+      bundler: 'vite'
+    }
+  }
 });

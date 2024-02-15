@@ -8,8 +8,10 @@
 <script setup lang="ts">
 import { CourierToastVue, CourierInboxVue, Courier } from '../../src/index';
 
+const props = defineProps<{clientKey: string}>();
+
 Courier.init({
-  clientKey: '',
+  clientKey: props.clientKey,
   userId: 'courier-vue-embedded'
 });
 </script>

@@ -8,7 +8,7 @@ global.process.env = global.process.env || {};
 describe('<TestRunner />', () => {
   it('renders', () => {
     // see: https://on.cypress.io/mounting-vue
-    cy.mount(TestRunner);
+    cy.mount(TestRunner, { props: { clientKey: Cypress.env("CLIENT_KEY") } });
 
     // we cache here so that it is faster
     cy.fixture('courier-script.txt').then(resp => {
@@ -29,6 +29,16 @@ describe('<TestRunner />', () => {
       url: 'https://**.execute-api.us-east-1.amazonaws.com/**'
     }).as('client-auth');
     cy.wait('@client-auth');
+
+    cy.intercept(
+      {
+        method: 'POST',
+        url: 'https://**.execute-api.us-east-1.amazonaws.com/**'
+      },
+      resp => {
+        console.log(resp.url);
+      }
+    );
 
     cy.get('courier-inbox').get('[role="button"]').click();
     cy.contains('Notifications');
