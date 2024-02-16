@@ -15,8 +15,7 @@
     "cypress:run": "cypress run --component",
     "cypress:open": "cypress open",
     "preview": "cross-env NODE_ENV=production vite preview --port 3000",
-    "prepublishOnly": "npm install && npm run build && npm run cypress:run && npm pack",
-    "publish": "npm run prepublishOnly && npm login && npm publish"
+    "prepublishOnly": "npm install && npm run build && npm run cypress:run && npm pack"
   },
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.es.mjs",
