@@ -1,7 +1,9 @@
 # 4.5.0
+- **⚠ removed support for vue ⚠** 
 - upgrade to courier v4.5.0
 - added support for `appendTo` to append inbox anywhere
 - added missing inbox support for `defaultIcon`, `isOpen`, `onEvent`, `openLinksInNewTab` and `showUnreadMessageCount`
+- fixed props not syncing via component properties
 
 # 4.4.1
 - added support for bundler imports
