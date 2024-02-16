@@ -1,5 +1,6 @@
 import type { CourierConfig, CourierSDK } from '../types/courier';
 import { InboxProps } from '../types/inbox';
+import { ToastProps } from '../types/toast';
 
 const ID = 'courier-script';
 // This follows the versioning of https://github.com/trycourier/courier-react
@@ -8,11 +9,11 @@ const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/v4.6.0.js';
 type Resolve = (value?: any) => void;
 type Reject = (reason?: any) => void;
 
-const withoutUndefinedValues = (obj: object) => {
-  const cleanObj = {};
+const withoutUndefinedValues = (obj: any) => {
+  const cleanObj: any = {};
   Object.entries(obj).forEach(([key, value]) => {
     if (value !== undefined) {
-      cleanObj[key] = value;
+      cleanObj[key] = value as unknown;
     }
   });
   return cleanObj;
@@ -60,6 +61,7 @@ class CourierClient {
   private _resolveCourier = Deferred<CourierSDK>();
 
   private _inboxReady = Deferred<void>();
+  private _toastReady = Deferred<void>();
   private _isLoaded = Deferred<void>();
   private _isReady = Deferred<void>();
 
@@ -82,6 +84,10 @@ class CourierClient {
       this._inboxReady.resolve();
     });
 
+    this.sdk.on('toast/init', () => {
+      this._toastReady.resolve();
+    });
+
     await this.sdk.init(config);
     this._isReady.resolve();
   }
@@ -94,9 +100,16 @@ class CourierClient {
     await this._isReady;
   }
 
-  async updateConfig(config: InboxProps) {
+  async updateInbox(config: InboxProps) {
     await this._inboxReady;
-    this.sdk.inbox?.mergeConfig(withoutUndefinedValues(config));
+    const toMerge = withoutUndefinedValues({ ...config });
+    this.sdk.inbox?.mergeConfig(toMerge);
+  }
+
+  async updateToast(config: ToastProps) {
+    await this._toastReady;
+    const toMerge = withoutUndefinedValues({ ...config });
+    this.sdk.toast?.mergeConfig(toMerge);
   }
 }
 

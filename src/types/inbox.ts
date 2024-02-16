@@ -35,7 +35,7 @@ export interface InboxProps {
   showUnreadMessageCount?: boolean;
   theme?: InboxTheme;
   title?: string;
-  trigger?: TippyProps['trigger'];
+  trigger?: InboxPlacement;
   renderContainer?: React.FunctionComponent;
   // renderBell?: React.FunctionComponent<{
   //   className?: string;

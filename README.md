@@ -70,5 +70,3 @@ To maintain some semblance of reason, here is how courier-vue-embedded versions 
 
 (\*patch version may differ if there are any bugs found within this wrapper package)
 
-### Vue 2.7 support
-if you are still looking for support for a vue 2.7 project, please use version < 4.5.0

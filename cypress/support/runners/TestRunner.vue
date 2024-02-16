@@ -6,9 +6,9 @@
 </template>
 
 <script setup lang="ts">
-import { CourierToastVue, CourierInboxVue, Courier } from '../../src/index';
+import { CourierToastVue, CourierInboxVue, Courier } from '../../../src/index';
 
-const props = defineProps<{clientKey: string}>();
+const props = defineProps<{ clientKey: string }>();
 
 Courier.init({
   clientKey: props.clientKey,
