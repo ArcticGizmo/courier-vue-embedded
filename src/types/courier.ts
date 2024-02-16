@@ -1,3 +1,5 @@
+import { InboxProps } from "./inbox";
+
 export interface CourierConfig {
   tenantId?: string;
   apiUrl?: string;
@@ -27,14 +29,13 @@ export interface CourierSDK {
   init: (config: CourierConfig) => void;
   on: (action: string, event: any) => void;
   toast?: {
-    mergeConfig?: (config: any) => void;
-    setConfig?: (config: any) => void;
-    add?: (message: { title?: string; preview?: string }) => void;
+    mergeConfig: (config: any) => void;
+    setConfig: (config: any) => void;
+    add: (message: { title?: string; preview?: string }) => void;
   };
   inbox?: {
-    mergeConfig?: (config: any) => void;
-    setConfig?: (config: any) => void;
-    config?: any;
+    mergeConfig: (config: InboxProps) => void;
+    setConfig: (config: InboxProps) => void;
   };
   transport?: any;
 }

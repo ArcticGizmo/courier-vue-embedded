@@ -1,5 +1,57 @@
 import { CSSObject } from 'styled-components';
+import { IInboxMessagePreview } from './transports';
+
 export type InboxPlacement = 'top' | 'left' | 'right' | 'bottom';
+export type InboxTrigger = 'click' | 'hover';
+export type EventType = 'mark-all-read' | 'read' | 'unread' | 'archive' | 'opened' | 'click' | 'unpin';
+
+export interface InboxProps {
+  tenantId?: string;
+  brand?: Brand;
+  className?: string;
+  defaultIcon?: false | string;
+  from?: number;
+  isOpen?: boolean;
+  views?: Array<{
+    id: string;
+    label: string;
+    params?: any;
+  }>;
+  formatDate?: (isoDate: string) => string;
+  appendTo?: string;
+  labels?: {
+    archiveMessage?: string;
+    backToInbox?: string;
+    closeInbox?: string;
+    emptyState?: string;
+    markAllAsRead?: string;
+    markAsRead?: string;
+    markAsUnread?: string;
+    scrollTop?: string | ((count: string) => string);
+  };
+  onEvent?: OnEvent;
+  openLinksInNewTab?: boolean;
+  placement?: InboxPlacement;
+  showUnreadMessageCount?: boolean;
+  theme?: InboxTheme;
+  title?: string;
+  trigger?: InboxPlacement;
+  renderContainer?: React.FunctionComponent;
+  // renderBell?: React.FunctionComponent<{
+  //   className?: string;
+  //   isOpen: boolean;
+  //   onClick?: (event: React.MouseEvent) => void;
+  // }>;
+  // renderFooter?: React.FunctionComponent;
+  // renderHeader?: React.FunctionComponent<IHeaderProps>;
+  // renderPin?: React.FunctionComponent<PinDetails>;
+  // renderIcon?: React.FunctionComponent<{
+  //   isOpen: boolean;
+  //   unreadMessageCount?: number;
+  // }>;
+  // renderMessage?: React.FunctionComponent<IInboxMessagePreview>;
+  // renderNoMessages?: React.FunctionComponent;
+}
 
 export interface Brand {
   inapp?: {
@@ -73,4 +125,4 @@ export interface Labels {
   scrollTop?: string | ((count: string) => string);
 }
 
-export type InboxTrigger = 'click' | 'hover';
+export type OnEvent = (eventParams: { messageId?: string; message?: IInboxMessagePreview; event: EventType }) => void;

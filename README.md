@@ -1,6 +1,6 @@
 [![Courier: Your Complete Communication Stack](https://marketing-assets-public.s3.us-west-1.amazonaws.com/github_nodejs.png)](https://courier.com)
 
-<a href="https://www.npmjs.com/package/vue"><img src="https://img.shields.io/npm/v/courier-vue-embedded.svg?sanitize=true" alt="Version"></a>
+<a href="https://www.npmjs.com/package/courier-vue-embedded"><img src="https://img.shields.io/npm/v/courier-vue-embedded.svg?sanitize=true" alt="Version"></a>
 
 This is the unofficial vue Toast/Inbox wrapper for [@trycourier/courier](https://github.com/trycourier/courier-node)
 
@@ -28,25 +28,6 @@ Courier.init({
   clientKey: '{{your_client_key}}',
   userId: '{{user_id}}'
 });
-```
-
-#### Ignore Custom Components (Vue 2.7)
-
-When using this component with Vue 2.7 you might get warnings similar to
-
-```
-[vue warn]: Unknown custom element: <courier-toast> - did you register the component correctly? For recursive components, make sure to provide the "name" option.
-```
-
-To resolve this in your main file add
-
-```
-import Vue from 'vue'
-Vue.config.ignoredElements.push(
-  "courier-inbox",
-  "courier-preferences",
-  "courier-toast"
-);
 ```
 
 #### Import Components
@@ -88,3 +69,4 @@ To maintain some semblance of reason, here is how courier-vue-embedded versions 
 | 4.Y.Z\*              | 4.Y.Z              |
 
 (\*patch version may differ if there are any bugs found within this wrapper package)
+

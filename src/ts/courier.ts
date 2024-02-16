@@ -1,11 +1,23 @@
 import type { CourierConfig, CourierSDK } from '../types/courier';
+import { InboxProps } from '../types/inbox';
+import { ToastProps } from '../types/toast';
 
 const ID = 'courier-script';
 // This follows the versioning of https://github.com/trycourier/courier-react
-const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/v4.4.0.js';
+const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/v4.5.0.js';
 
 type Resolve = (value?: any) => void;
 type Reject = (reason?: any) => void;
+
+const withoutUndefinedValues = (obj: any) => {
+  const cleanObj: any = {};
+  Object.entries(obj).forEach(([key, value]) => {
+    if (value !== undefined) {
+      cleanObj[key] = value as unknown;
+    }
+  });
+  return cleanObj;
+};
 
 const importCourier = async () => {
   const existing = document.body.querySelector(`#${ID}`);
@@ -47,23 +59,36 @@ const Deferred = <T>(callback?: (resolve: Resolve, reject: Reject) => T): Deferr
 
 class CourierClient {
   private _resolveCourier = Deferred<CourierSDK>();
-  private _courier!: CourierSDK;
+
+  private _inboxReady = Deferred<void>();
+  private _toastReady = Deferred<void>();
   private _isLoaded = Deferred<void>();
   private _isReady = Deferred<void>();
 
+  private get sdk(): CourierSDK {
+    return window.courier;
+  }
+
   constructor() {
     window.courierAsyncInit = () => {
-      this._resolveCourier.resolve(window.courier);
+      this._resolveCourier.resolve();
     };
     importCourier();
   }
 
   async init(config: CourierConfig) {
-    this._courier = await this._resolveCourier;
+    await this._resolveCourier;
     this._isLoaded.resolve();
 
-    await this._courier.init(config);
+    this.sdk.on('inbox/init', () => {
+      this._inboxReady.resolve();
+    });
 
+    this.sdk.on('toast/init', () => {
+      this._toastReady.resolve();
+    });
+
+    await this.sdk.init(config);
     this._isReady.resolve();
   }
 
@@ -73,6 +98,18 @@ class CourierClient {
 
   async isReady() {
     await this._isReady;
+  }
+
+  async updateInbox(config: InboxProps) {
+    await this._inboxReady;
+    const toMerge = withoutUndefinedValues({ ...config });
+    this.sdk.inbox?.mergeConfig(toMerge);
+  }
+
+  async updateToast(config: ToastProps) {
+    await this._toastReady;
+    const toMerge = withoutUndefinedValues({ ...config });
+    this.sdk.toast?.mergeConfig(toMerge);
   }
 }
 
