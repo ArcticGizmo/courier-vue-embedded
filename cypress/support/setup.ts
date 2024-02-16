@@ -13,7 +13,7 @@ export const setup = (mounter: () => void) => {
     cy.intercept(
       {
         method: 'GET',
-        url: 'https://courier-components-xvdza5.s3.amazonaws.com/v4.6.0.js'
+        url: 'https://courier-components-xvdza5.s3.amazonaws.com/v4.5.0.js'
       },
       resp
     );

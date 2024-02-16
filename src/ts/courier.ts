@@ -4,7 +4,7 @@ import { ToastProps } from '../types/toast';
 
 const ID = 'courier-script';
 // This follows the versioning of https://github.com/trycourier/courier-react
-const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/v4.6.0.js';
+const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/v4.5.0.js';
 
 type Resolve = (value?: any) => void;
 type Reject = (reason?: any) => void;

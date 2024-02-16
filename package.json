@@ -12,9 +12,11 @@
     "lint:fix": "npm run lint --fix",
     "lint:tsc": "cross-env NODE_ENV=production vue-tsc --noEmit",
     "lint:staged": "npm run lint:tsc && npm run lint --fix",
+    "cypress:run": "cypress run --component",
     "cypress:open": "cypress open",
     "preview": "cross-env NODE_ENV=production vite preview --port 3000",
-    "prepublishOnly": "npm run lint && npm run build"
+    "prepublishOnly": "npm install && npm run build && npm run cypress:run && npm pack",
+    "publish": "npm run prepublishOnly && npm login && npm publish"
   },
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.es.mjs",

@@ -7,6 +7,5 @@ it('inbox can append to specified element', () => {
   setup(() => cy.mount(TestAppendTo, { props: { clientKey: Cypress.env('CLIENT_KEY') } }));
 
   cy.get('courier-inbox').get('[role="button"]').click();
-  cy.contains('Notifications');
-  cy.contains('You’re all caught up');
+  cy.get('#append-to').children().should('have.length', 1);
 });
