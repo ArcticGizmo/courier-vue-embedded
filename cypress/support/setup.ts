@@ -8,6 +8,8 @@ export const setup = (mounter: () => void) => {
   mounter();
   cy.get('#courier-script', { timeout: 25_000 }).should('exist');
 
+  cy.courier(c => c.whenReady(() => null));
+
   // wait for client key to init
   cy.intercept({
     method: 'POST',

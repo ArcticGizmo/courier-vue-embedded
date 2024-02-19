@@ -1,4 +1,8 @@
 /// <reference types="cypress" />
+
+import { useCourier } from '../../src';
+import { CourierClient } from '../../src/ts/courierClient';
+
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -35,3 +39,13 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('courier', (cb: (client: CourierClient) => Promise<any>) => {
+  global.process = global.process || {};
+  global.process.env = global.process.env || {};
+
+  cy.wrap(null).then(async () => {
+    const client = useCourier();
+    await cb(client);
+  });
+});

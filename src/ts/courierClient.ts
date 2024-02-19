@@ -59,7 +59,7 @@ export class CourierClient {
   }
 
   async whenReady(callback: () => void) {
-    await this.onceLoaded;
+    await this.onceReady;
     callback();
   }
 

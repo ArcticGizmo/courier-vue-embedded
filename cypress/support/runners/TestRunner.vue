@@ -2,12 +2,13 @@
   <div id="app">
     <CourierToastVue />
     <CourierInboxVue />
+    <CourierPreferencesVue v-if="showPreferences" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { CourierInboxVue, useCourier, CourierToastVue } from '../../../src/index';
-const props = defineProps<{ clientKey: string }>();
+import { CourierInboxVue, useCourier, CourierToastVue, CourierPreferencesVue } from '../../../src/index';
+const props = defineProps<{ clientKey: string; showPreferences?: boolean }>();
 
 useCourier({
   clientKey: props.clientKey,
