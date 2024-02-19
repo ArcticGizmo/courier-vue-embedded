@@ -1,6 +1,6 @@
 {
   "name": "courier-vue-embedded",
-  "version": "4.5.0",
+  "version": "4.6.0",
   "description": "Vue 3/2.7 wrapper for courier",
   "scripts": {
     "dev": "vite",
@@ -14,6 +14,7 @@
     "lint:staged": "npm run lint:tsc && npm run lint --fix",
     "cypress:run": "cypress run --component",
     "cypress:open": "cypress open",
+    "pack:local": "npm install && npm run build && npm pack",
     "preview": "cross-env NODE_ENV=production vite preview --port 3000",
     "prepublishOnly": "npm install && npm run build && npm run cypress:run && npm pack"
   },
@@ -42,8 +43,7 @@
     "trycourier",
     "courier",
     "notifications",
-    "vue 3",
-    "vue 2.7"
+    "vue 3"
   ],
   "author": "Jonathan Howell (ArcticGizmo)",
   "license": "MIT",
@@ -72,8 +72,5 @@
   },
   "peerDependencies": {
     "vue": "^2.7.0 || >=3.0.0"
-  },
-  "dependencies": {
-    "vue-demi": "^0.14.6"
   }
 }

@@ -1,3 +1,8 @@
+# 4.11.2
+- changed CDN for source to `components.courier.com`
+- ⚠ Removed support for vue 2.y ⚠
+- added preferences to `window`
+
 # 4.5.0
 - upgrade to courier v4.5.0
 - added support for `appendTo` to append inbox anywhere

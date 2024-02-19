@@ -1,4 +1,6 @@
-import { InboxProps } from "./inbox";
+import { InboxSdk } from '../ts/inboxClient';
+import { PreferencesSdk } from '../ts/preferencesClient';
+import { ToastSdk } from '../ts/toastClient';
 
 export interface CourierConfig {
   tenantId?: string;
@@ -28,16 +30,10 @@ export interface CourierConfig {
 export interface CourierSDK {
   init: (config: CourierConfig) => void;
   on: (action: string, event: any) => void;
-  toast?: {
-    mergeConfig: (config: any) => void;
-    setConfig: (config: any) => void;
-    add: (message: { title?: string; preview?: string }) => void;
-  };
-  inbox?: {
-    mergeConfig: (config: InboxProps) => void;
-    setConfig: (config: InboxProps) => void;
-  };
-  transport?: any;
+  toast: ToastSdk;
+  inbox: InboxSdk;
+  preferences: PreferencesSdk;
+  transport: any;
 }
 
 declare global {

@@ -1,7 +1,8 @@
-import CourierInboxVue from './components/courierInboxVue';
-import CourierToastVue from './components/courierToastVue';
-import CourierPreferencesVue from './components/courierPreferencesVue';
+import CourierInboxVue from './components/courierInboxVue.vue';
+import CourierToastVue from './components/courierToastVue.vue';
+import CourierPreferencesVue from './components/courierPreferencesVue.vue';
 
-import { Courier } from './ts/courier';
+// import { Courier } from './ts/courier';
+import { useCourier } from './ts/useCourier';
 
-export { Courier, CourierInboxVue, CourierToastVue, CourierPreferencesVue };
+export { CourierInboxVue, CourierToastVue, CourierPreferencesVue, useCourier };

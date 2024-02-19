@@ -1,23 +1,12 @@
-import type { CourierConfig, CourierSDK } from '../types/courier';
-import { InboxProps } from '../types/inbox';
-import { ToastProps } from '../types/toast';
+import { CourierConfig, CourierSDK } from '../types/courier';
+import { Deferred } from './helpers';
+import { InboxClient } from './inboxClient';
+import { PreferencesClient } from './preferencesClient';
+import { ToastClient } from './toastClient';
 
-const ID = 'courier-script';
 // This follows the versioning of https://github.com/trycourier/courier-react
-const VERSION = 'https://courier-components-xvdza5.s3.amazonaws.com/v4.5.0.js';
-
-type Resolve = (value?: any) => void;
-type Reject = (reason?: any) => void;
-
-const withoutUndefinedValues = (obj: any) => {
-  const cleanObj: any = {};
-  Object.entries(obj).forEach(([key, value]) => {
-    if (value !== undefined) {
-      cleanObj[key] = value as unknown;
-    }
-  });
-  return cleanObj;
-};
+const ID = 'courier-script';
+const VERSION = 'https://components.courier.com/v4.11.2.js';
 
 const importCourier = async () => {
   const existing = document.body.querySelector(`#${ID}`);
@@ -33,37 +22,15 @@ const importCourier = async () => {
   document.body.appendChild(script);
 };
 
-interface DeferredPromise<T> extends Promise<T> {
-  resolve: Resolve;
-  reject: Reject;
-}
+export class CourierClient {
+  private onceLoaded = Deferred<void>();
+  private onceReady = Deferred<void>();
 
-const Deferred = <T>(callback?: (resolve: Resolve, reject: Reject) => T): DeferredPromise<T> => {
-  let res!: Resolve;
-  let rej!: Reject;
-  const promise = new Promise<any>((resolve, reject) => {
-    res = resolve;
-    rej = reject;
-    if (callback) {
-      callback(resolve, reject);
-    }
-  });
+  public inbox = new InboxClient();
+  public preferences = new PreferencesClient();
+  public toast = new ToastClient();
 
-  const defProm = promise as DeferredPromise<T>;
-
-  defProm.resolve = res;
-  defProm.reject = rej;
-
-  return defProm;
-};
-
-class CourierClient {
-  private _resolveCourier = Deferred<CourierSDK>();
-
-  private _inboxReady = Deferred<void>();
-  private _toastReady = Deferred<void>();
-  private _isLoaded = Deferred<void>();
-  private _isReady = Deferred<void>();
+  public isReady = false;
 
   private get sdk(): CourierSDK {
     return window.courier;
@@ -71,46 +38,50 @@ class CourierClient {
 
   constructor() {
     window.courierAsyncInit = () => {
-      this._resolveCourier.resolve();
+      this.onceLoaded.resolve();
     };
     importCourier();
   }
 
   async init(config: CourierConfig) {
-    await this._resolveCourier;
-    this._isLoaded.resolve();
+    await this.onceLoaded;
 
-    this.sdk.on('inbox/init', () => {
-      this._inboxReady.resolve();
+    this.sdk.on('*', e => {
+      // console.log(e.type);
+      if (e.type.startsWith('inbox')) {
+        console.dir(e.type, e.payload);
+      }
+    });
+
+    this.sdk.on('root/init', () => {
+      this.onceReady.resolve();
+      this.isReady = true;
+
+      this.inbox.init();
+      this.preferences.init();
+      this.toast.init();
     });
 
     this.sdk.on('toast/init', () => {
-      this._toastReady.resolve();
+      setTimeout(() => {
+        console.dir(window.courier.toast);
+      }, 4500);
     });
 
-    await this.sdk.init(config);
-    this._isReady.resolve();
+    this.sdk.init(config);
   }
 
-  async isLoaded() {
-    await this._isLoaded;
+  async whenReady(callback: (client: CourierClient) => void) {
+    await this.onceLoaded;
+    callback(this);
   }
 
-  async isReady() {
-    await this._isReady;
+  onAny(callback: (payload: any) => void) {
+    return this.on('*', callback);
   }
 
-  async updateInbox(config: InboxProps) {
-    await this._inboxReady;
-    const toMerge = withoutUndefinedValues({ ...config });
-    this.sdk.inbox?.mergeConfig(toMerge);
-  }
-
-  async updateToast(config: ToastProps) {
-    await this._toastReady;
-    const toMerge = withoutUndefinedValues({ ...config });
-    this.sdk.toast?.mergeConfig(toMerge);
+  on(action: string, callback: (payload: any) => void) {
+    this.sdk.on(action, callback);
+    return this;
   }
 }
-
-export const Courier = new CourierClient();
