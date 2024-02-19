@@ -1,21 +1,6 @@
-import { CourierSDK } from '../types/courier';
-import { ToastProps } from '../types/toast';
+import { type CourierSDK } from '../types/courier';
+import type { ToastParams, ToastProps } from '../types/toast';
 import { Deferred } from './helpers';
-import { IInboxMessagePreview } from './inboxClient';
-
-export interface ToastPreview {
-  preview?: string;
-  title?: string;
-}
-
-export type ToastParams = string | IInboxMessagePreview | ToastPreview;
-
-export interface ToastSdk {
-  config: ToastProps;
-  mergeConfig: (config: ToastProps) => void;
-  setConfig: (config: ToastProps) => void;
-  toast: (params: ToastParams) => void;
-}
 
 export class ToastClient {
   private onceReady = Deferred<void>();
@@ -30,9 +15,6 @@ export class ToastClient {
     });
   }
 
-  // TODO: merge / add config everywhere
-  // TODO: consider making components not take any parameters at all
-
   async create(params: ToastParams) {
     await this.onceReady;
     this.sdk.toast.toast(params);
@@ -44,7 +26,6 @@ export class ToastClient {
   }
 
   async setConfig(config: ToastProps) {
-    // TODO: does this need undefined culling?
     await this.onceReady;
     this.sdk.toast.setConfig(config);
   }

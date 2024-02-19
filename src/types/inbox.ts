@@ -1,5 +1,85 @@
 import { CSSObject } from 'styled-components';
-import { IInboxMessagePreview } from './transports';
+
+export type InboxView = 'messages' | 'preferences';
+
+export interface IActionElemental {
+  background_color?: string;
+  content: string;
+  data?: Record<string, any>;
+  href: string;
+  type: 'text';
+}
+
+export interface ITextElemental {
+  type: 'text';
+  content: string;
+}
+
+export interface IElementalInbox {
+  tenantId?: string;
+  brand?: Brand;
+  from?: number;
+  isLoading?: boolean;
+  isOpen?: boolean;
+  lastMessagesFetched?: number;
+  messages?: Array<IInboxMessagePreview>;
+  startCursor?: string;
+  unreadMessageCount?: number;
+  view?: InboxView;
+}
+
+export interface IInboxMessagePreview {
+  actions?: IActionElemental[];
+  archived?: string;
+  created: string;
+  data?: Record<string, any>;
+  messageId: string;
+  opened?: string;
+  preview?: string;
+  read?: string;
+  tags?: string[];
+  title?: string;
+}
+
+export interface IInboxMessage {
+  messageId: string;
+  read?: string;
+  created?: string;
+  content: {
+    html?: string;
+    elemental?: Array<ITextElemental | IActionElemental>;
+  };
+}
+
+export type IElementalInboxMessage = IInboxMessage;
+export type IElementalInboxMessagePreview = IInboxMessagePreview;
+
+export interface FetchMessagesDonePayload {
+  messages: IElementalInboxMessagePreview[];
+  appendMessages?: boolean;
+  startCursor?: string;
+}
+
+export interface FetchUnreadMessageCountPayload {
+  count: number;
+}
+
+export interface MarkAllReadDonePayload {
+  ids: string[];
+}
+
+export interface IGetMessagesParams {
+  tenantId?: string;
+  from?: number;
+  isRead?: boolean;
+  limit?: number;
+  tags?: string[];
+}
+
+export interface IFetchMessagesParams {
+  params?: IGetMessagesParams;
+  after?: string;
+}
 
 export type InboxPlacement = 'top' | 'left' | 'right' | 'bottom';
 export type InboxTrigger = 'click' | 'hover';
@@ -126,3 +206,22 @@ export interface Labels {
 }
 
 export type OnEvent = (eventParams: { messageId?: string; message?: IInboxMessagePreview; event: EventType }) => void;
+
+export interface InboxSdk {
+  fetchMessages: (params?: IFetchMessagesParams) => void;
+  getUnreadMessageCount: (params?: IGetMessagesParams) => void;
+  init: (inbox?: InboxProps) => void;
+  markAllAsRead: (fromWS?: boolean) => void;
+  markMessageArchived: (messageId: string, fromWS?: boolean) => Promise<void>;
+  markMessageOpened: (messageId: string, fromWS?: boolean) => Promise<void>;
+  markMessageRead: (messageId: string, fromWS?: boolean) => Promise<void>;
+  markMessageUnread: (messageId: string, fromWS?: boolean) => Promise<void>;
+  newMessage: (transportMessage: IInboxMessagePreview) => void;
+  resetLastFetched: () => void;
+  setView: (view: InboxView) => void;
+  toggleInbox: (isOpen?: boolean) => void;
+  unpinMessage: (messageId: string, fromWS?: boolean) => Promise<void>;
+  trackClick: (messageId: string, trackingId: string) => Promise<void>;
+  setConfig: (config: InboxProps) => void;
+  mergeConfig: (config: InboxProps) => void;
+}

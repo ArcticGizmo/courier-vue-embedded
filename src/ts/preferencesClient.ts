@@ -1,21 +1,6 @@
 import { CourierSDK } from '../types/courier';
-import { IRecipientPreference, PreferencePage } from '../types/preferences';
+import { IRecipientPreference, PreferencePage, UpdateRecipientPreferencesPayload } from '../types/preferences';
 import { Deferred } from './helpers';
-
-export interface UpdateRecipientPreferencesPayload {
-  templateId: string;
-  status: string;
-  hasCustomRouting: boolean;
-  routingPreferences: Array<string>;
-  digestSchedule: string;
-  tenantId?: string;
-}
-
-export interface PreferencesSdk {
-  fetchRecipientPreferences: (tenantId?: string) => void;
-  fetchPreferencePage: (tenantId?: string, draft?: boolean) => void;
-  updateRecipientPreferences: (payload: UpdateRecipientPreferencesPayload) => void;
-}
 
 export class PreferencesClient {
   private _fetchRecipientPreferences = Deferred<IRecipientPreference>();

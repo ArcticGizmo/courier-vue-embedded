@@ -3,15 +3,6 @@ export interface PreferencesProps {
   draft?: boolean;
 }
 
-export interface UpdateRecipientPreferencesPayload {
-  templateId: string;
-  status: string;
-  hasCustomRouting: boolean;
-  routingPreferences: Array<string>;
-  digestSchedule: string;
-  tenantId?: string;
-}
-
 export interface PreferencePage {
   showCourierFooter: boolean;
   brand: {
@@ -80,4 +71,19 @@ export interface IRecipientPreference {
   hasCustomRouting: boolean;
   routingPreferences: Array<ChannelClassification>;
   digestSchedule: string;
+}
+
+export interface UpdateRecipientPreferencesPayload {
+  templateId: string;
+  status: string;
+  hasCustomRouting: boolean;
+  routingPreferences: Array<string>;
+  digestSchedule: string;
+  tenantId?: string;
+}
+
+export interface PreferencesSdk {
+  fetchRecipientPreferences: (tenantId?: string, draft?: boolean) => void;
+  fetchPreferencePage: (tenantId?: string, draft?: boolean) => void;
+  updateRecipientPreferences: (payload: UpdateRecipientPreferencesPayload) => void;
 }

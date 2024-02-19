@@ -1,4 +1,4 @@
-import { CourierConfig, CourierSDK } from '../types/courier';
+import type { CourierConfig, CourierSDK, EventPayload } from '../types/courier';
 import { Deferred } from './helpers';
 import { InboxClient } from './inboxClient';
 import { PreferencesClient } from './preferencesClient';
@@ -46,13 +46,6 @@ export class CourierClient {
   async init(config: CourierConfig) {
     await this.onceLoaded;
 
-    this.sdk.on('*', e => {
-      // console.log(e.type);
-      if (e.type.startsWith('inbox')) {
-        console.dir(e.type, e.payload);
-      }
-    });
-
     this.sdk.on('root/init', () => {
       this.onceReady.resolve();
       this.isReady = true;
@@ -62,26 +55,25 @@ export class CourierClient {
       this.toast.init();
     });
 
-    this.sdk.on('toast/init', () => {
-      setTimeout(() => {
-        console.dir(window.courier.toast);
-      }, 4500);
-    });
-
     this.sdk.init(config);
   }
 
-  async whenReady(callback: (client: CourierClient) => void) {
+  async whenReady(callback: () => void) {
     await this.onceLoaded;
-    callback(this);
+    callback();
   }
 
-  onAny(callback: (payload: any) => void) {
+  onAny<T = unknown>(callback: (payload: EventPayload<T>) => void) {
     return this.on('*', callback);
   }
 
-  on(action: string, callback: (payload: any) => void) {
+  on<T = unknown>(action: string, callback: (payload: EventPayload<T>) => void) {
     this.sdk.on(action, callback);
     return this;
+  }
+
+  async renewSession(token: string) {
+    await this.isReady;
+    this.sdk.renewSession(token);
   }
 }

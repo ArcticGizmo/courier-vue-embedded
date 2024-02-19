@@ -8,12 +8,25 @@
 import { watch } from 'vue';
 
 import type { InboxProps } from '../types/inbox';
-// import { Courier } from '../ts/courier';
+import { useCourier } from '../ts/useCourier';
 
-// expressly force isOpen to be undefined by default to allow courier to detected a controlled value
+const { on, whenReady, inbox } = useCourier();
+
+// expressly force isOpen to be undefined by default to allow courier to
+// detected a controlled value
 const props = withDefaults(defineProps<InboxProps>(), {
   isOpen: undefined
 });
 
-// watch(props, p => Courier.updateInbox(p), { immediate: true, flush: 'pre' });
+const emits = defineEmits<{
+  (e: 'update:isOpen', value: boolean): void;
+}>();
+
+whenReady(() => {
+  on('inbox/TOGGLE_INBOX', resp => {
+    emits('update:isOpen', resp.payload || false);
+  });
+});
+
+watch(props, p => inbox.mergeConfig({ ...p }), { immediate: true, flush: 'pre' });
 </script>

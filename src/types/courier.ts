@@ -1,6 +1,6 @@
-import { InboxSdk } from '../ts/inboxClient';
-import { PreferencesSdk } from '../ts/preferencesClient';
-import { ToastSdk } from '../ts/toastClient';
+import type { InboxSdk } from './inbox';
+import type { PreferencesSdk } from './preferences';
+import type { ToastSdk } from './toast';
 
 export interface CourierConfig {
   tenantId?: string;
@@ -27,13 +27,18 @@ export interface CourierConfig {
   preferencePageDraftMode?: boolean;
 }
 
+export interface EventPayload<T = unknown> {
+  payload: T;
+}
+
 export interface CourierSDK {
   init: (config: CourierConfig) => void;
-  on: (action: string, event: any) => void;
+  on: <T = unknown>(action: string, event: (payload: EventPayload<T>) => void) => void;
   toast: ToastSdk;
   inbox: InboxSdk;
   preferences: PreferencesSdk;
   transport: any;
+  renewSession: (token: string) => void;
 }
 
 declare global {
