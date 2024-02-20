@@ -4,6 +4,8 @@ import CourierPreferencesVue from './components/courierPreferencesVue.vue';
 
 import { useCourier, useCourierInbox, useCourierToast, useCourierPreferences } from './ts/useCourier';
 
+export * from './types';
+
 export {
   CourierInboxVue,
   CourierToastVue,

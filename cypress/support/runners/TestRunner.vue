@@ -10,7 +10,8 @@
 import { CourierInboxVue, useCourier, CourierToastVue, CourierPreferencesVue } from '../../../src/index';
 const props = defineProps<{ clientKey: string; showPreferences?: boolean }>();
 
-useCourier({
+const courier = useCourier();
+courier.init({
   clientKey: props.clientKey,
   userId: 'courier-vue-embedded'
 });

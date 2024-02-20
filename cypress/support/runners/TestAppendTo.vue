@@ -11,7 +11,8 @@ import { CourierToastVue, CourierInboxVue, useCourier } from '../../../src/index
 
 const props = defineProps<{ clientKey: string }>();
 
-useCourier({
+const courier = useCourier();
+courier.init({
   clientKey: props.clientKey,
   userId: 'courier-vue-embedded'
 });

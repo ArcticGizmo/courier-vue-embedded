@@ -3,11 +3,7 @@ import { CourierClient } from './courierClient';
 
 const client = new CourierClient();
 
-export const useCourier = (initConfig?: CourierConfig) => {
-  if (initConfig) {
-    client.init(initConfig);
-  }
-
+export const useCourier = () => {
   return {
     init: (config: CourierConfig) => client.init(config),
     renewSession: (token: string) => client.renewSession(token),

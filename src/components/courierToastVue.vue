@@ -7,9 +7,11 @@
 <script lang="ts" setup>
 import { watch } from 'vue';
 import { ToastProps } from '../types/toast';
-// import { Courier } from '../ts/courier';
+import { useCourier } from '../ts/useCourier';
 
 const props = defineProps<ToastProps>();
 
-// watch(props, p => Courier.updateToast(p), { immediate: true, flush: 'pre' });
+const { toast } = useCourier();
+
+watch(props, p => toast.mergeConfig(p), { immediate: true, flush: 'pre' });
 </script>

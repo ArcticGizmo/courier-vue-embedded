@@ -9,4 +9,3 @@ import type { PreferencesProps } from '../types/preferences';
 
 const props = defineProps<PreferencesProps>();
 </script>
-../types/preferences.types
