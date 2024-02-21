@@ -1,10 +1,9 @@
 # 4.11.0
-- upgrade to coure v4.11.2
+- upgrade to courier v4.11.2
 - ⚠ Removed support for vue 2 ⚠
 - complete re-write to support useCourier semantics
 - changed CDN for source to `components.courier.com`
 - added preferences to `window`
-- better typescript support for props
 
 # 4.5.0
 - upgrade to courier v4.5.0
