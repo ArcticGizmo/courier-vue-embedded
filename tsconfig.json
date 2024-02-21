@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "target": "esnext",
     "useDefineForClassFields": true,
     "sourceMap": false,

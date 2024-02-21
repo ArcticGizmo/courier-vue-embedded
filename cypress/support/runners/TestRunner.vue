@@ -2,15 +2,16 @@
   <div id="app">
     <CourierToastVue />
     <CourierInboxVue />
+    <CourierPreferencesVue v-if="showPreferences" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { CourierToastVue, CourierInboxVue, Courier } from '../../../src/index';
+import { CourierInboxVue, useCourier, CourierToastVue, CourierPreferencesVue } from '../../../src/index';
+const props = defineProps<{ clientKey: string; showPreferences?: boolean }>();
 
-const props = defineProps<{ clientKey: string }>();
-
-Courier.init({
+const courier = useCourier();
+courier.init({
   clientKey: props.clientKey,
   userId: 'courier-vue-embedded'
 });

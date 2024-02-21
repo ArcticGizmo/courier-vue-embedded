@@ -1,5 +1,5 @@
 import { CSSObject } from 'styled-components';
-import { Brand } from './inbox';
+import { Brand, IInboxMessagePreview } from './inbox';
 
 export type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
 export type ToastRole = 'alert' | 'status';
@@ -33,4 +33,18 @@ export interface ToastProps {
   theme?: ToastTheme;
   transition?: string;
   // renderMessage?: React.FunctionComponent<IInboxMessagePreview>;
+}
+
+export interface ToastPreview {
+  preview?: string;
+  title?: string;
+}
+
+export type ToastParams = string | IInboxMessagePreview | ToastPreview;
+
+export interface ToastSdk {
+  config: ToastProps;
+  mergeConfig: (config: ToastProps) => void;
+  setConfig: (config: ToastProps) => void;
+  toast: (params: ToastParams) => void;
 }

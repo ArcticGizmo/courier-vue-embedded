@@ -6,19 +6,9 @@ export const setup = (mounter: () => void) => {
   global.process.env = global.process.env || {};
 
   mounter();
-
-  // we cache here so that it is faster
-  cy.fixture('courier-script.txt').then(resp => {
-    // wait for courier script to load
-    cy.intercept(
-      {
-        method: 'GET',
-        url: 'https://courier-components-xvdza5.s3.amazonaws.com/v4.5.0.js'
-      },
-      resp
-    );
-  });
   cy.get('#courier-script', { timeout: 25_000 }).should('exist');
+
+  cy.courier(c => c.whenReady(() => null));
 
   // wait for client key to init
   cy.intercept({

@@ -70,3 +70,5 @@ To maintain some semblance of reason, here is how courier-vue-embedded versions 
 
 (\*patch version may differ if there are any bugs found within this wrapper package)
 
+### Vue 2.7 support
+- with the recent EOL of vue 2.x support has been dropped since with the last supported version being v4.5.0

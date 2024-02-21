@@ -7,11 +7,12 @@
 </template>
 
 <script setup lang="ts">
-import { CourierToastVue, CourierInboxVue, Courier } from '../../../src/index';
+import { CourierToastVue, CourierInboxVue, useCourier } from '../../../src/index';
 
 const props = defineProps<{ clientKey: string }>();
 
-Courier.init({
+const courier = useCourier();
+courier.init({
   clientKey: props.clientKey,
   userId: 'courier-vue-embedded'
 });
