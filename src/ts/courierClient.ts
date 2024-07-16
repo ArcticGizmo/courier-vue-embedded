@@ -6,7 +6,7 @@ import { ToastClient } from './toastClient';
 
 // This follows the versioning of https://github.com/trycourier/courier-react
 const ID = 'courier-script';
-const VERSION = 'https://components.courier.com/v4.11.2.js';
+const VERSION = 'https://components.courier.com/v6.2.1.js';
 
 const importCourier = async () => {
   const existing = document.body.querySelector(`#${ID}`);

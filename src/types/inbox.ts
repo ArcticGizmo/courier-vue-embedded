@@ -1,4 +1,5 @@
 import { CSSObject } from 'styled-components';
+import { IPreferenceTemplate } from './preferences';
 
 export type InboxView = 'messages' | 'preferences';
 
@@ -116,7 +117,7 @@ export interface InboxProps {
   theme?: InboxTheme;
   title?: string;
   trigger?: InboxPlacement;
-  renderContainer?: React.FunctionComponent;
+  // renderContainer?: React.FunctionComponent;
   // renderBell?: React.FunctionComponent<{
   //   className?: string;
   //   isOpen: boolean;
@@ -157,6 +158,7 @@ export interface Brand {
       timerAutoClose?: number;
     };
   };
+  preferenceTemplates?: Array<IPreferenceTemplate>;
   colors?: {
     primary?: string;
     secondary?: string;
