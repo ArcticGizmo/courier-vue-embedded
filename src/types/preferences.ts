@@ -1,9 +1,13 @@
+import { IPreferenceTemplate } from './core';
+
+// source: https://github.com/packages/components/src/components/PreferencePage.tsx (based on React.FunctionComponent)
 export interface PreferencesProps {
   tenantId?: string;
   draft?: boolean;
 }
 
-export interface PreferencePage {
+// https://github.com/trycourier/courier-react/packages/react-hooks/src/preferences/types.ts
+export type PreferencePage = {
   showCourierFooter: boolean;
   brand: {
     settings: {
@@ -12,11 +16,21 @@ export interface PreferencePage {
       };
     };
     links: {
-      facebook: { url: string };
-      instagram: { url: string };
-      linkedin: { url: string };
-      medium: { url: string };
-      twitter: { url: string };
+      facebook: {
+        url: string;
+      };
+      instagram: {
+        url: string;
+      };
+      linkedin: {
+        url: string;
+      };
+      medium: {
+        url: string;
+      };
+      twitter: {
+        url: string;
+      };
     };
     logo: {
       href: string;
@@ -24,9 +38,9 @@ export interface PreferencePage {
     };
   };
   sections: PreferenceSection;
-}
+};
 
-export interface PreferenceSection {
+type PreferenceSection = {
   nodes: Array<{
     name: string;
     sectionId: string;
@@ -34,36 +48,11 @@ export interface PreferenceSection {
     topics: { nodes: Array<IPreferenceTemplate> };
     hasCustomRouting: boolean;
   }>;
-}
+};
 
-export interface PreferenceState {
-  isLoading?: boolean;
-  isUpdating?: boolean;
-  preferences?: IPreferenceTemplate[];
-  recipientPreferences?: IRecipientPreference[];
-  preferencePage?: PreferencePage;
-}
+type ChannelClassification = 'email' | 'push' | 'inbox' | 'direct_message' | 'sms' | 'webhook';
 
-export type ChannelClassification = 'email' | 'push' | 'direct_message' | 'sms' | 'webhook';
-
-export interface SnoozePreference {
-  start?: string;
-  until: string;
-}
-
-export type PreferenceStatus = 'OPTED_IN' | 'OPTED_OUT' | 'REQUIRED';
-
-export interface IPreference {
-  status: PreferenceStatus;
-  snooze?: SnoozePreference;
-  channel_preferences?: Array<ChannelClassification>;
-}
-
-export interface IPreferenceTemplate {
-  templateName: string;
-  templateId: string;
-  defaultStatus: PreferenceStatus;
-}
+type PreferenceStatus = 'OPTED_IN' | 'OPTED_OUT' | 'REQUIRED';
 
 export interface IRecipientPreference {
   templateId: string;
@@ -73,14 +62,7 @@ export interface IRecipientPreference {
   digestSchedule: string;
 }
 
-export interface UpdateRecipientPreferencesPayload {
-  templateId: string;
-  status: string;
-  hasCustomRouting: boolean;
-  routingPreferences: Array<string>;
-  digestSchedule: string;
-  tenantId?: string;
-}
+export type UpdateRecipientPreferencesPayload = any;
 
 export interface PreferencesSdk {
   fetchRecipientPreferences: (tenantId?: string, draft?: boolean) => void;

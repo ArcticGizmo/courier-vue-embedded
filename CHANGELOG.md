@@ -1,3 +1,6 @@
+# 6.2.1
+- upgraded to courier v6.2.1
+
 # 4.11.0
 - upgrade to courier v4.11.2
 - ⚠ Removed support for vue 2 ⚠

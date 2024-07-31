@@ -1,4 +1,4 @@
-import type { CourierConfig, CourierSDK, EventPayload } from '../types/courier';
+import type { ICourierConfig, CourierSDK, EventPayload } from '../types/courier';
 import { Deferred } from './helpers';
 import { InboxClient } from './inboxClient';
 import { PreferencesClient } from './preferencesClient';
@@ -22,6 +22,10 @@ const importCourier = async () => {
   document.body.appendChild(script);
 };
 
+window.courierConfig = {
+  initOnLoad: false
+};
+
 export class CourierClient {
   private onceLoaded = Deferred<void>();
   private onceReady = Deferred<void>();
@@ -43,7 +47,7 @@ export class CourierClient {
     importCourier();
   }
 
-  async init(config: CourierConfig) {
+  async init(config: ICourierConfig) {
     await this.onceLoaded;
 
     this.sdk.on('root/init', () => {

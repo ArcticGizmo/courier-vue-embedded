@@ -1,6 +1,6 @@
 {
     "name": "courier-vue-embedded",
-    "version": "4.11.2",
+    "version": "6.2.1",
     "type": "module",
     "description": "Vue 3 wrapper for trycourier",
     "scripts": {

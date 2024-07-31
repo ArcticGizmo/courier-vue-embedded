@@ -1,14 +1,11 @@
+import { IInboxMessagePreview } from '../types/core';
 import type { CourierSDK } from '../types/courier';
-import type {
-  FetchMessagesDonePayload,
-  FetchUnreadMessageCountPayload,
-  IFetchMessagesParams,
-  IGetMessagesParams,
-  IInboxMessagePreview,
-  InboxProps,
-  InboxView
-} from '../types/inbox';
+import type { IFetchMessagesParams, InboxProps } from '../types/inbox';
 import { Deferred, withoutUndefinedValues } from './helpers';
+
+type IGetMessagesParams = any;
+type FetchMessagesDonePayload = any;
+type FetchUnreadMessageCountPayload = any;
 
 export class InboxClient {
   private onceReady = Deferred<void>();
@@ -78,7 +75,7 @@ export class InboxClient {
     this.sdk.inbox.resetLastFetched();
   }
 
-  async setView(view: InboxView) {
+  async setView(view: string | 'Preferences') {
     await this.onceReady;
     this.sdk.inbox.setView(view);
   }
