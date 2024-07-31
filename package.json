@@ -1,78 +1,80 @@
 {
-  "name": "courier-vue-embedded",
-  "version": "4.11.2",
-  "type": "module",
-  "description": "Vue 3 wrapper for trycourier",
-  "scripts": {
-    "dev": "vite",
-    "prebuild": "rimraf ./dist",
-    "build": "npm run build:code && npm run build:tsc",
-    "build:code": "vite build",
-    "build:tsc": "cross-env NODE_ENV=production vue-tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",
-    "lint": "eslint ./src/ --ext .vue,.js,.ts",
-    "lint:fix": "npm run lint --fix",
-    "lint:tsc": "cross-env NODE_ENV=production vue-tsc --noEmit",
-    "lint:staged": "npm run lint:tsc && npm run lint --fix",
-    "cypress:run": "cypress run --component",
-    "cypress:open": "cypress open",
-    "pack:local": "npm install && npm run build && npm pack",
-    "preview": "cross-env NODE_ENV=production vite preview --port 3000",
-    "prepublishOnly": "npm install && npm run build && npm run cypress:run && npm pack"
-  },
-  "main": "./dist/index.umd.cjs",
-  "module": "./dist/index.es.mjs",
-  "exports": {
-    "import": {
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/index.es.mjs"
+    "name": "courier-vue-embedded",
+    "version": "4.11.2",
+    "type": "module",
+    "description": "Vue 3 wrapper for trycourier",
+    "scripts": {
+        "dev": "vite",
+        "prebuild": "rimraf ./dist",
+        "build": "npm run build:code && npm run build:tsc",
+        "build:code": "vite build",
+        "build:tsc": "cross-env NODE_ENV=production vue-tsc --declaration --emitDeclarationOnly --project tsconfig.build.json",
+        "lint": "eslint ./src/ --ext .vue,.js,.ts",
+        "lint:fix": "npm run lint --fix",
+        "lint:tsc": "cross-env NODE_ENV=production vue-tsc --noEmit",
+        "lint:staged": "npm run lint:tsc && npm run lint --fix",
+        "cypress:run": "cypress run --component",
+        "cypress:open": "cypress open",
+        "pack:local": "npm install && npm run build && npm pack",
+        "preview": "cross-env NODE_ENV=production vite preview --port 3000",
+        "prepublishOnly": "npm install && npm run build && npm run cypress:run && npm pack",
+        "update:check": "npx npm-check-updates",
+        "update": "npx npm-check-updates -u"
     },
-    "require": {
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/index.umd.cjs"
+    "main": "./dist/index.umd.cjs",
+    "module": "./dist/index.es.mjs",
+    "exports": {
+        "import": {
+            "types": "./dist/types/index.d.ts",
+            "default": "./dist/index.es.mjs"
+        },
+        "require": {
+            "types": "./dist/types/index.d.ts",
+            "default": "./dist/index.umd.cjs"
+        }
+    },
+    "types": "dist/types/index.d.ts",
+    "style": "dist/index.css",
+    "files": [
+        "dist"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ArcticGizmo/courier-vue-embedded.git"
+    },
+    "keywords": [
+        "trycourier",
+        "courier",
+        "notifications",
+        "vue 3"
+    ],
+    "author": "Jonathan Howell (ArcticGizmo)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ArcticGizmo/courier-vue-embedded/issues"
+    },
+    "homepage": "https://github.com/ArcticGizmo/courier-vue-embedded#readme",
+    "devDependencies": {
+        "@types/node": "^22.0.0",
+        "@types/styled-components": "^5.1.34",
+        "@typescript-eslint/eslint-plugin": "^7.18.0",
+        "@typescript-eslint/parser": "^7.18.0",
+        "@vitejs/plugin-vue": "^5.1.1",
+        "cross-env": "^7.0.3",
+        "cypress": "^13.13.1",
+        "dotenv": "^16.4.5",
+        "eslint": "^8.56.0",
+        "eslint-plugin-import": "^2.29.1",
+        "eslint-plugin-vue": "^9.27.0",
+        "prettier": "^3.3.3",
+        "typescript": "^5.5.4",
+        "vite": "^5.3.5",
+        "vite-plugin-dts": "^4.0.0-beta.2",
+        "vue": "^3",
+        "vue-eslint-parser": "^9.4.3",
+        "vue-tsc": "^2.0.29"
+    },
+    "peerDependencies": {
+        "vue": "^3"
     }
-  },
-  "types": "dist/types/index.d.ts",
-  "style": "dist/index.css",
-  "files": [
-    "dist"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ArcticGizmo/courier-vue-embedded.git"
-  },
-  "keywords": [
-    "trycourier",
-    "courier",
-    "notifications",
-    "vue 3"
-  ],
-  "author": "Jonathan Howell (ArcticGizmo)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ArcticGizmo/courier-vue-embedded/issues"
-  },
-  "homepage": "https://github.com/ArcticGizmo/courier-vue-embedded#readme",
-  "devDependencies": {
-    "@types/node": "^20.14.10",
-    "@types/styled-components": "^5.1.34",
-    "@typescript-eslint/eslint-plugin": "^7.16.1",
-    "@typescript-eslint/parser": "^7.16.1",
-    "@vitejs/plugin-vue": "^5.0.5",
-    "cross-env": "^7.0.3",
-    "cypress": "^13.13.0",
-    "dotenv": "^16.4.5",
-    "eslint": "^9.7.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-vue": "^9.27.0",
-    "prettier": "^3.3.3",
-    "typescript": "^5.5.3",
-    "vite": "^5.3.3",
-    "vite-plugin-dts": "^3.9.1",
-    "vue": "^3",
-    "vue-eslint-parser": "^9.4.3",
-    "vue-tsc": "^2.0.26"
-  },
-  "peerDependencies": {
-    "vue": "^3"
-  }
 }
