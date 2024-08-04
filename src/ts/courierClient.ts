@@ -1,4 +1,3 @@
-import { Brand } from '../types/core';
 import type { ICourierConfig, CourierSDK, EventPayload } from '../types/courier';
 import { Deferred } from './helpers';
 import { InboxClient } from './inboxClient';
@@ -7,7 +6,7 @@ import { ToastClient } from './toastClient';
 
 // This follows the versioning of https://github.com/trycourier/courier-react
 const ID = 'courier-script';
-const VERSION = 'https://components.courier.com/v6.2.1.js';
+const SDK_SRC = 'https://components.courier.com/v6.2.1.js';
 
 const importCourier = async () => {
   const existing = document.body.querySelector(`#${ID}`);
@@ -19,7 +18,7 @@ const importCourier = async () => {
   const script = document.createElement('script');
   script.id = ID;
   script.async = true;
-  script.setAttribute('src', VERSION);
+  script.setAttribute('src', SDK_SRC);
   document.body.appendChild(script);
 };
 
@@ -51,15 +50,9 @@ export class CourierClient {
   async init(config: ICourierConfig) {
     await this.onceLoaded;
 
-    this.sdk.on<{ brand?: Brand }>('root/init', data => {
+    this.sdk.on('root/init', () => {
       this.onceReady.resolve();
       this.isReady = true;
-
-      console.log('init', data.payload);
-      const brand = data.payload.brand;
-      if (brand) {
-        this.toast.setBrandContext(brand);
-      }
 
       this.inbox.init();
       this.preferences.init();

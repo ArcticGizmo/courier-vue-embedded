@@ -10,8 +10,29 @@ type TippyProps = {
   placement: 'top' | 'left' | 'right' | 'bottom';
   trigger: 'click' | 'hover';
 };
-type IGetInboxMessagesParams = any;
+
+// source: https://github.com/trycourier/courier-react/blob/main/packages/react-inbox/README.md
+type IGetInboxMessagesParams = {
+  tenantId?: string;
+  archived?: boolean;
+  from?: string | number;
+  limit?: number;
+  status?: 'read' | 'unread';
+  tags?: string[];
+};
+
 type OnEvent = any;
+
+type FilterView = {
+  id: string;
+  label: string;
+  params?: IGetInboxMessagesParams;
+};
+type PreferenceView = {
+  id: 'preferences';
+  label: string;
+};
+type View = FilterView | PreferenceView;
 
 // source: https://github.com/trycourier/courier-react/blob/main/packages/react-inbox/src/types.ts
 export interface InboxProps {
@@ -22,11 +43,7 @@ export interface InboxProps {
   isOpen?: boolean;
   markdownOptions?: MarkdownToJSX.Options;
   tenantId?: string;
-  views?: Array<{
-    id: string;
-    label: string;
-    params?: IGetInboxMessagesParams;
-  }>;
+  views?: Array<View>;
   formatDate?: (isoDate: string) => string;
   appendTo?: string;
   labels?: {

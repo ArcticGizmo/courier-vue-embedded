@@ -12,10 +12,12 @@ import { useCourier } from '../ts/useCourier';
 
 const { on, whenReady, inbox } = useCourier();
 
-// expressly force isOpen to be undefined by default to allow courier to
-// detected a controlled value
+// booleans get cast to false unless otherwise defaulted to another value
 const props = withDefaults(defineProps<InboxProps>(), {
-  isOpen: undefined
+  isOpen: undefined,
+  openLinksInNewTab: undefined,
+  showUnreadMessageCount: undefined,
+  views: () => []
 });
 
 const emits = defineEmits<{

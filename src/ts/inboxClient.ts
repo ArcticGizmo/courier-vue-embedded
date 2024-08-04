@@ -107,13 +107,11 @@ export class InboxClient {
 
   async setConfig(config: InboxProps) {
     await this.onceReady;
-    const toMerge = withoutUndefinedValues(config);
-    this.sdk.inbox.setConfig(toMerge);
+    this.sdk.inbox.setConfig(withoutUndefinedValues(config));
   }
 
   async mergeConfig(config: InboxProps) {
     await this.onceReady;
-    const toMerge = withoutUndefinedValues(config);
-    this.sdk.inbox.mergeConfig(toMerge);
+    this.sdk.inbox.mergeConfig(withoutUndefinedValues(config));
   }
 }
