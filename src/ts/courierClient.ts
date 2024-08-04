@@ -1,3 +1,4 @@
+import { Brand } from '../types/core';
 import type { ICourierConfig, CourierSDK, EventPayload } from '../types/courier';
 import { Deferred } from './helpers';
 import { InboxClient } from './inboxClient';
@@ -50,9 +51,15 @@ export class CourierClient {
   async init(config: ICourierConfig) {
     await this.onceLoaded;
 
-    this.sdk.on('root/init', () => {
+    this.sdk.on<{ brand?: Brand }>('root/init', data => {
       this.onceReady.resolve();
       this.isReady = true;
+
+      console.log('init', data.payload);
+      const brand = data.payload.brand;
+      if (brand) {
+        this.toast.setBrandContext(brand);
+      }
 
       this.inbox.init();
       this.preferences.init();
