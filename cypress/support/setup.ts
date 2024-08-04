@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 export const setup = (mounter: () => void) => {
   // https://github.com/cypress-io/cypress/issues/21434#issuecomment-1146745752
   global.process = global.process || {};
@@ -8,7 +6,7 @@ export const setup = (mounter: () => void) => {
   mounter();
   cy.get('#courier-script', { timeout: 25_000 }).should('exist');
 
-  cy.courier(c => c.whenReady(() => null));
+  cy.ensureCourierReady();
 
   // wait for client key to init
   cy.intercept({
