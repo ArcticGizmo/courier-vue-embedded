@@ -1,6 +1,6 @@
-import CourierInboxVue from './components/courierInboxVue.vue';
-import CourierToastVue from './components/courierToastVue.vue';
-import CourierPreferencesVue from './components/courierPreferencesVue.vue';
+import CourierInboxVue from './components/CourierInboxVue.vue';
+import CourierToastVue from './components/CourierToastVue.vue';
+import CourierPreferencesVue from './components/CourierPreferencesVue.vue';
 
 import { useCourier, useCourierInbox, useCourierToast, useCourierPreferences } from './ts/useCourier';
 
