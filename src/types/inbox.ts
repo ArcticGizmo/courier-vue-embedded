@@ -32,7 +32,18 @@ type PreferenceView = {
   id: 'preferences';
   label: string;
 };
-type View = FilterView | PreferenceView;
+export type View = FilterView | PreferenceView;
+
+export type InboxLabels = {
+  archiveMessage?: string;
+  backToInbox?: string;
+  closeInbox?: string;
+  emptyState?: string;
+  markAllAsRead?: string;
+  markAsRead?: string;
+  markAsUnread?: string;
+  scrollTop?: string | ((count: string) => string);
+};
 
 // source: https://github.com/trycourier/courier-react/blob/main/packages/react-inbox/src/types.ts
 export interface InboxProps {
@@ -46,16 +57,7 @@ export interface InboxProps {
   views?: Array<View>;
   formatDate?: (isoDate: string) => string;
   appendTo?: string;
-  labels?: {
-    archiveMessage?: string;
-    backToInbox?: string;
-    closeInbox?: string;
-    emptyState?: string;
-    markAllAsRead?: string;
-    markAsRead?: string;
-    markAsUnread?: string;
-    scrollTop?: string | ((count: string) => string);
-  };
+  labels?: InboxLabels;
   onEvent?: OnEvent;
   openLinksInNewTab?: boolean;
   placement?: TippyProps['placement'];
@@ -63,12 +65,12 @@ export interface InboxProps {
   theme?: InboxTheme;
   title?: string;
   trigger?: TippyProps['trigger'];
-  renderContainer?: React.FunctionComponent;
-  renderBell?: React.FunctionComponent<{
-    className?: string;
-    isOpen: boolean;
-    onClick?: (event: React.MouseEvent) => void;
-  }>;
+  // renderContainer?: React.FunctionComponent;
+  // renderBell?: React.FunctionComponent<{
+  //   className?: string;
+  //   isOpen: boolean;
+  //   onClick?: (event: React.MouseEvent) => void;
+  // }>;
   // renderFooter?: React.FunctionComponent;
   // renderHeader?: React.FunctionComponent<IHeaderProps>;
   // renderPin?: React.FunctionComponent<PinDetails>;

@@ -26,7 +26,7 @@ const emits = defineEmits<{
 
 whenReady(() => {
   on('inbox/TOGGLE_INBOX', resp => {
-    emits('update:isOpen', resp.payload || false);
+    emits('update:isOpen', !props.isOpen);
   });
 });
 

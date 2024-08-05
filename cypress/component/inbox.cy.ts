@@ -14,6 +14,7 @@ describe('inbox', () => {
     init();
     cy.get('courier-inbox').should('exist');
   });
+
   it('can open and close', () => {
     init();
     cy.get('courier-inbox').click();
@@ -21,6 +22,7 @@ describe('inbox', () => {
     cy.get('[title="close inbox"]').click();
     cy.get('body').should('not.contain', 'Notifications');
   });
+
   it('can have multiple views', () => {
     init({
       views: [

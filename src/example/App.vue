@@ -2,7 +2,7 @@
   <template v-if="!clientKey"> <strong>VITE_APP_CLIENT_KEY </strong> must be set for this to work </template>
 
   <template v-else>
-    <Example :clientKey="clientKey" userId="courier-vue-embedded" />
+    <Example userId="courier-vue-embedded" appendTo="body" />
   </template>
 </template>
 

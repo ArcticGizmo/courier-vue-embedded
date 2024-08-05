@@ -5,6 +5,7 @@
   `<CourierInboxVue :views="[{id: 'message', label: 'Messages'}, { id: 'preferences', label: 'Preferences' }]" />`
 - When setting your own `window.courierConfig` values, please ensure that `{initOnLoad: false}` is also set as this
   wrapper does not support syncronous initialisation
+- fixed v-model not working correctly for inbox open property
 
 # 4.11.0
 
