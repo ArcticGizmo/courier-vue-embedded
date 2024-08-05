@@ -9,31 +9,29 @@ const init = (props?: InboxProps, opts?: InitOptions) => {
 
 const getByPartialClass = (name: string) => cy.get(`[class^="${name}"]`);
 
-describe('inbox', () => {
-  it('bell renders', () => {
-    init();
-    cy.get('courier-inbox').should('exist');
+it('can have multiple views', () => {
+  init({
+    views: [
+      { id: 'message', label: 'Messages' },
+      { id: 'preferences', label: 'Preferences' }
+    ]
   });
+  // open inbox
+  cy.get('courier-inbox').click();
+  // open inbox options
+  getByPartialClass('Header__DropdownOptionButton').click();
+  cy.get('body').should('contain', 'Messages').should('contain', 'Preferences');
+});
 
-  it('can open and close', () => {
-    init();
-    cy.get('courier-inbox').click();
-    cy.get('body').should('contain', 'Notifications');
-    cy.get('[title="close inbox"]').click();
-    cy.get('body').should('not.contain', 'Notifications');
-  });
+it('bell renders', () => {
+  init();
+  cy.get('courier-inbox').should('exist');
+});
 
-  it('can have multiple views', () => {
-    init({
-      views: [
-        { id: 'message', label: 'Messages' },
-        { id: 'preferences', label: 'Preferences' }
-      ]
-    });
-    // open inbox
-    cy.get('courier-inbox').click();
-    // open inbox options
-    getByPartialClass('Header__DropdownOptionButton').click();
-    cy.get('body').should('contain', 'Messages').should('contain', 'Preferences');
-  });
+it('can open and close', () => {
+  init();
+  cy.get('courier-inbox').click();
+  cy.get('body').should('contain', 'Notifications');
+  cy.get('[title="close inbox"]').click();
+  cy.get('body').should('not.contain', 'Notifications');
 });
