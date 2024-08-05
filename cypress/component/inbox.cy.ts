@@ -37,5 +37,3 @@ describe('inbox', () => {
     cy.get('body').should('contain', 'Messages').should('contain', 'Preferences');
   });
 });
-
-// TODO: figure out what happens if you change the user id
