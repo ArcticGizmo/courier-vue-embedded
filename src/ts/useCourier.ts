@@ -1,11 +1,11 @@
-import type { CourierConfig } from '../types/courier';
+import type { ICourierConfig } from '../types/courier';
 import { CourierClient } from './courierClient';
 
 const client = new CourierClient();
 
 export const useCourier = () => {
   return {
-    init: (config: CourierConfig) => client.init(config),
+    init: (config: ICourierConfig) => client.init(config),
     renewSession: (token: string) => client.renewSession(token),
     on: (action: string, callback: (payload: any) => void) => client.on(action, callback),
     onAny: (callback: (payload: any) => void) => client.onAny(callback),

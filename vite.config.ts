@@ -3,6 +3,7 @@ import path from 'path';
 import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import { fileURLToPath } from 'node:url';
 
 const fileName = {
   es: 'index.es.mjs',
@@ -20,7 +21,9 @@ export default defineConfig({
         }
       }
     }),
-    dts()
+    dts({
+      tsconfigPath: 'tsconfig.build.json'
+    })
   ],
   build: {
     minify: true,
@@ -42,5 +45,11 @@ export default defineConfig({
         }
       }
     }
+  },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    },
+    extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue']
   }
 });

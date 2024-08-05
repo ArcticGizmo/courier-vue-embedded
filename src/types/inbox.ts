@@ -1,122 +1,70 @@
 import { CSSObject } from 'styled-components';
-import { IPreferenceTemplate } from './preferences';
+import { IInboxMessagePreview, Brand } from './core';
 
-export type InboxView = 'messages' | 'preferences';
-
-export interface IActionElemental {
-  background_color?: string;
-  content: string;
-  data?: Record<string, any>;
-  href: string;
-  type: 'text';
+// we stub out a lot of types to make things easier
+namespace MarkdownToJSX {
+  export type Options = any;
 }
+type MarkdownToJSX = { Options: any };
+type TippyProps = {
+  placement: 'top' | 'left' | 'right' | 'bottom';
+  trigger: 'click' | 'hover';
+};
 
-export interface ITextElemental {
-  type: 'text';
-  content: string;
-}
-
-export interface IElementalInbox {
+// source: https://github.com/trycourier/courier-react/blob/main/packages/react-inbox/README.md
+type IGetInboxMessagesParams = {
   tenantId?: string;
-  brand?: Brand;
-  from?: number;
-  isLoading?: boolean;
-  isOpen?: boolean;
-  lastMessagesFetched?: number;
-  messages?: Array<IInboxMessagePreview>;
-  startCursor?: string;
-  unreadMessageCount?: number;
-  view?: InboxView;
-}
-
-export interface IInboxMessagePreview {
-  actions?: IActionElemental[];
-  archived?: string;
-  created: string;
-  data?: Record<string, any>;
-  messageId: string;
-  opened?: string;
-  preview?: string;
-  read?: string;
-  tags?: string[];
-  title?: string;
-}
-
-export interface IInboxMessage {
-  messageId: string;
-  read?: string;
-  created?: string;
-  content: {
-    html?: string;
-    elemental?: Array<ITextElemental | IActionElemental>;
-  };
-}
-
-export type IElementalInboxMessage = IInboxMessage;
-export type IElementalInboxMessagePreview = IInboxMessagePreview;
-
-export interface FetchMessagesDonePayload {
-  messages: IElementalInboxMessagePreview[];
-  appendMessages?: boolean;
-  startCursor?: string;
-}
-
-export interface FetchUnreadMessageCountPayload {
-  count: number;
-}
-
-export interface MarkAllReadDonePayload {
-  ids: string[];
-}
-
-export interface IGetMessagesParams {
-  tenantId?: string;
-  from?: number;
-  isRead?: boolean;
+  archived?: boolean;
+  from?: string | number;
   limit?: number;
+  status?: 'read' | 'unread';
   tags?: string[];
-}
+};
 
-export interface IFetchMessagesParams {
-  params?: IGetMessagesParams;
-  after?: string;
-}
+type OnEvent = any;
 
-export type InboxPlacement = 'top' | 'left' | 'right' | 'bottom';
-export type InboxTrigger = 'click' | 'hover';
-export type EventType = 'mark-all-read' | 'read' | 'unread' | 'archive' | 'opened' | 'click' | 'unpin';
+type FilterView = {
+  id: string;
+  label: string;
+  params?: IGetInboxMessagesParams;
+};
+type PreferenceView = {
+  id: 'preferences';
+  label: string;
+};
+export type View = FilterView | PreferenceView;
 
+export type InboxLabels = {
+  archiveMessage?: string;
+  backToInbox?: string;
+  closeInbox?: string;
+  emptyState?: string;
+  markAllAsRead?: string;
+  markAsRead?: string;
+  markAsUnread?: string;
+  scrollTop?: string | ((count: string) => string);
+};
+
+// source: https://github.com/trycourier/courier-react/blob/main/packages/react-inbox/src/types.ts
 export interface InboxProps {
-  tenantId?: string;
   brand?: Brand;
   className?: string;
   defaultIcon?: false | string;
   from?: number;
   isOpen?: boolean;
-  views?: Array<{
-    id: string;
-    label: string;
-    params?: any;
-  }>;
+  markdownOptions?: MarkdownToJSX.Options;
+  tenantId?: string;
+  views?: Array<View>;
   formatDate?: (isoDate: string) => string;
   appendTo?: string;
-  labels?: {
-    archiveMessage?: string;
-    backToInbox?: string;
-    closeInbox?: string;
-    emptyState?: string;
-    markAllAsRead?: string;
-    markAsRead?: string;
-    markAsUnread?: string;
-    scrollTop?: string | ((count: string) => string);
-  };
+  labels?: InboxLabels;
   onEvent?: OnEvent;
   openLinksInNewTab?: boolean;
-  placement?: InboxPlacement;
+  placement?: TippyProps['placement'];
   showUnreadMessageCount?: boolean;
   theme?: InboxTheme;
   title?: string;
-  trigger?: InboxPlacement;
+  trigger?: TippyProps['trigger'];
   // renderContainer?: React.FunctionComponent;
   // renderBell?: React.FunctionComponent<{
   //   className?: string;
@@ -134,40 +82,13 @@ export interface InboxProps {
   // renderNoMessages?: React.FunctionComponent;
 }
 
-export interface Brand {
-  inapp?: {
-    disableCourierFooter?: boolean;
-    borderRadius?: string;
-    disableMessageIcon?: boolean;
-    renderActionsAsButtons?: boolean;
-    placement?: InboxPlacement;
-    emptyState?: {
-      textColor?: string;
-      text?: string;
-    };
-    widgetBackground?: {
-      topColor?: string;
-      bottomColor?: string;
-    };
-    icons?: {
-      bell?: string;
-      message?: string;
-    };
-    toast?: {
-      borderRadius?: string;
-      timerAutoClose?: number;
-    };
-  };
-  preferenceTemplates?: Array<IPreferenceTemplate>;
-  colors?: {
-    primary?: string;
-    secondary?: string;
-    tertiary?: string;
-  };
-}
-
+// source: https://github.com/trycourier/courier-react/packages/react-inbox/src/types.ts
 export interface InboxTheme {
   brand?: Brand;
+  colorMode?: 'light' | 'dark';
+  variables?: {
+    background: string;
+  };
   container?: CSSObject;
   emptyState?: CSSObject;
   footer?: CSSObject;
@@ -180,6 +101,7 @@ export interface InboxTheme {
   };
   messageList?: {
     container?: CSSObject;
+    scrollTop?: CSSObject;
   };
   message?: {
     actionElement?: CSSObject;
@@ -196,22 +118,13 @@ export interface InboxTheme {
   unreadIndicator?: CSSObject;
 }
 
-export interface Labels {
-  archiveMessage?: string;
-  backToInbox?: string;
-  closeInbox?: string;
-  emptyState?: string;
-  markAllAsRead?: string;
-  markAsRead?: string;
-  markAsUnread?: string;
-  scrollTop?: string | ((count: string) => string);
-}
+// source: https://github.com/trycourier/courier-react/blob/main/packages/react-hooks/src/inbox/use-inbox-actions.ts
+export type IFetchMessagesParams = any;
 
-export type OnEvent = (eventParams: { messageId?: string; message?: IInboxMessagePreview; event: EventType }) => void;
-
+// source: https://github.com/trycourier/courier-react/blob/main/packages/react-hooks/src/inbox/use-inbox-actions.ts
 export interface InboxSdk {
   fetchMessages: (params?: IFetchMessagesParams) => void;
-  getUnreadMessageCount: (params?: IGetMessagesParams) => void;
+  getUnreadMessageCount: (params?: IGetInboxMessagesParams) => void;
   init: (inbox?: InboxProps) => void;
   markAllAsRead: (fromWS?: boolean) => void;
   markMessageArchived: (messageId: string, fromWS?: boolean) => Promise<void>;
@@ -220,10 +133,13 @@ export interface InboxSdk {
   markMessageUnread: (messageId: string, fromWS?: boolean) => Promise<void>;
   newMessage: (transportMessage: IInboxMessagePreview) => void;
   resetLastFetched: () => void;
-  setView: (view: InboxView) => void;
+  setView: (view: string | 'preferences') => void;
   toggleInbox: (isOpen?: boolean) => void;
   unpinMessage: (messageId: string, fromWS?: boolean) => Promise<void>;
+  addTag: (messageId: string, tag: string, fromWS?: boolean) => Promise<void>;
+  removeTag: (messageId: string, tag: string, fromWS?: boolean) => Promise<void>;
   trackClick: (messageId: string, trackingId: string) => Promise<void>;
+  // additional
   setConfig: (config: InboxProps) => void;
   mergeConfig: (config: InboxProps) => void;
 }

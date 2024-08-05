@@ -1,11 +1,10 @@
+// source: https://github.com/packages/react-toast/src/types.ts
 import { CSSObject } from 'styled-components';
-import { Brand, IInboxMessagePreview } from './inbox';
+import { IInboxMessagePreview, Brand } from './core';
 
-export type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
-export type ToastRole = 'alert' | 'status';
-export type ToastTransition = 'bounce' | 'slide' | 'zoom';
+type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
 
-export interface ToastTheme {
+interface Theme {
   body?: CSSObject;
   root?: CSSObject;
   toast?: CSSObject;
@@ -21,16 +20,17 @@ export interface ToastTheme {
   progressBar?: CSSObject;
 }
 
+// This is called IToastConfig and aliased for some reason
 export interface ToastProps {
   autoClose?: false | number;
   brand?: Brand;
   defaultIcon?: string | false;
   hideProgressBar?: boolean;
-  // onClick?: React.MouseEventHandler<Element>;
+  onClick?: React.MouseEventHandler<Element>;
   openLinksInNewTab?: boolean;
   position?: ToastPosition;
   role?: string;
-  theme?: ToastTheme;
+  theme?: Theme;
   transition?: string;
   // renderMessage?: React.FunctionComponent<IInboxMessagePreview>;
 }

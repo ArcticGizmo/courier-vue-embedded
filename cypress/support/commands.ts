@@ -40,12 +40,27 @@ import { CourierClient } from '../../src/ts/courierClient';
 //   }
 // }
 
-Cypress.Commands.add('courier', (cb: (client: CourierClient) => Promise<any>) => {
-  global.process = global.process || {};
-  global.process.env = global.process.env || {};
+export interface InitOptions {
+  clientKey?: string;
+  userId?: string;
+}
 
+const initCourier = (opts?: InitOptions) => {
   cy.wrap(null).then(async () => {
     const client = useCourier();
-    await cb(client);
+    client.init({
+      clientKey: opts?.clientKey ?? Cypress.env('VITE_APP_CLIENT_KEY'),
+      userId: opts?.userId ?? 'courier-vue-embedded'
+    });
   });
-});
+};
+
+Cypress.Commands.add('initCourier', initCourier);
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      initCourier: typeof initCourier;
+    }
+  }
+}

@@ -9,7 +9,13 @@ import { watch } from 'vue';
 import { ToastProps } from '../types/toast';
 import { useCourier } from '../ts/useCourier';
 
-const props = defineProps<ToastProps>();
+// booleans get cast to false unless otherwise defaulted to another value
+const props = withDefaults(defineProps<ToastProps>(), {
+  autoClose: undefined,
+  defaultIcon: undefined,
+  hideProgressBar: undefined,
+  openLinksInNewTab: undefined
+});
 
 const { toast } = useCourier();
 
