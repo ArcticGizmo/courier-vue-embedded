@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { useTemplateRef, watch } from 'vue';
+import { useTemplateRef } from 'vue';
 
 import type { CourierInboxProps } from '../types/inbox';
 import { type CourierInbox, CourierInboxListItemActionFactoryProps, CourierInboxListItemFactoryProps } from '@trycourier/courier-ui-inbox';

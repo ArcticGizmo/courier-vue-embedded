@@ -129,15 +129,6 @@ const onCreateToast = () => {
 };
 </script>
 
-<style>
-courier-inbox {
-  position: fixed;
-  z-index: 1000;
-  right: 2rem;
-  top: 1rem;
-}
-</style>
-
 <style scoped>
 h2 {
   border-bottom: 1px solid grey;
