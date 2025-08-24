@@ -1,13 +1,8 @@
 <template>
   <CourierInboxVue
-    v-model:isOpen="isOpen"
-    :views="views"
-    :show-unread-message-count="inboxShowUnreadMessageCount"
-    :open-links-in-new-tab="inboxOpenLinksInNewTab"
-    :labels="inboxLabels"
-    :title="inboxTitle"
+
   />
-  <CourierToastVue :appendTo="appendTo" :auto-close="autoClose" :hide-progress-bar="toastHideProgressBar" />
+  <!--<CourierToastVue :appendTo="appendTo" :auto-close="autoClose" :hide-progress-bar="toastHideProgressBar" />-->
   <div class="configuration">
     <h2>Inbox</h2>
     <button @click="isOpen = !isOpen">Toggle Open</button>
@@ -23,7 +18,7 @@
     <h4>Labels</h4>
     <div>Note: controls wording within the mailbox (used for localisation)</div>
     <div class="grid">
-      <SimpleInput v-model="inboxLabels.archiveMessage" label="Archive Message" placeholder="Archived Message" />
+      <!--<SimpleInput v-model="inboxLabels.archiveMessage" label="Archive Message" placeholder="Archived Message" />
       <SimpleInput v-model="inboxLabels.backToInbox" label="Back to Inbox" />
       <SimpleInput v-model="inboxLabels.closeInbox" label="Close Inbox" placeholder="Close Inbox" />
       <SimpleInput
@@ -34,7 +29,7 @@
       <SimpleInput v-model="inboxLabels.markAllAsRead" label="Mark All As Read" />
       <SimpleInput v-model="inboxLabels.markAsRead" label="Mark as Read" placeholder="Mark as Read" />
       <SimpleInput v-model="inboxLabels.markAsUnread" label="Mark as Unread" placeholder="Mark Unread" />
-      <SimpleInput v-model="inboxLabels.scrollTop" label="Scroll Top" />
+      <SimpleInput v-model="inboxLabels.scrollTop" label="Scroll Top" />-->
     </div>
 
     <h4>Config</h4>
@@ -66,9 +61,8 @@
 </template>
 
 <script setup lang="ts">
-import { useCourier, CourierToastVue, CourierInboxVue, CourierPreferencesVue, View, InboxLabels } from '@/index';
-import { computed, reactive, ref } from 'vue';
-import type { IInboxMessagePreview } from '@/types/core';
+import { useCourier, CourierInboxVue } from '@/index';
+import { computed, ref } from 'vue';
 
 import SimpleInput from './SimpleInput.vue';
 import SimpleNumericInput from './SimpleNumericInput.vue';
@@ -94,7 +88,7 @@ const viewArchived = ref(true);
 const viewPreferences = ref(true);
 const inboxOpenLinksInNewTab = ref(true);
 const inboxShowUnreadMessageCount = ref(false);
-const inboxLabels = ref<InboxLabels>({
+/*const inboxLabels = ref<InboxLabels>({
   archiveMessage: undefined,
   backToInbox: undefined,
   closeInbox: undefined,
@@ -113,7 +107,7 @@ const views = computed(() => {
   if (viewPreferences.value) v.push({ id: 'preferences', label: 'Preferences' });
 
   return v;
-});
+});*/
 
 const autoClose = computed(() => {
   if (toastDisableAutoClose.value) {
@@ -122,16 +116,16 @@ const autoClose = computed(() => {
   return toastAutoCloseDuration.value;
 });
 
-courier.init({
+courier.auth.value.signIn({
   userId: props.userId,
-  clientKey
+  jwt: clientKey
 });
 
 const onCreateToast = () => {
-  courier.toast.create({
+  /*courier.toast.create({
     title: toastTitle.value || undefined,
     preview: toastPreview.value || undefined
-  });
+  });*/
 };
 </script>
 

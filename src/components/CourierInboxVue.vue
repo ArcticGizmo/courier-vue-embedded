@@ -1,34 +1,33 @@
 <template>
   <div class="courier-inbox-vue">
-    <courier-inbox />
+    <courier-inbox ref="inbox" 
+    :height="props.height" 
+    :light-theme="props.lightTheme ? JSON.stringify(props.lightTheme) : undefined"
+    :dark-theme="props.darkTheme ? JSON.stringify(props.darkTheme) : undefined"
+    :mode="props.mode"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue';
+import { useTemplateRef, watch } from 'vue';
 
-import type { InboxProps } from '../types/inbox';
-import { useCourier } from '../ts/useCourier';
+import type { CourierInboxProps } from '../types/inbox';
+import { CourierInbox, CourierInboxListItemActionFactoryProps, CourierInboxListItemFactoryProps } from '@trycourier/courier-ui-inbox';
 
-const { on, whenReady, inbox } = useCourier();
+const inbox = useTemplateRef('inbox');
 
-// booleans get cast to false unless otherwise defaulted to another value
-const props = withDefaults(defineProps<InboxProps>(), {
-  isOpen: undefined,
-  openLinksInNewTab: undefined,
-  showUnreadMessageCount: undefined,
-  views: () => []
-});
+const props = defineProps<CourierInboxProps>();
 
 const emits = defineEmits<{
-  (e: 'update:isOpen', value: boolean): void;
+  (e: 'messageClicked', value: CourierInboxListItemFactoryProps): void;
+  (e: 'messageActionClicked', value: CourierInboxListItemActionFactoryProps): void;
+  (e: 'messageLongPressed', value: CourierInboxListItemFactoryProps): void;
 }>();
 
-whenReady(() => {
-  on('inbox/TOGGLE_INBOX', resp => {
-    emits('update:isOpen', !props.isOpen);
-  });
-});
 
-watch(props, p => inbox.mergeConfig({ ...p }), { immediate: true, flush: 'pre' });
+inbox.value?.onMessageClick((props) => emits('messageClicked', props))
+inbox.value?.onMessageActionClick((props) => emits('messageActionClicked', props))
+inbox.value?.onMessageLongPress((props) => emits('messageLongPressed', props))
+
 </script>
