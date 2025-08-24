@@ -13,9 +13,9 @@
 import { useTemplateRef, watch } from 'vue';
 
 import type { CourierInboxProps } from '../types/inbox';
-import { CourierInbox, CourierInboxListItemActionFactoryProps, CourierInboxListItemFactoryProps } from '@trycourier/courier-ui-inbox';
+import { type CourierInbox, CourierInboxListItemActionFactoryProps, CourierInboxListItemFactoryProps } from '@trycourier/courier-ui-inbox';
 
-const inbox = useTemplateRef('inbox');
+const inbox = useTemplateRef<CourierInbox>('inbox');
 
 const props = defineProps<CourierInboxProps>();
 

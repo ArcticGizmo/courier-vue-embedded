@@ -1,7 +1,6 @@
 <template>
-  <CourierInboxVue
+  <CourierInboxPopupMenu/>
 
-  />
   <!--<CourierToastVue :appendTo="appendTo" :auto-close="autoClose" :hide-progress-bar="toastHideProgressBar" />-->
   <div class="configuration">
     <h2>Inbox</h2>
@@ -67,6 +66,7 @@ import { computed, ref } from 'vue';
 import SimpleInput from './SimpleInput.vue';
 import SimpleNumericInput from './SimpleNumericInput.vue';
 import SimpleCheckbox from './SimpleCheckbox.vue';
+import CourierInboxPopupMenu from '@/components/CourierInboxPopupMenuVue.vue';
 const props = withDefaults(defineProps<{ userId?: string; appendTo?: string }>(), { userId: 'courier-vue-embedded' });
 
 const clientKey = import.meta.env['VITE_APP_CLIENT_KEY'];

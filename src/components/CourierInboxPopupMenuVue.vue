@@ -1,5 +1,5 @@
 <template>
-  <div class="courier-inbox-vue">
+  <div>
     <courier-inbox-popup-menu ref="inbox" :popup-alignment="props.popupAlignment" :popup-width="props.popupWidth"
       :popup-height="props.popupHeight" :left="props.left" :top="props.top" :right="props.right" :bottom="props.bottom"
       :light-theme="props.lightTheme ? JSON.stringify(props.lightTheme) : undefined"
@@ -13,11 +13,26 @@
 import { useTemplateRef, watch } from 'vue';
 
 import type { CourierInboxPopupMenuProps } from '../types';
-import { CourierInboxPopupMenu, type CourierInboxListItemActionFactoryProps, type CourierInboxListItemFactoryProps } from '@trycourier/courier-ui-inbox';
+import { type CourierInboxPopupMenu, type CourierInboxListItemActionFactoryProps, type CourierInboxListItemFactoryProps } from '@trycourier/courier-ui-inbox';
 
-const inbox = useTemplateRef('inbox');
+const inbox = useTemplateRef<CourierInboxPopupMenu>('inbox');
 
-const props = defineProps<CourierInboxPopupMenuProps>();
+const props = withDefaults(defineProps<CourierInboxPopupMenuProps>(), {mode: "light"});
+
+inbox.value?.setLightTheme({inbox: {
+        header: {
+          filters: {
+            unreadIndicator: {
+              backgroundColor: "#8B5CF6"
+            }
+          }
+        },
+        list: {
+          item: {
+            unreadIndicatorColor: "#8B5CF6"
+          }
+        }
+      }})
 
 const emits = defineEmits<{
   (e: 'messageClicked', value: CourierInboxListItemFactoryProps): void;
