@@ -1,7 +1,7 @@
 <template>
   <CourierInboxPopupMenu/>
 
-  <!--<CourierToastVue :appendTo="appendTo" :auto-close="autoClose" :hide-progress-bar="toastHideProgressBar" />-->
+  <CourierToastVue :appendTo="appendTo" :auto-close="autoClose" :hide-progress-bar="toastHideProgressBar" />
   <div class="configuration">
     <h2>Inbox</h2>
     <button @click="isOpen = !isOpen">Toggle Open</button>
@@ -60,13 +60,14 @@
 </template>
 
 <script setup lang="ts">
-import { useCourier, CourierInboxVue } from '@/index';
+import { useCourier } from '@/index';
 import { computed, ref } from 'vue';
 
 import SimpleInput from './SimpleInput.vue';
 import SimpleNumericInput from './SimpleNumericInput.vue';
 import SimpleCheckbox from './SimpleCheckbox.vue';
 import CourierInboxPopupMenu from '@/components/CourierInboxPopupMenuVue.vue';
+import CourierToastVue from '@/components/CourierToastVue.vue';
 const props = withDefaults(defineProps<{ userId?: string; appendTo?: string }>(), { userId: 'courier-vue-embedded' });
 
 const clientKey = import.meta.env['VITE_APP_CLIENT_KEY'];
@@ -122,10 +123,11 @@ courier.auth.value.signIn({
 });
 
 const onCreateToast = () => {
-  /*courier.toast.create({
+  courier.toast.value.addMessage({
+    messageId: `message-${Math.random() * 400}`,
     title: toastTitle.value || undefined,
     preview: toastPreview.value || undefined
-  });*/
+  });
 };
 </script>
 

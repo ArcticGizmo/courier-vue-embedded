@@ -17,7 +17,7 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: tag => ['courier-inbox', 'courier-toast', 'courier-preferences'].includes(tag)
+          isCustomElement: tag => ['courier-inbox', 'courier-inbox-popup-menu', 'courier-toast'].includes(tag)
         }
       }
     }),

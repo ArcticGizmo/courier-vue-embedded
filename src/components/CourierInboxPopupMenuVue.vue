@@ -1,11 +1,6 @@
 <template>
   <div class="courier-inbox-vue">
-    <courier-inbox-popup-menu ref="inbox" :popup-alignment="props.popupAlignment" :popup-width="props.popupWidth"
-      :popup-height="props.popupHeight" :left="props.left" :top="props.top" :right="props.right" :bottom="props.bottom"
-      :light-theme="props.lightTheme ? JSON.stringify(props.lightTheme) : undefined"
-      :dark-theme="props.darkTheme ? JSON.stringify(props.darkTheme) : undefined" 
-      :mode="props.mode"
-      />
+    <courier-inbox-popup-menu ref="inbox" v-bind="$props" />
   </div>
 </template>
 

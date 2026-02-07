@@ -1,11 +1,6 @@
 <template>
   <div class="courier-inbox-vue">
-    <courier-inbox ref="inbox" 
-    :height="props.height" 
-    :light-theme="props.lightTheme ? JSON.stringify(props.lightTheme) : undefined"
-    :dark-theme="props.darkTheme ? JSON.stringify(props.darkTheme) : undefined"
-    :mode="props.mode"
-    />
+    <courier-inbox ref="inbox" v-bind="$props" />
   </div>
 </template>
 

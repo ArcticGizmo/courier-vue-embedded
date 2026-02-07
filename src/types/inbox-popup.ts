@@ -1,4 +1,4 @@
-import type { CourierInboxPopupAlignment, CourierInboxTheme, CourierComponentThemeMode, CourierInboxFeedType, CourierInboxListItemFactoryProps, CourierInboxListItemActionFactoryProps, CourierInboxHeaderFactoryProps, CourierInboxStateEmptyFactoryProps, CourierInboxStateLoadingFactoryProps, CourierInboxStateErrorFactoryProps, CourierInboxPaginationItemFactoryProps, CourierInboxMenuButtonFactoryProps } from "@trycourier/courier-ui-inbox";
+import type { CourierInboxPopupAlignment, CourierInboxTheme, CourierComponentThemeMode, CourierInboxListItemFactoryProps, CourierInboxListItemActionFactoryProps, CourierInboxHeaderFactoryProps, CourierInboxStateEmptyFactoryProps, CourierInboxStateLoadingFactoryProps, CourierInboxStateErrorFactoryProps, CourierInboxPaginationItemFactoryProps, CourierInboxMenuButtonFactoryProps, CourierInboxFeed } from "@trycourier/courier-ui-inbox";
 
 export interface CourierInboxPopupMenuProps {
   /** Alignment of the popup menu: 'top-right', 'top-left', 'top-center', 'bottom-right', 'bottom-left', 'bottom-center', 'center-right', 'center-left', 'center-center'. */
@@ -31,8 +31,8 @@ export interface CourierInboxPopupMenuProps {
   /** Theme mode: 'light', 'dark', or 'system'. */
   mode?: CourierComponentThemeMode;
 
-  /** Type of feed to display in the popup menu ('inbox' or 'archive'). */
-  feedType?: CourierInboxFeedType;
+  /** Array of feeds to display in the inbox. Each feed contains tabs with different filters. */
+  feeds?: CourierInboxFeed[];
 
   /** Allows you to pass a custom component as the header. */
   renderHeader?: (props: CourierInboxHeaderFactoryProps | undefined | null) => HTMLElement;
