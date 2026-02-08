@@ -1,5 +1,5 @@
 import { onMounted, onUnmounted, ref } from 'vue';
-import { Courier, CourierProps, InboxMessage } from '@trycourier/courier-js';
+import { AuthenticationListener, Courier, CourierProps, InboxMessage } from '@trycourier/courier-js';
 import { CourierInboxDatastore, CourierInboxDataStoreListener, CourierInboxFeed, InboxDataSet } from '@trycourier/courier-ui-inbox';
 import { CourierToastDatastore, CourierToastDatastoreListener } from '@trycourier/courier-ui-toast';
 
@@ -88,8 +88,9 @@ export const useCourier = () => {
 
 
   // Lifecycle management
-  let authListener: any;
+  let authListener: AuthenticationListener;
   let inboxListener: CourierInboxDataStoreListener;
+  let toastListener: CourierToastDatastoreListener;
 
   const setupListeners = () => {
     // Add a listener to the Courier instance
@@ -109,7 +110,7 @@ export const useCourier = () => {
 
     CourierInboxDatastore.shared.addDataStoreListener(inboxListener);
 
-     const toastListener = new CourierToastDatastoreListener({
+    toastListener = new CourierToastDatastoreListener({
       onMessageAdd: () => refreshToast(),
       onMessageRemove: () => refreshToast(),
       onError: (error: Error) => refreshToast(error),
@@ -120,6 +121,7 @@ export const useCourier = () => {
     // Set initial values
     refreshAuth();
     refreshInbox();
+    refreshToast();
   };
 
   const cleanupListeners = () => {
@@ -129,6 +131,9 @@ export const useCourier = () => {
     }
     if (inboxListener) {
       inboxListener.remove();
+    }
+    if(toastListener) {
+      toastListener.remove();
     }
   };
 

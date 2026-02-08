@@ -1,10 +1,9 @@
 <template>
   <CourierInboxPopupMenu/>
 
-  <CourierToastVue :appendTo="appendTo" :auto-close="autoClose" :hide-progress-bar="toastHideProgressBar" />
+  <CourierToastVue :auto-dismiss="true" :auto-dismiss-timeout-ms="toastAutoCloseDuration"/>
   <div class="configuration">
     <h2>Inbox</h2>
-    <button @click="isOpen = !isOpen">Toggle Open</button>
     <h4>Views</h4>
     <div>Note: this does not update while the inbox is open</div>
     <ul style="padding-left: 1rem">
@@ -126,7 +125,7 @@ const onCreateToast = () => {
   courier.toast.value.addMessage({
     messageId: `message-${Math.random() * 400}`,
     title: toastTitle.value || undefined,
-    preview: toastPreview.value || undefined
+    preview: toastPreview.value || undefined,
   });
 };
 </script>

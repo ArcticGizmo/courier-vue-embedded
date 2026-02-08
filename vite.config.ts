@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { fileURLToPath } from 'node:url';
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 const fileName = {
   es: 'index.es.mjs',
@@ -23,7 +24,8 @@ export default defineConfig({
     }),
     dts({
       tsconfigPath: 'tsconfig.build.json'
-    })
+    }),
+    vueDevTools(),
   ],
   build: {
     minify: true,
