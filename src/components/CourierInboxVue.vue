@@ -1,6 +1,6 @@
 <template>
   <div class="courier-inbox-vue">
-    <courier-inbox ref="inbox" v-bind="propsBinding"/>
+    <courier-inbox ref="inbox" v-bind="propsBinding" />
   </div>
 </template>
 
@@ -8,7 +8,11 @@
 import { useTemplateRef } from 'vue';
 
 import type { CourierInboxProps } from '../types/inbox';
-import { type CourierInbox, CourierInboxListItemActionFactoryProps, CourierInboxListItemFactoryProps } from '@trycourier/courier-ui-inbox';
+import {
+  type CourierInbox,
+  CourierInboxListItemActionFactoryProps,
+  CourierInboxListItemFactoryProps
+} from '@trycourier/courier-ui-inbox';
 import { useKebabBinding } from '@/ts/useKebabBinding';
 
 const inbox = useTemplateRef<CourierInbox>('inbox');
@@ -22,9 +26,7 @@ const emits = defineEmits<{
   (e: 'messageLongPressed', value: CourierInboxListItemFactoryProps): void;
 }>();
 
-
-inbox.value?.onMessageClick((props) => emits('messageClicked', props))
-inbox.value?.onMessageActionClick((props) => emits('messageActionClicked', props))
-inbox.value?.onMessageLongPress((props) => emits('messageLongPressed', props))
-
+inbox.value?.onMessageClick(props => emits('messageClicked', props));
+inbox.value?.onMessageActionClick(props => emits('messageActionClicked', props));
+inbox.value?.onMessageLongPress(props => emits('messageLongPressed', props));
 </script>

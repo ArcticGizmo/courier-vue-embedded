@@ -1,3 +1,9 @@
+# 7.0.0
+
+- ⚠ moved to courier web components ⚠
+- CSP changes
+  - wss://realtime.courier.com -> wss://realtime.courier.io
+
 # 6.2.1
 
 - upgraded to courier v6.2.1

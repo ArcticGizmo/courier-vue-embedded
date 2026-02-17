@@ -1,7 +1,7 @@
 <template>
-  <CourierInboxPopupMenu/>
+  <CourierInboxPopupMenu />
 
-  <CourierToastVue :auto-dismiss="true" :auto-dismiss-timeout-ms="toastAutoCloseDuration"/>
+  <CourierToastVue :auto-dismiss="true" :auto-dismiss-timeout-ms="toastAutoCloseDuration" />
   <div class="configuration">
     <h2>Inbox</h2>
     <h4>Views</h4>
@@ -67,7 +67,7 @@ import SimpleNumericInput from './SimpleNumericInput.vue';
 import SimpleCheckbox from './SimpleCheckbox.vue';
 import CourierInboxPopupMenu from '@/components/CourierInboxPopupMenuVue.vue';
 import CourierToastVue from '@/components/CourierToastVue.vue';
-const props = withDefaults(defineProps<{ userId?: string; appendTo?: string }>(), { userId: 'courier-vue-embedded' });
+const props = defineProps<{ userId: string }>();
 
 const clientKey = import.meta.env['VITE_APP_CLIENT_KEY'];
 
@@ -116,16 +116,20 @@ const autoClose = computed(() => {
   return toastAutoCloseDuration.value;
 });
 
-courier.auth.value.signIn({
-  userId: props.userId,
-  jwt: clientKey
-});
+try {
+  courier.auth.value.signIn({
+    userId: props.userId,
+    publicApiKey: clientKey
+  });
+} catch (error) {
+  console.error('unable to sign in', error);
+}
 
 const onCreateToast = () => {
   courier.toast.value.addMessage({
     messageId: `message-${Math.random() * 400}`,
     title: toastTitle.value || undefined,
-    preview: toastPreview.value || undefined,
+    preview: toastPreview.value || undefined
   });
 };
 </script>
