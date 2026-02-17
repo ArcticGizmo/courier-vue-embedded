@@ -1,6 +1,6 @@
 <template>
   <div class="inbox-container" :class="inboxPlacement">
-    <CourierInboxPopupMenuVue :popup-alignment />
+    <CourierInboxPopupMenuVue v-if="visible" :popup-alignment :render-header @message:clicked="onClick" />
   </div>
   <div style="padding: 2rem">
     <div class="card" style="margin-top: 2rem">
@@ -10,6 +10,7 @@
         <div>Controls</div>
         <button @click="signIn()">Sign In</button>
         <button @click="signOut()">Sign Out</button>
+        <button @click="visible = !visible">Toggle Visibility</button>
       </div>
 
       <hr />
@@ -31,11 +32,13 @@ import CourierInboxPopupMenuVue from '@/components/CourierInboxPopupMenuVue.vue'
 import { useCourier } from '@/ts/useCourier2';
 import { onMounted, ref } from 'vue';
 import AlignmentSelector from './AlignmentSelector.vue';
+import { CourierInboxHeaderFactoryProps } from '@trycourier/courier-ui-inbox';
 
 const props = defineProps<{ userId: string; jwt: string }>();
 
 const { Courier, userId } = useCourier();
 
+const visible = ref(true);
 const inboxPlacement = ref('top-left');
 const popupAlignment = ref('top-left');
 
@@ -63,6 +66,15 @@ const signOut = () => {
   } catch (error) {
     console.error('[auth] unable to sign out', error);
   }
+};
+
+const onClick = (data: any) => {
+  console.dir(data);
+};
+
+const renderHeader = (props: CourierInboxHeaderFactoryProps | undefined | null) => {
+  console.dir(props);
+  return document.createElement('div');
 };
 </script>
 

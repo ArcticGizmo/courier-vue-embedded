@@ -10,6 +10,7 @@ export const useCourier = () => {
 
   // Include user information here
   onBeforeMount(() => {
+    activeUserId.value = Courier.shared.client?.options.userId;
     Courier.shared.addAuthenticationListener(listenForUserChanges);
   });
 

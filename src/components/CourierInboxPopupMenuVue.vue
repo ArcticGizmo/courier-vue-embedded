@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { useTemplateRef } from 'vue';
+import { onMounted, useTemplateRef, watch } from 'vue';
 import type { CourierInboxPopupMenuProps } from '../types';
 import {
   type CourierInboxPopupMenu,
@@ -24,14 +24,20 @@ const { userId } = useCourier();
 const propsBinding = useKebabBinding(props);
 
 const emits = defineEmits<{
-  (e: 'messageClicked', value: CourierInboxListItemFactoryProps): void;
-  (e: 'messageActionClicked', value: CourierInboxListItemActionFactoryProps): void;
-  (e: 'messageLongPressed', value: CourierInboxListItemFactoryProps): void;
+  (e: 'message:clicked', value: CourierInboxListItemFactoryProps): void;
+  (e: 'message:actionClicked', value: CourierInboxListItemActionFactoryProps): void;
+  (e: 'message:longPressed', value: CourierInboxListItemFactoryProps): void;
 }>();
 
-inbox.value?.onMessageClick(props => emits('messageClicked', props));
-inbox.value?.onMessageActionClick(props => emits('messageActionClicked', props));
-inbox.value?.onMessageLongPress(props => emits('messageLongPressed', props));
+watch(
+  inbox,
+  i => {
+    inbox.value?.onMessageClick(props => emits('message:clicked', props));
+    inbox.value?.onMessageActionClick(props => emits('message:actionClicked', props));
+    inbox.value?.onMessageLongPress(props => emits('message:longPressed', props));
+  },
+  { once: true }
+);
 </script>
 
 <style>
