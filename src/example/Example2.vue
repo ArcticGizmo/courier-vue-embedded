@@ -1,6 +1,11 @@
 <template>
   <div class="inbox-container" :class="inboxPlacement">
-    <CourierInboxPopupMenuVue v-if="visible" :popup-alignment :render-header @message:clicked="onClick" />
+    <CourierInboxPopupMenuVue v-if="visible" :popup-alignment @message:clicked="onClick">
+      <template v-if="false" #menu-button="{ props }">
+        egg
+        <pre>{{ props }}</pre>
+      </template>
+    </CourierInboxPopupMenuVue>
   </div>
   <div style="padding: 2rem">
     <div class="card" style="margin-top: 2rem">
@@ -16,10 +21,14 @@
       <hr />
 
       <div class="d-flex gap-2 align-center">
-        <AlignmentSelector v-model="inboxPlacement" />
-        <div>Placement</div>
-        <AlignmentSelector v-model="popupAlignment" />
-        <div>Alignment</div>
+        <div>
+          <div>Placement</div>
+          <AlignmentSelector v-model="inboxPlacement" />
+        </div>
+        <div>
+          <div>Alignment</div>
+          <AlignmentSelector v-model="popupAlignment" />
+        </div>
       </div>
 
       <div class="d-flex gap-2 align-center"></div>
@@ -32,7 +41,7 @@ import CourierInboxPopupMenuVue from '@/components/CourierInboxPopupMenuVue.vue'
 import { useCourier } from '@/ts/useCourier2';
 import { onMounted, ref } from 'vue';
 import AlignmentSelector from './AlignmentSelector.vue';
-import { CourierInboxHeaderFactoryProps } from '@trycourier/courier-ui-inbox';
+import { CourierInboxHeaderFactoryProps, CourierInboxListItemFactoryProps } from '@trycourier/courier-ui-inbox';
 
 const props = defineProps<{ userId: string; jwt: string }>();
 
@@ -72,7 +81,7 @@ const onClick = (data: any) => {
   console.dir(data);
 };
 
-const renderHeader = (props: CourierInboxHeaderFactoryProps | undefined | null) => {
+const renderListItem = (props: CourierInboxListItemFactoryProps | undefined | null) => {
   console.dir(props);
   return document.createElement('div');
 };

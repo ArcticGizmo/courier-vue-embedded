@@ -147,21 +147,6 @@ h2 {
   width: 165px;
 }
 
-button {
-  background-color: rgb(129, 235, 251);
-  height: 2rem;
-  border-width: 0;
-  outline: none;
-  border-radius: 2px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  cursor: pointer;
-}
-
-button:hover,
-button:focus {
-  background-color: rgb(86, 233, 255);
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
