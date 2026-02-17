@@ -43,9 +43,18 @@ button:hover {
 }
 
 hr {
-  margin: 0.5rem 0;
+  margin: 0.75rem 0;
   border-color: rgb(207, 207, 207);
   opacity: 0.2;
+}
+
+/* flex */
+.d-flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
 }
 
 /* padding */
@@ -97,8 +106,4 @@ hr {
 
 .gap-4 {
   margin: 1rem;
-}
-
-.d-flex {
-  display: flex;
 }

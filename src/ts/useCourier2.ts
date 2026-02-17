@@ -25,4 +25,27 @@ export const useCourier = () => {
   };
 };
 
-export const useCourierInbox = () => {};
+export const useCourierInbox = () => {
+  const inbox = Courier.shared.client!.inbox;
+  return { inbox };
+};
+
+export const useCourierBrands = () => {
+  return { brands: Courier.shared.client!.brands };
+};
+
+export const useCourierLists = () => {
+  return { lists: Courier.shared.client!.lists };
+};
+
+export const useCourierPreferences = () => {
+  return { preferences: Courier.shared.client!.preferences };
+};
+
+export const useCourierTokens = () => {
+  return { tokens: Courier.shared.client!.tokens };
+};
+
+export const useCourierTracking = () => {
+  return { tracking: Courier.shared.client!.tracking };
+};
