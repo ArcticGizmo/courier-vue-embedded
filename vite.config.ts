@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { fileURLToPath } from 'node:url';
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 const fileName = {
   es: 'index.es.mjs',
@@ -17,13 +18,14 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: tag => ['courier-inbox', 'courier-toast', 'courier-preferences'].includes(tag)
+          isCustomElement: tag => ['courier-inbox', 'courier-inbox-popup-menu', 'courier-toast'].includes(tag)
         }
       }
     }),
     dts({
       tsconfigPath: 'tsconfig.build.json'
-    })
+    }),
+    vueDevTools(),
   ],
   build: {
     minify: true,

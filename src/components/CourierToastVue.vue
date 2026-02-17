@@ -1,23 +1,25 @@
 <template>
   <div class="courier-toast-vue">
-    <courier-toast />
+    <courier-toast ref="inbox" v-bind="propsBinding"/>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { watch } from 'vue';
-import { ToastProps } from '../types/toast';
-import { useCourier } from '../ts/useCourier';
+<script setup lang="ts">
+import { useTemplateRef } from 'vue';
+import type { CourierToast, CourierToastItemActionClickEvent, CourierToastItemClickEvent } from '@trycourier/courier-ui-toast';
+import { CourierToastProps } from '@/types';
+import { useKebabBinding } from '@/ts/useKebabBinding';
 
-// booleans get cast to false unless otherwise defaulted to another value
-const props = withDefaults(defineProps<ToastProps>(), {
-  autoClose: undefined,
-  defaultIcon: undefined,
-  hideProgressBar: undefined,
-  openLinksInNewTab: undefined
-});
+const inbox = useTemplateRef<CourierToast>('inbox');
 
-const { toast } = useCourier();
+const props = defineProps<CourierToastProps>();
+const propsBinding = useKebabBinding(props);
 
-watch(props, p => toast.mergeConfig(p), { immediate: true, flush: 'pre' });
+const emits = defineEmits<{
+  (e: 'onToastItemClick', value: CourierToastItemClickEvent): void;
+  (e: 'onToastItemActionClick', value: CourierToastItemActionClickEvent): void;
+}>();
+
+inbox.value?.onToastItemClick((props) => emits('onToastItemClick', props))
+inbox.value?.onToastItemActionClick((props) => emits('onToastItemActionClick', props))
 </script>

@@ -1,8 +1,8 @@
 {
     "name": "courier-vue-embedded",
-    "version": "6.2.1",
+    "version": "7.0.0",
     "type": "module",
-    "description": "Vue 3 wrapper for trycourier",
+    "description": "Vue 3 wrapper for Courier",
     "scripts": {
         "dev": "vite",
         "prebuild": "rimraf ./dist",
@@ -55,26 +55,32 @@
     },
     "homepage": "https://github.com/ArcticGizmo/courier-vue-embedded#readme",
     "devDependencies": {
-        "@types/node": "^22.0.0",
-        "@types/styled-components": "^5.1.34",
-        "@typescript-eslint/eslint-plugin": "^7.18.0",
-        "@typescript-eslint/parser": "^7.18.0",
-        "@vitejs/plugin-vue": "^5.1.1",
-        "cross-env": "^7.0.3",
-        "cypress": "^13.13.2",
-        "dotenv": "^16.4.5",
-        "eslint": "^8.56.0",
-        "eslint-plugin-import": "^2.29.1",
-        "eslint-plugin-vue": "^9.27.0",
-        "prettier": "^3.3.3",
-        "typescript": "^5.5.4",
-        "vite": "^5.3.5",
-        "vite-plugin-dts": "^4.0.0-beta.2",
-        "vue": "^3",
-        "vue-eslint-parser": "^9.4.3",
-        "vue-tsc": "^2.0.29"
+        "@types/node": "^24.10.11",
+        "@typescript-eslint/eslint-plugin": "^8.54.0",
+        "@typescript-eslint/parser": "^8.54.0",
+        "@vitejs/plugin-vue": "^6.0.4",
+        "@vue/eslint-config-typescript": "^14.6.0",
+        "cross-env": "^10.1.0",
+        "cypress": "^15.10.0",
+        "dotenv": "^17.2.4",
+        "eslint": "^9.39.2",
+        "eslint-plugin-cypress": "^5.2.1",
+        "eslint-plugin-import": "^2.32.0",
+        "eslint-plugin-vue": "^10.7.0",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^7.3.1",
+        "vite-plugin-dts": "^4.5.4",
+        "vite-plugin-vue-devtools": "^8.0.6",
+        "vue": "^3.5",
+        "vue-eslint-parser": "^10.2.0",
+        "vue-tsc": "^3.2.4"
     },
     "peerDependencies": {
-        "vue": "^3"
+        "vue": "^3.5"
+    },
+    "dependencies": {
+        "@trycourier/courier-ui-inbox": "^2.2.0",
+        "@trycourier/courier-ui-toast": "^2.0.0"
     }
 }
