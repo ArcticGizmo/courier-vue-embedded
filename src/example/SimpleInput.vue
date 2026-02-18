@@ -21,6 +21,7 @@ defineProps<{
 
 input {
   height: 2rem;
+  width: 20rem;
   border: 1px solid grey;
   border-radius: 0.25rem;
   background-color: rgba(0, 0, 0, 0.093);

@@ -5,9 +5,9 @@
       <SimpleSelector class="tab-selector" v-model="tab" :options="['popup', 'inbox', 'toast']" />
 
       <div style="position: relative">
-        <ExamplePopupMenu v-show="tab === 'popup'" />
+        <ExamplePopupMenu v-show="tab === 'popup'" @sign-in="onSignIn()" @sign-out="onSignOut()" />
         <div v-show="tab === 'inbox'">inbox</div>
-        <ExampleToast v-show="tab === 'toast'" />
+        <ExampleToast v-show="tab === 'toast'" @sign-in="onSignIn()" @sign-out="onSignOut()" />
       </div>
     </div>
   </div>

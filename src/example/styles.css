@@ -57,40 +57,6 @@ hr {
   align-items: center;
 }
 
-/* padding */
-.pa-1 {
-  padding: 0.25rem;
-}
-
-.pa-2 {
-  padding: 0.5rem;
-}
-
-.pa-3 {
-  padding: 0.75rem;
-}
-
-.pa-4 {
-  padding: 1rem;
-}
-
-/* margin */
-.ma-1 {
-  margin: 0.25rem;
-}
-
-.ma-2 {
-  margin: 0.5rem;
-}
-
-.ma-3 {
-  margin: 0.75rem;
-}
-
-.ma-4 {
-  margin: 1rem;
-}
-
 /* gap */
 .gap-1 {
   gap: 0.25rem;
@@ -105,5 +71,5 @@ hr {
 }
 
 .gap-4 {
-  margin: 1rem;
+  gap: 1rem;
 }

@@ -1,6 +1,6 @@
 import { Courier, type InboxMessage } from '@trycourier/courier-ui-inbox';
-import { CourierToastDatastore } from '@trycourier/courier-ui-toast';
-import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
+import { CourierToastDatastore, CourierToastDatastoreListener } from '@trycourier/courier-ui-toast';
+import { computed, onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue';
 
 export const useCourier = () => {
   const activeUserId = ref<string>();
@@ -53,19 +53,4 @@ export const useCourierTokens = () => {
 export const useCourierTracking = () => {
   const tracking = computed(() => Courier.shared.client!.tracking);
   return { tracking };
-};
-
-export const useCourierToast = () => {
-  const addMessage = (message: InboxMessage) => {
-    CourierToastDatastore.shared.addMessage(message);
-  };
-
-  const removeMessage = (messageId: string) => {
-    CourierToastDatastore.shared.removeMessage({ messageId });
-  };
-
-  return {
-    addMessage,
-    removeMessage
-  };
 };
