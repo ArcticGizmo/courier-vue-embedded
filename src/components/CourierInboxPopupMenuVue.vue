@@ -20,22 +20,11 @@ import type {
 } from '@trycourier/courier-ui-inbox';
 import { useKebabBinding } from '@/ts/useKebabBinding';
 import { useCourier } from '@/ts/useCourier2';
-import { useInboxMultiRenderer, useInboxRenderer, useSlotRenderer } from './useInboxRenderer';
-
-type Props = Omit<
-  CourierInboxPopupMenuProps,
-  | 'renderMenuButton'
-  | 'renderHeader'
-  | 'renderListItem'
-  | 'renderEmptyState'
-  | 'renderErrorState'
-  | 'renderLoadingState'
-  | 'renderPaginationItem'
->;
+import { useSlotRenderer } from './useSlotRenderer';
 
 type SlotProps<T> = T & { inbox: CourierInboxPopupMenu };
 
-const props = withDefaults(defineProps<Props>(), { mode: 'light' });
+const props = withDefaults(defineProps<CourierInboxPopupMenuProps>(), { mode: 'light' });
 const propsBinding = useKebabBinding(props);
 
 const slots = defineSlots<{

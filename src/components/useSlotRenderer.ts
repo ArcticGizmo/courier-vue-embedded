@@ -27,10 +27,6 @@ export const useSlotRenderer = <TProps>(
     return !!normalisedSlot.value;
   });
 
-  const onChange = () => {
-    console.log('change');
-  };
-
   const handleCreate = (p: TProps | null | undefined) => {
     const el = document.createElement('div');
     const vnode = h(normalisedSlot.value, p);

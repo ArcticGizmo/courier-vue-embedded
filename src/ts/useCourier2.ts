@@ -1,4 +1,5 @@
-import { Courier, CourierProps } from '@trycourier/courier-ui-inbox';
+import { Courier, type InboxMessage } from '@trycourier/courier-ui-inbox';
+import { CourierToastDatastore } from '@trycourier/courier-ui-toast';
 import { computed, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 
 export const useCourier = () => {
@@ -20,8 +21,6 @@ export const useCourier = () => {
 
   return {
     Courier,
-    signIn: Courier.shared.signIn,
-    signOut: Courier.shared.signOut,
     userId: computed(() => activeUserId.value)
   };
 };
@@ -32,21 +31,41 @@ export const useCourierInbox = () => {
 };
 
 export const useCourierBrands = () => {
-  return { brands: Courier.shared.client!.brands };
+  const brands = computed(() => Courier.shared.client!.brands);
+  return { brands };
 };
 
 export const useCourierLists = () => {
-  return { lists: Courier.shared.client!.lists };
+  const lists = computed(() => Courier.shared.client!.lists);
+  return { lists };
 };
 
 export const useCourierPreferences = () => {
-  return { preferences: Courier.shared.client!.preferences };
+  const preferences = computed(() => Courier.shared.client!.preferences);
+  return { preferences };
 };
 
 export const useCourierTokens = () => {
-  return { tokens: Courier.shared.client!.tokens };
+  const tokens = computed(() => Courier.shared.client!.tokens);
+  return { tokens };
 };
 
 export const useCourierTracking = () => {
-  return { tracking: Courier.shared.client!.tracking };
+  const tracking = computed(() => Courier.shared.client!.tracking);
+  return { tracking };
+};
+
+export const useCourierToast = () => {
+  const addMessage = (message: InboxMessage) => {
+    CourierToastDatastore.shared.addMessage(message);
+  };
+
+  const removeMessage = (messageId: string) => {
+    CourierToastDatastore.shared.removeMessage({ messageId });
+  };
+
+  return {
+    addMessage,
+    removeMessage
+  };
 };
