@@ -1,35 +1,11 @@
 <template>
   <div class="courier-inbox-popup-menu-vue" :class="{ disabled: !userId }">
     <courier-inbox-popup-menu ref="inbox" v-bind="propsBinding" />
-
-    <div style="display: none">
-      <div v-if="menuButton.hasSlot" :ref="menuButton.name">
-        <slot name="menu-button" v-bind="{ props: menuButton.props.value }" :inbox="inbox!" />
-      </div>
-      <!-- <div v-if="header.hasSlot" :ref="header.name">
-        <slot name="header" v-bind="header.props.value" :inbox="inbox!" />
-      </div> -->
-      <!-- <div v-if="listItem.hasSlot" :ref="listItem.name">
-        <slot name="list-item" v-bind="listItem.props.value" :inbox="inbox!" />
-      </div> -->
-      <div v-if="emptyState.hasSlot" :ref="emptyState.name">
-        <slot name="empty-state" v-bind="emptyState.props.value" :inbox="inbox!" />
-      </div>
-      <div v-if="errorState.hasSlot" :ref="errorState.name">
-        <slot name="error-state" v-bind="errorState.props.value" :inbox="inbox!" />
-      </div>
-      <div v-if="loadingState.hasSlot" :ref="loadingState.name">
-        <slot name="loading-item" v-bind="loadingState.props.value" :inbox="inbox!" />
-      </div>
-      <div v-if="paginationItem.hasSlot" :ref="paginationItem.name">
-        <slot name="pagination-item" v-bind="paginationItem.props.value" :inbox="inbox!" />
-      </div>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, useSlots, useTemplateRef, watch } from 'vue';
+import { onMounted, ref, toRef, useTemplateRef, watch } from 'vue';
 import type { CourierInboxPopupMenuProps } from '../types';
 import type {
   CourierInboxPopupMenu,
@@ -44,7 +20,7 @@ import type {
 } from '@trycourier/courier-ui-inbox';
 import { useKebabBinding } from '@/ts/useKebabBinding';
 import { useCourier } from '@/ts/useCourier2';
-import { useInboxMultiRenderer, useInboxRenderer } from './useInboxRenderer';
+import { useInboxMultiRenderer, useInboxRenderer, useSlotRenderer } from './useInboxRenderer';
 
 type Props = Omit<
   CourierInboxPopupMenuProps,
@@ -57,36 +33,32 @@ type Props = Omit<
   | 'renderPaginationItem'
 >;
 
+type SlotProps<T> = T & { inbox: CourierInboxPopupMenu };
+
 const props = withDefaults(defineProps<Props>(), { mode: 'light' });
 const propsBinding = useKebabBinding(props);
 
-const { userId } = useCourier();
+const slots = defineSlots<{
+  item(props: SlotProps<CourierInboxListItemFactoryProps>): any;
+  header(props: SlotProps<CourierInboxHeaderFactoryProps>): any;
+  button(props: SlotProps<CourierInboxMenuButtonFactoryProps>): any;
+  empty(props: SlotProps<CourierInboxStateEmptyFactoryProps>): any;
+  error(props: SlotProps<CourierInboxStateErrorFactoryProps>): any;
+  loading(props: SlotProps<CourierInboxStateLoadingFactoryProps>): any;
+  pagination(props: SlotProps<CourierInboxPaginationItemFactoryProps>): any;
+}>();
 
-const slots = useSlots();
+const { userId } = useCourier();
 
 const inbox = useTemplateRef<CourierInboxPopupMenu>('inbox');
 
-const menuButton = useInboxRenderer<CourierInboxMenuButtonFactoryProps>(inbox, 'menu-button', ibx => ibx.setMenuButton);
-const header = useInboxRenderer<CourierInboxHeaderFactoryProps>(inbox, 'header', ibx => ibx.setHeader);
-// const listItem = useInboxRenderer<CourierInboxListItemFactoryProps>(inbox, 'item', ibx => ibx.setListItem);
-const listItem = useInboxMultiRenderer<CourierInboxListItemFactoryProps>(
-  inbox,
-  'list-item',
-  ibx => ibx.setListItem,
-  p => p.message.messageId
-);
-const emptyState = useInboxRenderer<CourierInboxStateEmptyFactoryProps>(inbox, 'empty-state', ibx => ibx.setEmptyState);
-const errorState = useInboxRenderer<CourierInboxStateErrorFactoryProps>(inbox, 'error-state', ibx => ibx.setErrorState);
-const loadingState = useInboxRenderer<CourierInboxStateLoadingFactoryProps>(
-  inbox,
-  'loading-state',
-  ibx => ibx.setLoadingState
-);
-const paginationItem = useInboxRenderer<CourierInboxPaginationItemFactoryProps>(
-  inbox,
-  'pagination-item',
-  ibx => ibx.setPaginationItem
-);
+useSlotRenderer(toRef(slots, 'item'), inbox, ibx => ibx.setListItem);
+useSlotRenderer(toRef(slots, 'header'), inbox, ibx => ibx.setHeader);
+useSlotRenderer(toRef(slots, 'button'), inbox, ibx => ibx.setMenuButton);
+useSlotRenderer(toRef(slots, 'empty'), inbox, ibx => ibx.setEmptyState);
+useSlotRenderer(toRef(slots, 'error'), inbox, ibx => ibx.setErrorState);
+useSlotRenderer(toRef(slots, 'loading'), inbox, ibx => ibx.setLoadingState);
+useSlotRenderer(toRef(slots, 'pagination'), inbox, ibx => ibx.setPaginationItem);
 
 const emits = defineEmits<{
   (e: 'message:clicked', value: CourierInboxListItemFactoryProps): void;
@@ -102,16 +74,6 @@ watch(inbox, ibx => {
   ibx.onMessageClick(props => emits('message:clicked', props));
   ibx.onMessageActionClick(props => emits('message:actionClicked', props));
   ibx.onMessageLongPress(props => emits('message:longPressed', props));
-
-  // ibx.setListItem(p => {
-  //   console.log(p);
-  //   const el = document.createElement('courier-inbox-list-item');
-  //   el.id = p?.message.messageId;
-  //   el.classList.add('bacon');
-  //   el.innerText = p?.message.messageId;
-  //   el.message = p?.message;
-  //   return el;
-  // });
 });
 </script>
 

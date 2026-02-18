@@ -4,7 +4,10 @@
       <!-- <template #menu-button>
         <div>egg</div>
       </template> -->
-      <template #list-item="{ message, index, inbox }"> {{ index }} -- {{ message.messageId }} </template>
+      <template #item="{ message }">
+        <div v-if="visible">{{ message.messageId }} -- {{ visible }} egg</div>
+      </template>
+      <!-- <template #list-item="{ message, index, inbox }"> {{ index }} -- {{ message.messageId }} </template> -->
       <!-- <template #empty-state>
         <div>empty</div>
       </template> -->
