@@ -2,15 +2,12 @@
   <div class="app">
     <div v-if="!jwt"><strong>VITE_APP_COURIER_JWT </strong> must be set for this to work</div>
     <div v-else>
-      <div class="selector">
-        <button :class="{ selected: tabs === 'popup' }" @click="tabs = 'popup'">Popup</button>
-        <button :class="{ selected: tabs === 'inbox' }" @click="tabs = 'inbox'">Inbox</button>
-        <button :class="{ selected: tabs === 'toast' }" @click="tabs = 'toast'">Toast</button>
-      </div>
+      <SimpleSelector class="tab-selector" v-model="tab" :options="['popup', 'inbox', 'toast']" />
+
       <div style="position: relative">
-        <ExamplePopupMenu v-show="tabs === 'popup'" />
-        <div v-show="tabs === 'inbox'">inbox</div>
-        <ExampleToast v-show="tabs === 'toast'" />
+        <ExamplePopupMenu v-show="tab === 'popup'" />
+        <div v-show="tab === 'inbox'">inbox</div>
+        <ExampleToast v-show="tab === 'toast'" />
       </div>
     </div>
   </div>
@@ -22,13 +19,14 @@ import ExamplePopupMenu from './ExamplePopupMenu.vue';
 import Example2 from './ExamplePopupMenu.vue';
 import ExampleToast from './ExampleToast.vue';
 import { useCourier } from '@/ts/useCourier2';
+import SimpleSelector from './SimpleSelector.vue';
 
 type Tab = 'popup' | 'inbox' | 'toast';
 
 const userId = 'courier-vue-embedded';
 const jwt = import.meta.env['VITE_APP_COURIER_JWT'];
 
-const tabs = ref<Tab>('toast');
+const tab = ref<Tab>('toast');
 
 const { Courier } = useCourier();
 
@@ -59,16 +57,12 @@ const onSignOut = () => {
 </script>
 
 <style scoped>
-.selector {
+.tab-selector {
+  width: 100%;
   display: flex;
-  width: 100%;
 }
 
-.selector button {
+:deep(.tab-selector) button {
   width: 100%;
-}
-
-.selector button:not(.selected) {
-  background-color: transparent;
 }
 </style>

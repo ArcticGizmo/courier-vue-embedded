@@ -29,6 +29,8 @@ watch(toast, t => {
     return;
   }
 
+  console.dir(t);
+
   // console.dir(t);
 
   // t.onToastItemClick(props => emits('item:click', props));
