@@ -27,7 +27,7 @@ export const useCourier = () => {
 };
 
 export const useCourierInbox = () => {
-  const inbox = Courier.shared.client!.inbox;
+  const inbox = computed(() => Courier.shared.client!.inbox);
   return { inbox };
 };
 

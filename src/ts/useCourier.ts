@@ -1,51 +1,56 @@
 import { onMounted, onUnmounted, ref } from 'vue';
 import { AuthenticationListener, Courier, CourierProps, InboxMessage } from '@trycourier/courier-js';
-import { CourierInboxDatastore, CourierInboxDataStoreListener, CourierInboxFeed, InboxDataSet } from '@trycourier/courier-ui-inbox';
+import {
+  CourierInboxDatastore,
+  CourierInboxDataStoreListener,
+  CourierInboxFeed,
+  InboxDataSet
+} from '@trycourier/courier-ui-inbox';
 import { CourierToastDatastore, CourierToastDatastoreListener } from '@trycourier/courier-ui-toast';
 
 type AuthenticationState = {
-  userId?: string,
-  signIn: (props: CourierProps) => void,
-  signOut: () => void
-}
+  userId?: string;
+  signIn: (props: CourierProps) => void;
+  signOut: () => void;
+};
 
 type InboxState = {
-  load: (props?: { canUseCache: boolean }) => Promise<void>,
-  fetchNextPageOfMessages: (props: { datasetId: string }) => Promise<InboxDataSet | null>,
-  setPaginationLimit: (limit: number) => void,
-  readMessage: (message: InboxMessage) => Promise<void>,
-  unreadMessage: (message: InboxMessage) => Promise<void>,
-  clickMessage: (message: InboxMessage) => Promise<void>,
-  archiveMessage: (message: InboxMessage) => Promise<void>,
-  openMessage: (message: InboxMessage) => Promise<void>,
-  unarchiveMessage: (message: InboxMessage) => Promise<void>,
-  readAllMessages: () => Promise<void>,
-  registerFeeds: (feeds: CourierInboxFeed[]) => void,
-  listenForUpdates: () => Promise<void>,
-  feeds: Record<string, InboxDataSet>,
-  totalUnreadCount?: number,
-  error?: Error
-}
+  load: (props?: { canUseCache: boolean }) => Promise<void>;
+  fetchNextPageOfMessages: (props: { datasetId: string }) => Promise<InboxDataSet | null>;
+  setPaginationLimit: (limit: number) => void;
+  readMessage: (message: InboxMessage) => Promise<void>;
+  unreadMessage: (message: InboxMessage) => Promise<void>;
+  clickMessage: (message: InboxMessage) => Promise<void>;
+  archiveMessage: (message: InboxMessage) => Promise<void>;
+  openMessage: (message: InboxMessage) => Promise<void>;
+  unarchiveMessage: (message: InboxMessage) => Promise<void>;
+  readAllMessages: () => Promise<void>;
+  registerFeeds: (feeds: CourierInboxFeed[]) => void;
+  listenForUpdates: () => Promise<void>;
+  feeds: Record<string, InboxDataSet>;
+  totalUnreadCount?: number;
+  error?: Error;
+};
 
 type ToastState = {
   addMessage: (message: InboxMessage) => void;
   removeMessage: (message: InboxMessage) => void;
-  error?: Error,
-}
+  error?: Error;
+};
 
 // A composable for managing the shared state of Courier
 // If you want to use more functions, checkout the Courier JS SDK which
 // can be used directly by importing from '@trycourier/courier-js'
 export const useCourier = () => {
-
   // Authentication Functions
   const signIn = (props: CourierProps) => Courier.shared.signIn(props);
   const signOut = () => Courier.shared.signOut();
 
   // Inbox Functions
   const loadInbox = (props?: { canUseCache: boolean }) => CourierInboxDatastore.shared.load(props);
-  const fetchNextPageOfMessages = (props: { datasetId: string }) => CourierInboxDatastore.shared.fetchNextPageOfMessages(props);
-  const setPaginationLimit = (limit: number) => Courier.shared.paginationLimit = limit;
+  const fetchNextPageOfMessages = (props: { datasetId: string }) =>
+    CourierInboxDatastore.shared.fetchNextPageOfMessages(props);
+  const setPaginationLimit = (limit: number) => (Courier.shared.paginationLimit = limit);
   const readMessage = (message: InboxMessage) => CourierInboxDatastore.shared.readMessage({ message });
   const unreadMessage = (message: InboxMessage) => CourierInboxDatastore.shared.unreadMessage({ message });
   const clickMessage = (message: InboxMessage) => CourierInboxDatastore.shared.clickMessage({ message });
@@ -83,9 +88,8 @@ export const useCourier = () => {
 
   const toast = ref<ToastState>({
     addMessage: addToastMessage,
-    removeMessage: removeToastMessage,
+    removeMessage: removeToastMessage
   });
-
 
   // Lifecycle management
   let authListener: AuthenticationListener;
@@ -113,7 +117,7 @@ export const useCourier = () => {
     toastListener = new CourierToastDatastoreListener({
       onMessageAdd: () => refreshToast(),
       onMessageRemove: () => refreshToast(),
-      onError: (error: Error) => refreshToast(error),
+      onError: (error: Error) => refreshToast(error)
     });
 
     CourierToastDatastore.shared.addDatastoreListener(toastListener);
@@ -132,7 +136,7 @@ export const useCourier = () => {
     if (inboxListener) {
       inboxListener.remove();
     }
-    if(toastListener) {
+    if (toastListener) {
       toastListener.remove();
     }
   };
@@ -141,7 +145,7 @@ export const useCourier = () => {
     const options = Courier.shared.client?.options;
     auth.value = {
       ...auth.value,
-      userId: options?.userId,
+      userId: options?.userId
     };
   };
 
@@ -163,7 +167,7 @@ export const useCourier = () => {
       listenForUpdates,
       feeds: allDatasets,
       totalUnreadCount: datastore.totalUnreadCount,
-      error: error,
+      error: error
     };
   };
 
@@ -171,7 +175,7 @@ export const useCourier = () => {
     toast.value = {
       addMessage: addToastMessage,
       removeMessage: removeToastMessage,
-      error,
+      error
     };
   };
 

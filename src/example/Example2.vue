@@ -1,10 +1,16 @@
 <template>
   <div class="inbox-container" :class="inboxPlacement">
-    <CourierInboxPopupMenuVue v-if="visible" :popup-alignment @message:clicked="onClick">
-      <template v-if="false" #menu-button="{ props }">
-        egg
-        <pre>{{ props }}</pre>
-      </template>
+    <CourierInboxPopupMenuVue v-if="visible" :popup-alignment>
+      <!-- <template #menu-button>
+        <div>egg</div>
+      </template> -->
+      <template #list-item="{ message, index, inbox }"> {{ index }} -- {{ message.messageId }} </template>
+      <!-- <template #empty-state>
+        <div>empty</div>
+      </template> -->
+      <!-- <template #pagination-item>
+        <div>pagination</div>
+      </template> -->
     </CourierInboxPopupMenuVue>
   </div>
   <div style="padding: 2rem">
@@ -38,21 +44,25 @@
 
 <script setup lang="ts">
 import CourierInboxPopupMenuVue from '@/components/CourierInboxPopupMenuVue.vue';
-import { useCourier } from '@/ts/useCourier2';
+import { useCourier, useCourierInbox } from '@/ts/useCourier2';
 import { onMounted, ref } from 'vue';
 import AlignmentSelector from './AlignmentSelector.vue';
-import { CourierInboxHeaderFactoryProps, CourierInboxListItemFactoryProps } from '@trycourier/courier-ui-inbox';
+import {
+  CourierInboxHeaderFactoryProps,
+  CourierInboxListItemFactoryProps,
+  InboxMessage
+} from '@trycourier/courier-ui-inbox';
 
 const props = defineProps<{ userId: string; jwt: string }>();
 
 const { Courier, userId } = useCourier();
+const { inbox } = useCourierInbox();
 
 const visible = ref(true);
 const inboxPlacement = ref('top-left');
 const popupAlignment = ref('top-left');
 
 onMounted(() => {
-  console.dir(Courier.shared);
   signIn();
 });
 
@@ -62,7 +72,7 @@ const signIn = () => {
       userId: props.userId,
       jwt: props.jwt
     });
-    console.log('[auth] signed in');
+    console.log('[auth] signed in', props.userId);
   } catch (error) {
     console.error('[auth] unable to sign in', error);
   }
@@ -75,15 +85,6 @@ const signOut = () => {
   } catch (error) {
     console.error('[auth] unable to sign out', error);
   }
-};
-
-const onClick = (data: any) => {
-  console.dir(data);
-};
-
-const renderListItem = (props: CourierInboxListItemFactoryProps | undefined | null) => {
-  console.dir(props);
-  return document.createElement('div');
 };
 </script>
 
@@ -105,8 +106,8 @@ const renderListItem = (props: CourierInboxListItemFactoryProps | undefined | nu
   position: absolute;
   width: 3rem;
   height: 3rem;
-  padding-left: 0.25rem;
-  padding-top: 0.4rem;
+  padding-left: 0.3rem;
+  padding-top: 0.3rem;
   border: 1px solid orange;
   border-radius: 100%;
   background-color: rgba(255, 166, 0, 0.123);
