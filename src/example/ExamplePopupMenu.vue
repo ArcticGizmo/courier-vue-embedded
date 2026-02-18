@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="inbox-container" :class="inboxPlacement">
-      <CourierInboxPopupMenuVue v-if="visible" :key="renderId" :popup-alignment popup-width="50rem">
+      <CourierInboxPopupMenuVue v-if="visible" :key="renderId" :popup-alignment :mode popup-width="50rem">
         <template v-if="showCustomButton" #button="data"> {{ data.totalUnreadCount }} unread </template>
         <template v-if="showCustomHeader" #header="data">
           <ul>
@@ -57,7 +57,16 @@
           <SimpleCheckbox v-model="showCustomPagination" label="Pagination" @update:model-value="rerender()" />
         </div>
 
-        <div class="d-flex gap-2 align-center"></div>
+        <hr />
+
+        <div class="d-flex gap-2 align-center">
+          <div>Mode:</div>
+          <div class="selector">
+            <button :class="{ selected: mode === 'light' }" @click="mode = 'light'">Light</button>
+            <button :class="{ selected: mode === 'dark' }" @click="mode = 'dark'">Dark</button>
+            <button :class="{ selected: mode === 'system' }" @click="mode = 'system'">System</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -69,6 +78,8 @@ import { useCourierInbox } from '@/ts/useCourier2';
 import { onMounted, ref } from 'vue';
 import AlignmentSelector from './AlignmentSelector.vue';
 import SimpleCheckbox from './SimpleCheckbox.vue';
+
+type Mode = 'light' | 'dark' | 'system';
 
 const emits = defineEmits(['sign-in', 'sign-out']);
 
@@ -86,6 +97,8 @@ const showCustomEmpty = ref(false);
 const showCustomError = ref(false);
 const showCustomLoading = ref(false);
 const showCustomPagination = ref(false);
+
+const mode = ref<Mode>('light');
 
 const rerender = () => {
   renderId.value++;
@@ -160,5 +173,9 @@ const rerender = () => {
 .inbox-container.bottom-right {
   bottom: 0.5rem;
   right: 0.5rem;
+}
+
+.selector button:not(.selected) {
+  background-color: transparent;
 }
 </style>

@@ -12,8 +12,6 @@
         <div v-show="tabs === 'inbox'">inbox</div>
         <ExampleToast v-show="tabs === 'toast'" />
       </div>
-
-      <!-- selector -->
     </div>
   </div>
 </template>
