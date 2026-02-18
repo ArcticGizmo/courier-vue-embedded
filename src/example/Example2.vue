@@ -1,19 +1,22 @@
 <template>
   <div class="inbox-container" :class="inboxPlacement">
-    <CourierInboxPopupMenuVue v-if="visible" :popup-alignment>
-      <!-- <template #menu-button>
-        <div>egg</div>
-      </template> -->
-      <template #item="{ message }">
-        <div v-if="visible">{{ message.messageId }} -- {{ visible }} egg</div>
+    <CourierInboxPopupMenuVue v-if="visible" :key="renderId" :popup-alignment popup-width="50rem">
+      <template v-if="showCustomButton" #button="data"> {{ data.totalUnreadCount }} unread </template>
+      <template v-if="showCustomHeader" #header="data">
+        <ul>
+          <li v-for="feed of data.feeds" :key="feed.feedId">
+            {{ feed.title }}
+            <ul>
+              <li v-for="tab of feed.tabs">{{ tab.title }}</li>
+            </ul>
+          </li>
+        </ul>
+        <hr />
       </template>
-      <!-- <template #list-item="{ message, index, inbox }"> {{ index }} -- {{ message.messageId }} </template> -->
-      <!-- <template #empty-state>
-        <div>empty</div>
-      </template> -->
-      <!-- <template #pagination-item>
-        <div>pagination</div>
-      </template> -->
+      <template v-if="showCustomItem" #item="data"> {{ data.index }} -- {{ data.message.messageId }} </template>
+      <template v-if="showCustomEmpty" #empty="data"> {{ data.datasetId }} is empty </template>
+      <template v-if="showCustomLoading" #loading="data"> {{ data.datasetId }} is loading </template>
+      <template v-if="showCustomPagination" #pagination="data"> {{ data.datasetId }} page is loading </template>
     </CourierInboxPopupMenuVue>
   </div>
   <div style="padding: 2rem">
@@ -40,6 +43,17 @@
         </div>
       </div>
 
+      <div class="d-flex gap-2 align-center">
+        <div>Custom Slots</div>
+        <SimpleCheckbox v-model="showCustomButton" label="Button" @update:model-value="rerender()" />
+        <SimpleCheckbox v-model="showCustomHeader" label="Header" @update:model-value="rerender()" />
+        <SimpleCheckbox v-model="showCustomItem" label="Item" @update:model-value="rerender()" />
+        <SimpleCheckbox v-model="showCustomEmpty" label="Empty" @update:model-value="rerender()" />
+        <SimpleCheckbox v-model="showCustomError" label="Error" @update:model-value="rerender()" />
+        <SimpleCheckbox v-model="showCustomLoading" label="Loading" @update:model-value="rerender()" />
+        <SimpleCheckbox v-model="showCustomPagination" label="Pagination" @update:model-value="rerender()" />
+      </div>
+
       <div class="d-flex gap-2 align-center"></div>
     </div>
   </div>
@@ -55,15 +69,25 @@ import {
   CourierInboxListItemFactoryProps,
   InboxMessage
 } from '@trycourier/courier-ui-inbox';
+import SimpleCheckbox from './SimpleCheckbox.vue';
 
 const props = defineProps<{ userId: string; jwt: string }>();
 
 const { Courier, userId } = useCourier();
 const { inbox } = useCourierInbox();
+const renderId = ref(0);
 
 const visible = ref(true);
 const inboxPlacement = ref('top-left');
 const popupAlignment = ref('top-left');
+
+const showCustomButton = ref(false);
+const showCustomHeader = ref(false);
+const showCustomItem = ref(false);
+const showCustomEmpty = ref(false);
+const showCustomError = ref(false);
+const showCustomLoading = ref(false);
+const showCustomPagination = ref(false);
 
 onMounted(() => {
   signIn();
@@ -88,6 +112,10 @@ const signOut = () => {
   } catch (error) {
     console.error('[auth] unable to sign out', error);
   }
+};
+
+const rerender = () => {
+  renderId.value++;
 };
 </script>
 

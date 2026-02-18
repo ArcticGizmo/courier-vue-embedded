@@ -1,22 +1,15 @@
 import { CourierInboxPopupMenu } from '@trycourier/courier-ui-inbox';
-import { nextTick } from 'process';
 import {
   computed,
   getCurrentInstance,
   h,
-  MaybeRefOrGetter,
-  onBeforeUnmount,
-  onMounted,
+  type MaybeRefOrGetter,
   ref,
   render,
-  RenderFunction,
-  ShallowRef,
+  type RenderFunction,
+  type ShallowRef,
   toValue,
-  useSlots,
-  useTemplateRef,
-  VNode,
-  watch,
-  watchEffect
+  watch
 } from 'vue';
 
 type InboxComponent = Readonly<ShallowRef<CourierInboxPopupMenu | null>>;
@@ -29,14 +22,21 @@ export const useSlotRenderer = <TProps>(
   captureTarget: CaptureTarget<TProps>
 ) => {
   const appContext = getCurrentInstance()?.appContext || null;
-  const slotProvided = computed(() => !!toValue(slot));
+  const normalisedSlot = computed(() => toValue(slot));
+  const slotProvided = computed(() => {
+    return !!normalisedSlot.value;
+  });
+
+  const onChange = () => {
+    console.log('change');
+  };
 
   const handleCreate = (p: TProps | null | undefined) => {
     const el = document.createElement('div');
-    const vnode = h(toValue(slot), p);
+    const vnode = h(normalisedSlot.value, p);
     vnode.appContext = appContext;
-    render(vnode, el);
 
+    render(vnode, el);
     return el;
   };
 
@@ -56,5 +56,5 @@ export const useSlotRenderer = <TProps>(
     captureTarget(ibx).apply(ibx, [handleCreate]);
   };
 
-  watch([() => toValue(slot), inbox], () => bindHandlers());
+  watch(inbox, () => bindHandlers());
 };

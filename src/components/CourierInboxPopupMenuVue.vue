@@ -39,9 +39,9 @@ const props = withDefaults(defineProps<Props>(), { mode: 'light' });
 const propsBinding = useKebabBinding(props);
 
 const slots = defineSlots<{
-  item(props: SlotProps<CourierInboxListItemFactoryProps>): any;
-  header(props: SlotProps<CourierInboxHeaderFactoryProps>): any;
   button(props: SlotProps<CourierInboxMenuButtonFactoryProps>): any;
+  header(props: SlotProps<CourierInboxHeaderFactoryProps>): any;
+  item(props: SlotProps<CourierInboxListItemFactoryProps>): any;
   empty(props: SlotProps<CourierInboxStateEmptyFactoryProps>): any;
   error(props: SlotProps<CourierInboxStateErrorFactoryProps>): any;
   loading(props: SlotProps<CourierInboxStateLoadingFactoryProps>): any;
@@ -52,9 +52,9 @@ const { userId } = useCourier();
 
 const inbox = useTemplateRef<CourierInboxPopupMenu>('inbox');
 
-useSlotRenderer(toRef(slots, 'item'), inbox, ibx => ibx.setListItem);
-useSlotRenderer(toRef(slots, 'header'), inbox, ibx => ibx.setHeader);
 useSlotRenderer(toRef(slots, 'button'), inbox, ibx => ibx.setMenuButton);
+useSlotRenderer(toRef(slots, 'header'), inbox, ibx => ibx.setHeader);
+useSlotRenderer(toRef(slots, 'item'), inbox, ibx => ibx.setListItem);
 useSlotRenderer(toRef(slots, 'empty'), inbox, ibx => ibx.setEmptyState);
 useSlotRenderer(toRef(slots, 'error'), inbox, ibx => ibx.setErrorState);
 useSlotRenderer(toRef(slots, 'loading'), inbox, ibx => ibx.setLoadingState);

@@ -20,11 +20,12 @@ defineProps<{
 
 label {
   font-size: 0.9rem;
+  padding-left: 0.25rem;
+  padding-right: 0.5rem;
 }
 
 input {
   width: 1rem;
   height: 1rem;
-  accent-color: rgb(129, 235, 251);
 }
 </style>
