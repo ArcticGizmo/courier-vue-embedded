@@ -1,12 +1,69 @@
 <template>
-  <template v-if="!clientKey"> <strong>VITE_APP_CLIENT_KEY </strong> must be set for this to work </template>
+  <div class="app">
+    <div v-if="!jwt"><strong>VITE_APP_COURIER_JWT </strong> must be set for this to work</div>
+    <div v-else>
+      <SimpleSelector class="tab-selector" v-model="tab" :options="['popup', 'inbox', 'toast']" />
 
-  <template v-else>
-    <Example userId="courier-vue-embedded" appendTo="body" />
-  </template>
+      <div style="position: relative">
+        <ExamplePopupMenu v-show="tab === 'popup'" @sign-in="onSignIn()" @sign-out="onSignOut()" />
+        <ExampleInbox v-show="tab == 'inbox'" @sign-in="onSignIn()" @sign-out="onSignOut()" />
+        <ExampleToast v-show="tab === 'toast'" @sign-in="onSignIn()" @sign-out="onSignOut()" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import Example from './Example.vue';
-const clientKey = import.meta.env['VITE_APP_CLIENT_KEY'];
+import { onMounted, ref } from 'vue';
+import ExamplePopupMenu from './ExamplePopupMenu.vue';
+import Example2 from './ExamplePopupMenu.vue';
+import ExampleToast from './ExampleToast.vue';
+import { useCourier } from '@/ts/useCourier';
+import SimpleSelector from './SimpleSelector.vue';
+import ExampleInbox from './ExampleInbox.vue';
+
+type Tab = 'popup' | 'inbox' | 'toast';
+
+const userId = 'courier-vue-embedded';
+const jwt = import.meta.env['VITE_APP_COURIER_JWT'];
+
+const tab = ref<Tab>('popup');
+
+const { Courier } = useCourier();
+
+onMounted(() => {
+  onSignIn();
+});
+
+const onSignIn = () => {
+  try {
+    Courier.shared.signIn({
+      userId,
+      jwt
+    });
+    console.log('[auth] signed in', userId);
+  } catch (error) {
+    console.error('[auth] unable to sign in', error);
+  }
+};
+
+const onSignOut = () => {
+  try {
+    Courier.shared.signOut();
+    console.log('[auth] signed out');
+  } catch (error) {
+    console.error('[auth] unable to sign out', error);
+  }
+};
 </script>
+
+<style scoped>
+.tab-selector {
+  width: 100%;
+  display: flex;
+}
+
+:deep(.tab-selector) button {
+  width: 100%;
+}
+</style>

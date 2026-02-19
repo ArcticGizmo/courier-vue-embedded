@@ -1,3 +1,13 @@
+# 7.0.0
+
+- ⚠ moved to courier web components ⚠
+- CSP changes
+  - wss://realtime.courier.com -> wss://realtime.courier.io
+- caveats
+  - Idiomatic slots for renderers (like items in the inbox) do not fully support being toggled on/off. This may be
+    supported in the future, but for now if you are implementing your own renderer then only toggle content within the
+    template provided, not the template itself
+
 # 6.2.1
 
 - upgraded to courier v6.2.1

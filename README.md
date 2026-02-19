@@ -2,7 +2,9 @@
 
 <a href="https://www.npmjs.com/package/courier-vue-embedded"><img src="https://img.shields.io/npm/v/courier-vue-embedded.svg?sanitize=true" alt="Version"></a>
 
-This is the unofficial vue Toast/Inbox wrapper for [@trycourier/courier](https://github.com/trycourier/courier-node)
+This is the unofficial vue Toast/Inbox wrapper for
+[@trycourier/courier-ui-inbox ](https://www.npmjs.com/package/@trycourier/courier-ui-inbox) and
+[@trycourier/courier-ui-toast](https://www.npmjs.com/package/@trycourier/courier-ui-toast)
 
 ## Installation (via [npm](https://www.npmjs.com/package/ArcticGizmo/courier-vue-embedded))
 
@@ -22,11 +24,13 @@ You will need to get a Courier API key to get started. You can sign up and creat
 At run time, configure Courier and listen to messages for a user
 
 ```ts
-import { Courier } from 'courier-vue-embedded';
+import { useCourier } from 'courier-vue-embedded';
 
-Courier.init({
-  clientKey: '{{your_client_key}}',
-  userId: '{{user_id}}'
+const { Courier } = useCourier();
+
+Courier.shared.signIn({
+  userId: '{{user_id}}',
+  jwt: '{{jwt_for_user_id}}'
 });
 ```
 
@@ -63,12 +67,10 @@ NB: the toast component can be imported anywhere
 
 To maintain some semblance of reason, here is how courier-vue-embedded versions map to courier component versions
 
-| courier-vue-embedded | courier components |
-| -------------------- | ------------------ |
-| 1.X                  | 3.Y                |
-| 4.Y.Z\*              | 4.Y.Z              |
+| courier-vue-embedded | courier components             |
+| -------------------- | ------------------------------ |
+| 1.X                  | 3.Y (legacy legacy version)    |
+| 4/5/6.Y.Z\*          | 4/5/6.Y.Z (legacy version)     |
+| 7.Y.Z\*              | 2.Y.Z (web components version) |
 
 (\*patch version may differ if there are any bugs found within this wrapper package)
-
-### Vue 2.7 support
-- with the recent EOL of vue 2.x support has been dropped since with the last supported version being v4.5.0

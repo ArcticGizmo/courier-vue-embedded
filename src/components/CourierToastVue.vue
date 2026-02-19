@@ -1,25 +1,53 @@
 <template>
   <div class="courier-toast-vue">
-    <courier-toast ref="inbox" v-bind="propsBinding"/>
+    <courier-toast ref="toast" v-bind="propsBinding" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { useTemplateRef } from 'vue';
-import type { CourierToast, CourierToastItemActionClickEvent, CourierToastItemClickEvent } from '@trycourier/courier-ui-toast';
-import { CourierToastProps } from '@/types';
+import { useTemplateRef, toRef, watch } from 'vue';
+import type {
+  CourierToast,
+  CourierToastItemActionClickEvent,
+  CourierToastItemClickEvent,
+  CourierToastItemFactoryProps
+} from '@trycourier/courier-ui-toast';
+import { CourierToastProps, ToastActionClickEvent, ToastClickEvent } from '@/types';
 import { useKebabBinding } from '@/ts/useKebabBinding';
+import { useToastSlotRenderer } from './useToastSlotRenderer';
+import { useCourierToast } from '@/ts/useCourierToast';
 
-const inbox = useTemplateRef<CourierToast>('inbox');
+type SlotProps<T> = T & { ctx: CourierToast; dismiss: () => void };
 
 const props = defineProps<CourierToastProps>();
 const propsBinding = useKebabBinding(props);
 
-const emits = defineEmits<{
-  (e: 'onToastItemClick', value: CourierToastItemClickEvent): void;
-  (e: 'onToastItemActionClick', value: CourierToastItemActionClickEvent): void;
+const slots = defineSlots<{
+  item(props: SlotProps<CourierToastItemFactoryProps>): any;
+  'item-content'(props: SlotProps<CourierToastItemFactoryProps>): any;
 }>();
 
-inbox.value?.onToastItemClick((props) => emits('onToastItemClick', props))
-inbox.value?.onToastItemActionClick((props) => emits('onToastItemActionClick', props))
+const toast = useTemplateRef<CourierToast>('toast');
+const { dismissToast } = useCourierToast();
+
+useToastSlotRenderer(toRef(slots, 'item'), toast, t => t.setToastItem);
+useToastSlotRenderer(toRef(slots, 'item-content'), toast, t => t.setToastItemContent);
+
+const emits = defineEmits<{
+  (e: 'item:click', value: ToastClickEvent): void;
+  (e: 'action:click', value: ToastActionClickEvent): void;
+}>();
+
+watch(toast, t => {
+  if (!t) {
+    return;
+  }
+
+  t.onToastItemClick(props => {
+    emits('item:click', { ...props, dismiss: () => dismissToast(props.message.messageId) });
+  });
+  t.onToastItemActionClick(props => {
+    emits('action:click', { ...props, dismiss: () => dismissToast(props.message.messageId) });
+  });
+});
 </script>

@@ -1,6 +1,11 @@
-import type { CourierComponentThemeMode } from "@trycourier/courier-ui-inbox";
-import type { CourierToastTheme, CourierToastDismissButtonOption, CourierToastItemClickEvent, CourierToastItemActionClickEvent, CourierToastItemFactoryProps } from "@trycourier/courier-ui-toast";
-import type { CSSProperties } from "vue";
+import type { CourierComponentThemeMode } from '@trycourier/courier-ui-inbox';
+import type {
+  CourierToastTheme,
+  CourierToastDismissButtonOption,
+  CourierToastItemClickEvent,
+  CourierToastItemActionClickEvent
+} from '@trycourier/courier-ui-toast';
+import type { CSSProperties } from 'vue';
 
 export interface CourierToastProps {
   /**
@@ -47,19 +52,9 @@ export interface CourierToastProps {
    * and visible on hover if `autoDismiss` is true.
    */
   dismissButton?: CourierToastDismissButtonOption;
-
-  /** Render prop specifying how to render an entire toast item. */
-  renderToastItem?: (props: CourierToastItemFactoryProps) => HTMLElement;
-
-  /**
-   * Render prop specifying how to render a toast item's content.
-   *
-   * The toast item's container, including the stack, auto-dismiss timer, and dismiss button
-   * are still present when this prop is set.
-   *
-   * See {@link CourierToastProps.dismissButton} to customize the dismiss button's visibility and
-   * {@link CourierToastProps.renderToastItem} to customize the entire toast item, including
-   * its container.
-   */
-  renderToastItemContent?: (props: CourierToastItemFactoryProps) => HTMLElement;
 }
+
+type DismissableEvent<T> = T & { dismiss: () => void };
+
+export type ToastClickEvent = DismissableEvent<CourierToastItemClickEvent>;
+export type ToastActionClickEvent = DismissableEvent<CourierToastItemActionClickEvent>;
