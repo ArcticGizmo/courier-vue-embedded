@@ -20,9 +20,9 @@ import type {
 } from '@trycourier/courier-ui-inbox';
 import { useKebabBinding } from '@/ts/useKebabBinding';
 import { useCourier } from '@/ts/useCourier2';
-import { useSlotRenderer } from './useSlotRenderer';
+import { useInboxSlotRenderer } from './useInboxSlotRenderer';
 
-type SlotProps<T> = T & { inbox: CourierInboxPopupMenu };
+type SlotProps<T> = T & { ctx: CourierInboxPopupMenu };
 
 const props = withDefaults(defineProps<CourierInboxPopupMenuProps>(), { mode: 'light' });
 const propsBinding = useKebabBinding(props);
@@ -41,13 +41,13 @@ const { userId } = useCourier();
 
 const inbox = useTemplateRef<CourierInboxPopupMenu>('inbox');
 
-useSlotRenderer(toRef(slots, 'button'), inbox, ibx => ibx.setMenuButton);
-useSlotRenderer(toRef(slots, 'header'), inbox, ibx => ibx.setHeader);
-useSlotRenderer(toRef(slots, 'item'), inbox, ibx => ibx.setListItem);
-useSlotRenderer(toRef(slots, 'empty'), inbox, ibx => ibx.setEmptyState);
-useSlotRenderer(toRef(slots, 'error'), inbox, ibx => ibx.setErrorState);
-useSlotRenderer(toRef(slots, 'loading'), inbox, ibx => ibx.setLoadingState);
-useSlotRenderer(toRef(slots, 'pagination'), inbox, ibx => ibx.setPaginationItem);
+useInboxSlotRenderer(toRef(slots, 'button'), inbox, ibx => ibx.setMenuButton);
+useInboxSlotRenderer(toRef(slots, 'header'), inbox, ibx => ibx.setHeader);
+useInboxSlotRenderer(toRef(slots, 'item'), inbox, ibx => ibx.setListItem);
+useInboxSlotRenderer(toRef(slots, 'empty'), inbox, ibx => ibx.setEmptyState);
+useInboxSlotRenderer(toRef(slots, 'error'), inbox, ibx => ibx.setErrorState);
+useInboxSlotRenderer(toRef(slots, 'loading'), inbox, ibx => ibx.setLoadingState);
+useInboxSlotRenderer(toRef(slots, 'pagination'), inbox, ibx => ibx.setPaginationItem);
 
 const emits = defineEmits<{
   (e: 'message:clicked', value: CourierInboxListItemFactoryProps): void;

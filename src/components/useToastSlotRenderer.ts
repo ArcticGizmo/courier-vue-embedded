@@ -1,4 +1,5 @@
-import { CourierInboxPopupMenu } from '@trycourier/courier-ui-inbox';
+import { CourierInbox, CourierInboxPopupMenu } from '@trycourier/courier-ui-inbox';
+import { CourierToast } from '@trycourier/courier-ui-toast';
 import {
   computed,
   getCurrentInstance,
@@ -12,13 +13,13 @@ import {
   watch
 } from 'vue';
 
-type InboxComponent = Readonly<ShallowRef<CourierInboxPopupMenu | null>>;
+CourierToast;
 
-type CaptureTarget<TProps> = (inbox: CourierInboxPopupMenu) => (props: TProps | undefined | null) => HTMLElement;
+type CaptureTarget<TProps> = (toast: CourierToast) => (props: TProps | undefined | null) => HTMLElement;
 
-export const useSlotRenderer = <TProps>(
+export const useToastSlotRenderer = <TProps>(
   slot: MaybeRefOrGetter<RenderFunction>,
-  inbox: InboxComponent,
+  toast: Readonly<ShallowRef<CourierToast | null>>,
   captureTarget: CaptureTarget<TProps>
 ) => {
   const appContext = getCurrentInstance()?.appContext || null;
@@ -29,7 +30,8 @@ export const useSlotRenderer = <TProps>(
 
   const handleCreate = (p: TProps | null | undefined) => {
     const el = document.createElement('div');
-    const vnode = h(normalisedSlot.value, p);
+    const dismiss = () => el.remove();
+    const vnode = h(normalisedSlot.value, { ...p, ctx: toast.value!, dismiss });
     vnode.appContext = appContext;
 
     render(vnode, el);
@@ -37,20 +39,20 @@ export const useSlotRenderer = <TProps>(
   };
 
   const bindHandlers = () => {
-    const ibx = inbox.value;
-    if (!ibx) {
+    const t = toast.value;
+    if (!t) {
       return;
     }
 
     // remove handler (so built in can render)
     if (!slotProvided.value) {
-      captureTarget(ibx).apply(ibx);
+      captureTarget(t).apply(t);
       return;
     }
 
     // add customer handler
-    captureTarget(ibx).apply(ibx, [handleCreate]);
+    captureTarget(t).apply(t, [handleCreate]);
   };
 
-  watch(inbox, () => bindHandlers());
+  watch(toast, () => bindHandlers());
 };

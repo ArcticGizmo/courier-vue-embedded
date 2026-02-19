@@ -1,8 +1,10 @@
-import { InboxMessage } from '@trycourier/courier-ui-inbox';
+import { defaultLightTheme, InboxMessage } from '@trycourier/courier-ui-inbox';
 import {
   CourierToastDatastore,
   CourierToastDatastoreEvents,
-  CourierToastDatastoreListener
+  CourierToastDatastoreListener,
+  CourierToastItem,
+  CourierToastThemeManager
 } from '@trycourier/courier-ui-toast';
 import { onMounted, onUnmounted } from 'vue';
 
@@ -28,6 +30,21 @@ export const useCourierToast = () => {
     CourierToastDatastore.shared.addDatastoreListener(listener);
   };
 
+  const dismissToast = (messageId: string) => {
+    if (!messageId) {
+      console.warn('[courier] cannot dismiss toast without a valid message ID');
+      return;
+    }
+    const containers: HTMLElement[] = [...document.getElementsByTagName('courier-toast')];
+    const items: HTMLElement[] = containers.flatMap(c => [...c.childNodes]);
+
+    for (const item of items) {
+      if (item.getAttribute('data-courier-message-id') === messageId) {
+        item.remove();
+      }
+    }
+  };
+
   onUnmounted(() => {
     for (const listener of listeners) {
       listener.remove();
@@ -38,6 +55,7 @@ export const useCourierToast = () => {
   return {
     addMessage,
     removeMessage,
-    handleEvent
+    handleEvent,
+    dismissToast
   };
 };

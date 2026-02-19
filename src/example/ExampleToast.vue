@@ -1,6 +1,20 @@
 <template>
   <div>
-    <CourierToastVue v-if="visible" :mode :auto-dismiss :auto-dismiss-timeout-ms :dismiss-button />
+    <CourierToastVue
+      v-if="visible"
+      :mode
+      :auto-dismiss
+      :auto-dismiss-timeout-ms
+      :dismiss-button
+      @item:click="onItemClick"
+      @action:click="onActionClick"
+    >
+      <!-- <template #item="data">
+        <div :id="data.message.messageId" style="border: 1px solid orange">
+          <pre>{{ data.message.messageId }}</pre>
+        </div>
+      </template> -->
+    </CourierToastVue>
     <div style="padding: 2rem">
       <div class="card" style="margin-top: 2rem">
         <div class="title">Settings</div>
@@ -41,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import CourierToastVue from '@/components/CourierToastVue.vue';
+import CourierToastVue, { ToastClickEvent } from '@/components/CourierToastVue.vue';
 import { InboxMessage } from '@trycourier/courier-ui-inbox';
 import { reactive, ref } from 'vue';
 import SimpleCheckbox from './SimpleCheckbox.vue';
@@ -49,6 +63,7 @@ import SimpleInput from './SimpleInput.vue';
 import SimpleNumericInput from './SimpleNumericInput.vue';
 import SimpleSelector from './SimpleSelector.vue';
 import { useCourierToast } from '@/ts/useCourierToast';
+import { ToastActionClickEvent } from '@/types';
 
 type Mode = 'light' | 'dark' | 'system';
 type DimissButtonMode = 'visible' | 'hidden' | 'hover' | 'auto';
@@ -63,16 +78,30 @@ const autoDismiss = ref(false);
 const autoDismissTimeoutMs = ref(5_000);
 const dismissButton = ref<DimissButtonMode>('auto');
 
-const message = reactive<InboxMessage>({ title: 'Test Message', preview: 'lol' });
+const message = reactive<InboxMessage>({
+  title: 'Test Message',
+  actions: [{ content: 'lol', href: 'https://google.com' }]
+});
 
 handleEvent('onMessageAdd', toast => console.log(toast.title));
 
-// handleEvent(msg => );
-// handleEvent();
-
 const onAddMessage = () => {
-  addMessage(message);
+  addMessage({ ...message, messageId: crypto.randomUUID() });
 };
+
+const onItemClick = (event: ToastClickEvent) => {
+  console.log('item click', event);
+  // event.dismiss();
+};
+const onActionClick = (event: ToastActionClickEvent) => {
+  console.log('action click', event);
+  if (event.action.href) {
+    window.open(event.action.href, '_blank');
+    event.dismiss();
+  }
+};
+
+const log = a => console.dir(a);
 </script>
 
 <style scoped>
