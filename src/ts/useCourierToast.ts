@@ -6,12 +6,14 @@ import {
   CourierToastItem,
   CourierToastThemeManager
 } from '@trycourier/courier-ui-toast';
-import { onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, watch } from 'vue';
+import { useCourier } from './useCourier';
 
 type ToastEvent = keyof CourierToastDatastoreEvents;
-type ToastCallback = CourierToastDatastoreEvents[ToastEvent];
 
 export const useCourierToast = () => {
+  const { userId } = useCourier();
+  let pendingListeners: CourierToastDatastoreListener[] = [];
   let listeners: CourierToastDatastoreListener[] = [];
 
   const addMessage = (message: InboxMessage) => {
@@ -20,14 +22,6 @@ export const useCourierToast = () => {
 
   const removeMessage = (messageId: string) => {
     CourierToastDatastore.shared.removeMessage({ messageId });
-  };
-
-  const handleEvent = <K extends ToastEvent>(event: K, callback: NonNullable<CourierToastDatastoreEvents[K]>) => {
-    const listener = new CourierToastDatastoreListener({
-      [event]: callback
-    });
-    listeners.push(listener);
-    CourierToastDatastore.shared.addDatastoreListener(listener);
   };
 
   const dismissToast = (messageId: string) => {
@@ -44,6 +38,28 @@ export const useCourierToast = () => {
       }
     }
   };
+
+  const handleEvent = <K extends ToastEvent>(event: K, callback: NonNullable<CourierToastDatastoreEvents[K]>) => {
+    const listener = new CourierToastDatastoreListener({
+      [event]: callback
+    });
+
+    if (!CourierToastDatastore.shared.addDatastoreListener) {
+      pendingListeners.push(listener);
+    } else {
+      CourierToastDatastore.shared.addDatastoreListener(listener);
+      listeners.push(listener);
+    }
+  };
+
+  watch(userId, usrId => {
+    if (usrId) {
+      for (const l of pendingListeners) {
+        CourierInboxDatastore.shared.addDataStoreListener(l);
+      }
+      pendingListeners = [];
+    }
+  });
 
   onUnmounted(() => {
     for (const listener of listeners) {

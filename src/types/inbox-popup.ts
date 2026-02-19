@@ -2,14 +2,6 @@ import type {
   CourierInboxPopupAlignment,
   CourierInboxTheme,
   CourierComponentThemeMode,
-  CourierInboxListItemFactoryProps,
-  CourierInboxListItemActionFactoryProps,
-  CourierInboxHeaderFactoryProps,
-  CourierInboxStateEmptyFactoryProps,
-  CourierInboxStateLoadingFactoryProps,
-  CourierInboxStateErrorFactoryProps,
-  CourierInboxPaginationItemFactoryProps,
-  CourierInboxMenuButtonFactoryProps,
   CourierInboxFeed
 } from '@trycourier/courier-ui-inbox';
 

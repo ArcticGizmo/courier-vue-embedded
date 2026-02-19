@@ -1,8 +1,8 @@
 {
     "name": "courier-vue-embedded",
-    "version": "7.0.1",
+    "version": "7.0.0",
     "type": "module",
-    "description": "Vue 3 wrapper for Courier",
+    "description": "Vue 3 wrapper for Courier UI",
     "scripts": {
         "dev": "vite",
         "prebuild": "rimraf ./dist",

@@ -74,7 +74,7 @@
 
 <script setup lang="ts">
 import CourierInboxPopupMenuVue from '@/components/CourierInboxPopupMenuVue.vue';
-import { useCourierInbox } from '@/ts/useCourier2';
+import { useCourierInbox } from '@/ts/useCourier';
 import { onMounted, ref } from 'vue';
 import AlignmentSelector from './AlignmentSelector.vue';
 import SimpleCheckbox from './SimpleCheckbox.vue';
@@ -83,7 +83,7 @@ type Mode = 'light' | 'dark' | 'system';
 
 const emits = defineEmits(['sign-in', 'sign-out']);
 
-const { inbox } = useCourierInbox();
+const { inbox, handleEvent } = useCourierInbox();
 const renderId = ref(0);
 
 const visible = ref(true);
@@ -99,6 +99,14 @@ const showCustomLoading = ref(false);
 const showCustomPagination = ref(false);
 
 const mode = ref<Mode>('light');
+
+handleEvent('onMessageAdd', msg => {
+  console.log('[handler] on message added', msg);
+});
+
+handleEvent('onPageAdded', ds => {
+  console.log('[handler] page added', ds);
+});
 
 const rerender = () => {
   renderId.value++;

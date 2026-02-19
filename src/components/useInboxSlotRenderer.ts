@@ -14,12 +14,12 @@ import {
 
 type InboxLike = CourierInboxPopupMenu | CourierInbox;
 
-type CaptureTarget<TProps, I extends InboxLike> = (inbox: C) => (props: TProps | undefined | null) => HTMLElement;
+type CaptureTarget<TProps, I extends InboxLike> = (inbox: I) => (props: TProps | undefined | null) => HTMLElement;
 
 export const useInboxSlotRenderer = <TProps, I extends InboxLike>(
   slot: MaybeRefOrGetter<RenderFunction>,
-  inbox: Readonly<ShallowRef<C | null>>,
-  captureTarget: CaptureTarget<TProps, C>
+  inbox: Readonly<ShallowRef<I | null>>,
+  captureTarget: CaptureTarget<TProps, I>
 ) => {
   const appContext = getCurrentInstance()?.appContext || null;
   const normalisedSlot = computed(() => toValue(slot));

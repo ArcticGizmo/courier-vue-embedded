@@ -6,7 +6,7 @@
 
       <div style="position: relative">
         <ExamplePopupMenu v-show="tab === 'popup'" @sign-in="onSignIn()" @sign-out="onSignOut()" />
-        <div v-show="tab === 'inbox'">inbox</div>
+        <ExampleInbox v-show="tab == 'inbox'" @sign-in="onSignIn()" @sign-out="onSignOut()" />
         <ExampleToast v-show="tab === 'toast'" @sign-in="onSignIn()" @sign-out="onSignOut()" />
       </div>
     </div>
@@ -18,15 +18,16 @@ import { onMounted, ref } from 'vue';
 import ExamplePopupMenu from './ExamplePopupMenu.vue';
 import Example2 from './ExamplePopupMenu.vue';
 import ExampleToast from './ExampleToast.vue';
-import { useCourier } from '@/ts/useCourier2';
+import { useCourier } from '@/ts/useCourier';
 import SimpleSelector from './SimpleSelector.vue';
+import ExampleInbox from './ExampleInbox.vue';
 
 type Tab = 'popup' | 'inbox' | 'toast';
 
 const userId = 'courier-vue-embedded';
 const jwt = import.meta.env['VITE_APP_COURIER_JWT'];
 
-const tab = ref<Tab>('toast');
+const tab = ref<Tab>('popup');
 
 const { Courier } = useCourier();
 

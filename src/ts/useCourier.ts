@@ -1,198 +1,98 @@
-import { onMounted, onUnmounted, ref } from 'vue';
-import { AuthenticationListener, Courier, CourierProps, InboxMessage } from '@trycourier/courier-js';
 import {
+  Courier,
   CourierInboxDatastore,
+  CourierInboxDatastoreEvents,
   CourierInboxDataStoreListener,
-  CourierInboxFeed,
-  InboxDataSet
+  type InboxMessage
 } from '@trycourier/courier-ui-inbox';
 import { CourierToastDatastore, CourierToastDatastoreListener } from '@trycourier/courier-ui-toast';
+import { computed, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue';
 
-type AuthenticationState = {
-  userId?: string;
-  signIn: (props: CourierProps) => void;
-  signOut: () => void;
-};
-
-type InboxState = {
-  load: (props?: { canUseCache: boolean }) => Promise<void>;
-  fetchNextPageOfMessages: (props: { datasetId: string }) => Promise<InboxDataSet | null>;
-  setPaginationLimit: (limit: number) => void;
-  readMessage: (message: InboxMessage) => Promise<void>;
-  unreadMessage: (message: InboxMessage) => Promise<void>;
-  clickMessage: (message: InboxMessage) => Promise<void>;
-  archiveMessage: (message: InboxMessage) => Promise<void>;
-  openMessage: (message: InboxMessage) => Promise<void>;
-  unarchiveMessage: (message: InboxMessage) => Promise<void>;
-  readAllMessages: () => Promise<void>;
-  registerFeeds: (feeds: CourierInboxFeed[]) => void;
-  listenForUpdates: () => Promise<void>;
-  feeds: Record<string, InboxDataSet>;
-  totalUnreadCount?: number;
-  error?: Error;
-};
-
-type ToastState = {
-  addMessage: (message: InboxMessage) => void;
-  removeMessage: (message: InboxMessage) => void;
-  error?: Error;
-};
-
-// A composable for managing the shared state of Courier
-// If you want to use more functions, checkout the Courier JS SDK which
-// can be used directly by importing from '@trycourier/courier-js'
 export const useCourier = () => {
-  // Authentication Functions
-  const signIn = (props: CourierProps) => Courier.shared.signIn(props);
-  const signOut = () => Courier.shared.signOut();
+  const activeUserId = ref<string>();
 
-  // Inbox Functions
-  const loadInbox = (props?: { canUseCache: boolean }) => CourierInboxDatastore.shared.load(props);
-  const fetchNextPageOfMessages = (props: { datasetId: string }) =>
-    CourierInboxDatastore.shared.fetchNextPageOfMessages(props);
-  const setPaginationLimit = (limit: number) => (Courier.shared.paginationLimit = limit);
-  const readMessage = (message: InboxMessage) => CourierInboxDatastore.shared.readMessage({ message });
-  const unreadMessage = (message: InboxMessage) => CourierInboxDatastore.shared.unreadMessage({ message });
-  const clickMessage = (message: InboxMessage) => CourierInboxDatastore.shared.clickMessage({ message });
-  const archiveMessage = (message: InboxMessage) => CourierInboxDatastore.shared.archiveMessage({ message });
-  const openMessage = (message: InboxMessage) => CourierInboxDatastore.shared.openMessage({ message });
-  const unarchiveMessage = (message: InboxMessage) => CourierInboxDatastore.shared.unarchiveMessage({ message });
-  const readAllMessages = () => CourierInboxDatastore.shared.readAllMessages();
-  const registerFeeds = (feeds: CourierInboxFeed[]) => CourierInboxDatastore.shared.registerFeeds(feeds);
-  const listenForUpdates = () => CourierInboxDatastore.shared.listenForUpdates();
+  const listenForUserChanges = (payload: { userId?: string }) => {
+    activeUserId.value = payload.userId ?? undefined;
+  };
 
-  const auth = ref<AuthenticationState>({
-    userId: undefined,
-    signIn,
-    signOut
+  // Include user information here
+  onBeforeMount(() => {
+    activeUserId.value = Courier.shared.client?.options.userId;
+    Courier.shared.addAuthenticationListener(listenForUserChanges);
   });
 
-  const inbox = ref<InboxState>({
-    load: loadInbox,
-    fetchNextPageOfMessages,
-    setPaginationLimit,
-    readMessage,
-    unreadMessage,
-    clickMessage,
-    archiveMessage,
-    openMessage,
-    unarchiveMessage,
-    readAllMessages,
-    registerFeeds,
-    listenForUpdates,
-    feeds: {}
-  });
-
-  const addToastMessage = (message: InboxMessage) => CourierToastDatastore.shared.addMessage(message);
-  const removeToastMessage = (message: InboxMessage) => CourierToastDatastore.shared.removeMessage(message);
-
-  const toast = ref<ToastState>({
-    addMessage: addToastMessage,
-    removeMessage: removeToastMessage
-  });
-
-  // Lifecycle management
-  let authListener: AuthenticationListener;
-  let inboxListener: CourierInboxDataStoreListener;
-  let toastListener: CourierToastDatastoreListener;
-
-  const setupListeners = () => {
-    // Add a listener to the Courier instance
-    authListener = Courier.shared.addAuthenticationListener(() => refreshAuth());
-
-    // Add inbox data store listener
-    inboxListener = new CourierInboxDataStoreListener({
-      onError: (error: Error) => refreshInbox(error),
-      onDataSetChange: () => refreshInbox(),
-      onPageAdded: () => refreshInbox(),
-      onMessageAdd: () => refreshInbox(),
-      onMessageRemove: () => refreshInbox(),
-      onMessageUpdate: () => refreshInbox(),
-      onUnreadCountChange: () => refreshInbox(),
-      onTotalUnreadCountChange: () => refreshInbox()
-    });
-
-    CourierInboxDatastore.shared.addDataStoreListener(inboxListener);
-
-    toastListener = new CourierToastDatastoreListener({
-      onMessageAdd: () => refreshToast(),
-      onMessageRemove: () => refreshToast(),
-      onError: (error: Error) => refreshToast(error)
-    });
-
-    CourierToastDatastore.shared.addDatastoreListener(toastListener);
-
-    // Set initial values
-    refreshAuth();
-    refreshInbox();
-    refreshToast();
-  };
-
-  const cleanupListeners = () => {
-    // Remove listeners when the component unmounts
-    if (authListener) {
-      authListener.remove();
-    }
-    if (inboxListener) {
-      inboxListener.remove();
-    }
-    if (toastListener) {
-      toastListener.remove();
-    }
-  };
-
-  const refreshAuth = () => {
-    const options = Courier.shared.client?.options;
-    auth.value = {
-      ...auth.value,
-      userId: options?.userId
-    };
-  };
-
-  const refreshInbox = (error?: Error) => {
-    const datastore = CourierInboxDatastore.shared;
-    const allDatasets = datastore.getDatasets();
-    inbox.value = {
-      load: loadInbox,
-      fetchNextPageOfMessages,
-      setPaginationLimit,
-      readMessage,
-      unreadMessage,
-      clickMessage,
-      archiveMessage,
-      openMessage,
-      unarchiveMessage,
-      readAllMessages,
-      registerFeeds,
-      listenForUpdates,
-      feeds: allDatasets,
-      totalUnreadCount: datastore.totalUnreadCount,
-      error: error
-    };
-  };
-
-  const refreshToast = (error?: Error) => {
-    toast.value = {
-      addMessage: addToastMessage,
-      removeMessage: removeToastMessage,
-      error
-    };
-  };
-
-  // Setup listeners on mount
-  onMounted(() => {
-    setupListeners();
-  });
-
-  // Cleanup listeners on unmount
-  onUnmounted(() => {
-    cleanupListeners();
+  onBeforeUnmount(() => {
+    Courier.shared.removeAuthenticationListener(listenForUserChanges);
   });
 
   return {
-    shared: Courier.shared,
-    auth: auth,
-    inbox: inbox,
-    toast: toast
+    Courier,
+    userId: computed(() => activeUserId.value)
   };
+};
+
+type InboxEvent = keyof CourierInboxDatastoreEvents;
+
+export const useCourierInbox = () => {
+  const { userId } = useCourier();
+  const inbox = computed(() => Courier.shared.client!.inbox);
+  let pendingListeners: CourierInboxDataStoreListener[] = [];
+  let listeners: CourierInboxDataStoreListener[] = [];
+
+  const handleEvent = <K extends InboxEvent>(event: K, callback: NonNullable<CourierInboxDatastoreEvents[K]>) => {
+    const listener = new CourierInboxDataStoreListener({
+      [event]: callback
+    });
+
+    if (!CourierInboxDatastore.shared.addDataStoreListener) {
+      pendingListeners.push(listener);
+    } else {
+      CourierInboxDatastore.shared.addDataStoreListener(listener);
+      listeners.push(listener);
+    }
+  };
+
+  watch(userId, usrId => {
+    if (usrId) {
+      for (const l of pendingListeners) {
+        CourierInboxDatastore.shared.addDataStoreListener(l);
+      }
+      pendingListeners = [];
+    }
+  });
+
+  onUnmounted(() => {
+    for (const listener of listeners) {
+      listener.remove();
+    }
+    listeners = [];
+    pendingListeners = [];
+  });
+
+  return { inbox, handleEvent };
+};
+
+export const useCourierBrands = () => {
+  const brands = computed(() => Courier.shared.client!.brands);
+  return { brands };
+};
+
+export const useCourierLists = () => {
+  const lists = computed(() => Courier.shared.client!.lists);
+  return { lists };
+};
+
+export const useCourierPreferences = () => {
+  const preferences = computed(() => Courier.shared.client!.preferences);
+  return { preferences };
+};
+
+export const useCourierTokens = () => {
+  const tokens = computed(() => Courier.shared.client!.tokens);
+  return { tokens };
+};
+
+export const useCourierTracking = () => {
+  const tracking = computed(() => Courier.shared.client!.tracking);
+  return { tracking };
 };

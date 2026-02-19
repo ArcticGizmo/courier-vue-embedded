@@ -19,7 +19,7 @@ import type {
   CourierInboxPaginationItemFactoryProps
 } from '@trycourier/courier-ui-inbox';
 import { useKebabBinding } from '@/ts/useKebabBinding';
-import { useCourier } from '@/ts/useCourier2';
+import { useCourier } from '@/ts/useCourier';
 import { useInboxSlotRenderer } from './useInboxSlotRenderer';
 
 type SlotProps<T> = T & { ctx: CourierInboxPopupMenu };
